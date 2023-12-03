@@ -15,12 +15,12 @@ const cx = classNames.bind(styles);
 function CustomerLogin() {
   const [eyeIcon, setEyeIcon] = useState(0);
   const [passType, setPassType] = useState('password');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const handleEye = () => {
     setEyeIcon(1 - eyeIcon);
     setPassType(passType === 'text' ? 'password' : 'text');
   };
-  console.log(eyeIcon);
-  console.log(passType);
   return (
     <div className={cx('wrapper')}>
       <div className={cx('bgImg')}></div>
@@ -30,22 +30,35 @@ function CustomerLogin() {
           <p className={cx('title')}>Đăng nhập tài khoản</p>
         </div>
         <div className={cx('login-form-body')}>
-          <Input leftIcon={<FontAwesomeIcon icon={faUser} />} placeHolder="Tài khoản" />
           <Input
+            value={username}
+            leftIcon={<FontAwesomeIcon icon={faUser} />}
+            placeHolder="Tài khoản"
+            errorText="Tài khoản là bắt buộc!"
+          />
+          <Input
+            value={password}
             type={passType}
             leftIcon={<FontAwesomeIcon icon={faLock} />}
             rightIcon={eyeIcon === 0 ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
             placeHolder="Mật khẩu"
+            errorText="Mật khẩu là bắt buộc!"
             onClick={() => handleEye()}
           />
-
           <span className={cx('route-link')}>
             <Link to="/restore-password" className={cx('forgot-pass')}>
               Quên mật khẩu
             </Link>
           </span>
           <div className={cx('signin-btn')}>
-            <Button log>Đăng nhập</Button>
+            <Button
+              log
+              onClick={() => {
+                console.log(username);
+              }}
+            >
+              Đăng nhập
+            </Button>
           </div>
           <div className={cx('switch-text')}>
             <hr style={{ flex: 1 }} />

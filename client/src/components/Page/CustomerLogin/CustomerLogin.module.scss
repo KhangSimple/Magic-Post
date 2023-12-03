@@ -1,4 +1,6 @@
 .wrapper {
+  display: flex;
+  flex-direction: column;
 }
 
 .bgImg {
@@ -38,4 +40,35 @@
 .logo {
   width: 100px;
   margin-bottom: 15px;
+}
+
+.route-link {
+  font-size: 1.5rem;
+  margin: 10px 0px;
+  display: inline-flex;
+  width: 100%;
+}
+.route-link a {
+  font-weight: 600;
+}
+
+.forgot-pass {
+  color: #e39c29;
+  float: left;
+  margin-bottom: 10px;
+}
+
+.register {
+  color: #e39c29;
+  margin-left: 5px;
+}
+
+.switch-text {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  align-items: center;
+  color: rgb(153, 153, 153);
+  font-size: 14px;
+  font-weight: 600;
 }

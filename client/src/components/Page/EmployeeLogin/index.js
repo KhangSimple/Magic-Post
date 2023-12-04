@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import classNames from 'classnames/bind';
-import styles from './CustomerLogin.module.scss';
+import styles from './EmployeeLogin.module.scss';
 import images from '~/assets/images';
 import Input from '~/components/Input';
 import Button from '~/components/Button';
@@ -45,11 +45,6 @@ function CustomerLogin() {
             errorText="Mật khẩu là bắt buộc!"
             onClick={() => handleEye()}
           />
-          <span className={cx('route-link')}>
-            <Link to="/restore-password" className={cx('forgot-pass')}>
-              Quên mật khẩu
-            </Link>
-          </span>
           <div className={cx('signin-btn')}>
             <Button
               log
@@ -66,17 +61,10 @@ function CustomerLogin() {
             <hr style={{ flex: 1 }} />
           </div>
           <div>
-            {/* <Button outline>Tài khoản trưởng điểm MGPost</Button> */}
-            <Link to="/employee/login">
-              <Button outline>Tài khoản nhân viên MGPost</Button>
+            <Link to="/user/login">
+              <Button outline>Tài khoản người sử dụng</Button>
             </Link>
           </div>
-          <span className={cx('route-link')}>
-            Bạn chưa có tài khoản?
-            <Link to="/register" className={cx('register')}>
-              Đăng ký ngay
-            </Link>
-          </span>
         </div>
       </div>
       <div className={cx('more-info')}></div>

@@ -35,6 +35,9 @@ function CustomerLogin() {
             leftIcon={<FontAwesomeIcon icon={faUser} />}
             placeHolder="Tài khoản"
             errorText="Tài khoản là bắt buộc!"
+            onChange={(value) => {
+              setUsername(value);
+            }}
           />
           <Input
             value={password}
@@ -44,6 +47,9 @@ function CustomerLogin() {
             placeHolder="Mật khẩu"
             errorText="Mật khẩu là bắt buộc!"
             onClick={() => handleEye()}
+            onChange={(value) => {
+              setPassword(value);
+            }}
           />
           <span className={cx('route-link')}>
             <Link to="/restore-password" className={cx('forgot-pass')}>

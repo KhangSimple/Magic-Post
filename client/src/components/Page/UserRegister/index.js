@@ -29,6 +29,15 @@ const cx = classNames.bind(styles);
 function UserRegister() {
   const [eyeIcon, setEyeIcon] = useState(0);
   const [passType, setPassType] = useState('password');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [address, setAddress] = useState('');
+  const [tinh, setTinh] = useState('');
+  const [huyen, setHuyen] = useState('');
+  const [xa, setXa] = useState('');
+  const [repassword, setRepassword] = useState('');
   const handleEye = () => {
     setEyeIcon(1 - eyeIcon);
     setPassType(passType === 'text' ? 'password' : 'text');
@@ -49,6 +58,7 @@ function UserRegister() {
                 placeHolder="Họ và tên"
                 errorText="Họ và tên là bắt buộc!"
                 classes="register-input"
+                onChange={(value) => setUsername(value)}
               />
             </span>
             <span>
@@ -57,6 +67,8 @@ function UserRegister() {
                 placeHolder="E-mail"
                 errorText="E-mail là bắt buộc!"
                 classes="register-input"
+                type="email"
+                onChange={(value) => setEmail(value)}
               />
             </span>
             <span>
@@ -65,6 +77,7 @@ function UserRegister() {
                 placeHolder="Điện thoại"
                 errorText="Điện thoại là bắt buộc!"
                 classes="register-input"
+                onChange={(value) => setPhoneNumber(value)}
               />
             </span>
           </div>
@@ -76,6 +89,7 @@ function UserRegister() {
                 placeHolder="Địa chỉ"
                 errorText="Địa chỉ là bắt buộc!"
                 classes="register-input"
+                onChange={(value) => setAddress(value)}
               />
             </span>
           </div>
@@ -87,6 +101,7 @@ function UserRegister() {
                 placeHolder="Tỉnh/TP"
                 errorText="Tỉnh/TP là bắt buộc!"
                 classes="register-input"
+                onChange={(value) => setTinh(value)}
               />
             </span>
             <span>
@@ -96,6 +111,7 @@ function UserRegister() {
                 placeHolder="Quận/Huyện"
                 errorText="Quận/Huyện là bắt buộc!"
                 classes="register-input"
+                onChange={(value) => setHuyen(value)}
               />
             </span>
             <span>
@@ -105,6 +121,7 @@ function UserRegister() {
                 placeHolder="Phường/Xã"
                 errorText="Phường/Xã là bắt buộc!"
                 classes="register-input"
+                onChange={(value) => setXa(value)}
               />
             </span>
           </div>
@@ -118,6 +135,7 @@ function UserRegister() {
                 classes="register-input"
                 type={passType}
                 onClick={() => handleEye()}
+                onChange={(value) => setPassword(value)}
               />
             </span>
             <span>
@@ -129,6 +147,7 @@ function UserRegister() {
                 classes="register-input"
                 type={passType}
                 onClick={() => handleEye()}
+                onChange={(value) => setRepassword(value)}
               />
             </span>
           </div>

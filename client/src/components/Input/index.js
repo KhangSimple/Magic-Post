@@ -1,14 +1,26 @@
 import classNames from 'classnames/bind';
-import { Routes, Route, Link } from 'react-router-dom';
 import styles from './Input.module.scss';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
-function Input({ value, type, leftIcon, rightIcon, placeHolder, rightIconClass, onClick, errorText, classes }) {
+function Input({
+  value,
+  type,
+  leftIcon,
+  rightIcon,
+  placeHolder,
+  rightIconClass,
+  onClick,
+  errorText,
+  classes,
+  onChange = () => {},
+}) {
+  // console.log(placeHolder, ' ', type);
   const [inputValue, setInputValue] = useState('');
   const [showError, setShowError] = useState(false);
   const handleInput = (inva) => {
+    onChange(inva);
     if (inva.length === 0) {
       if (inputValue.length !== 0) {
         setShowError(true);

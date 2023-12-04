@@ -73,9 +73,7 @@ function CustomerLogin() {
           </div>
           <span className={cx('route-link')}>
             Bạn chưa có tài khoản?
-            <Link to="/register" className={cx('register')}>
-              Đăng ký ngay
-            </Link>
+            <Link to="/register">Đăng ký ngay</Link>
           </span>
         </div>
       </div>

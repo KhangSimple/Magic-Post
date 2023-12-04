@@ -5,7 +5,7 @@ import React, { useRef, useState } from 'react';
 
 const cx = classNames.bind(styles);
 
-function Input({ value, type, leftIcon, rightIcon, placeHolder, rightIconClass, onClick, errorText }) {
+function Input({ value, type, leftIcon, rightIcon, placeHolder, rightIconClass, onClick, errorText, classes }) {
   const [inputValue, setInputValue] = useState('');
   const [showError, setShowError] = useState(false);
   const handleInput = (inva) => {
@@ -23,7 +23,13 @@ function Input({ value, type, leftIcon, rightIcon, placeHolder, rightIconClass, 
     <React.Fragment>
       <div className={cx('wrapper', { showError })}>
         {leftIcon && <span className={cx('left-input-icon', { showError })}>{leftIcon}</span>}
-        <input value={inputValue} type={type} placeholder={placeHolder} onChange={(e) => handleInput(e.target.value)} />
+        <input
+          className={cx(classes)}
+          value={inputValue}
+          type={type}
+          placeholder={placeHolder}
+          onChange={(e) => handleInput(e.target.value)}
+        />
         {rightIcon && (
           <span className={cx('right-input-icon')} onClick={onClick}>
             {rightIcon}

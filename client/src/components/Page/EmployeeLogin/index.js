@@ -29,7 +29,7 @@ function CustomerLogin() {
   const handleLogin = () => {
     usernameRef.current.focus();
     axios
-      .get(`http://localhost:1510/employeeLogin/12345`, {
+      .post(`http://localhost:1510/employeeLogin/12345`, {
         username: username,
         password: password,
       })

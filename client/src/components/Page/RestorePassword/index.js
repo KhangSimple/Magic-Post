@@ -71,6 +71,7 @@ function RestorePassword() {
         <div>
           <span>
             <Input
+              value={password}
               placeHolder="Mật khẩu"
               rightIcon={eyeIcon === 0 ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
               errorText="Mật khẩu là bắt buộc!"
@@ -83,6 +84,7 @@ function RestorePassword() {
         <div>
           <span>
             <Input
+              value={repassword}
               valueCheck={password}
               rightIcon={eyeIcon === 0 ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
               placeHolder="Xác nhận mật khẩu"

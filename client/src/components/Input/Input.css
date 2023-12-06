@@ -1,8 +1,9 @@
 .p-dropdown-items-wrapper {
   display: flex;
   position: absolute;
-  left: -20px;
-  width: clamp(220px, 50%, 300px);
+  left: -10px;
+  /* width: clamp(220px, 50%, 300px); */
+  width: 100%;
   /* width: 220px; */
   box-sizing: border-box;
   background-color: #fff;

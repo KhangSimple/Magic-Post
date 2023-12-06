@@ -112,6 +112,7 @@ function UserRegister() {
           <div>
             <span>
               <Input
+                value={username}
                 leftIcon={<FontAwesomeIcon icon={faUser} />}
                 placeHolder="Họ và tên"
                 errorText="Họ và tên là bắt buộc!"
@@ -121,6 +122,7 @@ function UserRegister() {
             </span>
             <span>
               <Input
+                value={email}
                 leftIcon={<FontAwesomeIcon icon={faEnvelope} />}
                 placeHolder="E-mail"
                 errorText="E-mail là bắt buộc!"
@@ -131,6 +133,7 @@ function UserRegister() {
             </span>
             <span>
               <Input
+                value={phoneNumber}
                 leftIcon={<FontAwesomeIcon icon={faPhone} />}
                 placeHolder="Điện thoại"
                 errorText="Điện thoại là bắt buộc!"
@@ -142,6 +145,7 @@ function UserRegister() {
           <div>
             <span>
               <Input
+                value={address}
                 leftIcon={<FontAwesomeIcon icon={faEarthAmerica} />}
                 rightIcon={<FontAwesomeIcon icon={faLocationDot} />}
                 placeHolder="Địa chỉ"
@@ -154,6 +158,7 @@ function UserRegister() {
           <div>
             <span>
               <Input
+                value={tinh}
                 leftIcon={<FontAwesomeIcon icon={faBuilding} />}
                 rightIcon={<FontAwesomeIcon icon={faCompass} />}
                 placeHolder="Tỉnh/TP"
@@ -168,6 +173,7 @@ function UserRegister() {
             </span>
             <span>
               <Input
+                value={huyen}
                 leftIcon={<FontAwesomeIcon icon={faRoad} />}
                 rightIcon={<FontAwesomeIcon icon={faCompass} />}
                 placeHolder="Quận/Huyện"
@@ -182,6 +188,7 @@ function UserRegister() {
             </span>
             <span>
               <Input
+                value={xa}
                 leftIcon={<FontAwesomeIcon icon={faHouse} />}
                 rightIcon={<FontAwesomeIcon icon={faCompass} />}
                 placeHolder="Phường/Xã"
@@ -198,6 +205,7 @@ function UserRegister() {
           <div>
             <span>
               <Input
+                value={password}
                 leftIcon={<FontAwesomeIcon icon={faLock} />}
                 rightIcon={eyeIcon === 0 ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
                 placeHolder="Mật khẩu"
@@ -208,9 +216,9 @@ function UserRegister() {
                 onChange={(value) => setPassword(value)}
               />
             </span>
-            {/* {console.log('re-render: ', password)} */}
             <span>
               <Input
+                value={repassword}
                 valueCheck={password}
                 leftIcon={<FontAwesomeIcon icon={faEyeSlash} />}
                 rightIcon={eyeIcon === 0 ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}

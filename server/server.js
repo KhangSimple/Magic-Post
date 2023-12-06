@@ -1,12 +1,14 @@
 import express from 'express';
 import configViewEngine from './configs/viewEngine.js';
 import initWebRoute from './route/web.js';
+import cors from 'cors';
 
 const app = express();
 const port = process.env.PORT || 1510;
 
 app.use(express.urlencoded({ extend: true }));
 app.use(express.json());
+app.use(cors());
 // Set up viewEngine
 configViewEngine(app);
 

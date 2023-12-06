@@ -4,7 +4,7 @@ let router = express.Router();
 
 const initWebRoute = (app) => {
   router.get('/transaction/:id', homeController.getTransactionPage);
-  router.get('/employeeLogin/:id', homeController.getEmployeePage);
+  router.post('/employeeLogin/:id', homeController.getEmployeePage);
   return app.use('/', router);
 };
 

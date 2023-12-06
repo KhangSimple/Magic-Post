@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import Form from 'react-bootstrap/Form';
+import axios from 'axios';
 import classNames from 'classnames/bind';
+
 import styles from './UserRegister.module.scss';
 import images from '~/assets/images';
 import Input from '~/components/Input';
@@ -38,10 +40,62 @@ function UserRegister() {
   const [huyen, setHuyen] = useState('');
   const [xa, setXa] = useState('');
   const [repassword, setRepassword] = useState('');
+
+  const [provinceData, setProvinceData] = useState([]);
+  const [districtData, setDistrictData] = useState([]);
+  const [wardData, setWardData] = useState([]);
   const handleEye = () => {
     setEyeIcon(1 - eyeIcon);
     setPassType(passType === 'text' ? 'password' : 'text');
   };
+  // Get ProvinceData from API
+  useEffect(() => {
+    axios
+      .get(`https://online-gateway.ghn.vn/shiip/public-api/master-data/province`, {
+        headers: { token: '7dbb1c13-7e11-11ee-96dc-de6f804954c9' },
+      })
+      .then(function (response) {
+        setProvinceData((prev) => [...response.data.data]);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
+  useEffect(() => {
+    if (tinh !== '') {
+      axios
+        .get(`https://online-gateway.ghn.vn/shiip/public-api/master-data/district`, {
+          headers: { token: '7dbb1c13-7e11-11ee-96dc-de6f804954c9' },
+          params: {
+            province_id: +tinh,
+          },
+        })
+        .then(function (response) {
+          setDistrictData((prev) => [...response.data.data]);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  }, [tinh]);
+  useEffect(() => {
+    if (huyen !== '') {
+      axios
+        .get(`https://online-gateway.ghn.vn/shiip/public-api/master-data/ward`, {
+          headers: { token: '7dbb1c13-7e11-11ee-96dc-de6f804954c9' },
+          params: {
+            district_id: +huyen,
+          },
+        })
+        .then(function (response) {
+          setWardData((prev) => [...response.data.data]);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  }, [huyen]);
+
   return (
     <div className={cx('wrapper')}>
       <div className={cx('bgImg')}></div>
@@ -102,6 +156,10 @@ function UserRegister() {
                 errorText="Tỉnh/TP là bắt buộc!"
                 classes="register-input"
                 onChange={(value) => setTinh(value)}
+                data={provinceData}
+                select={true}
+                optionLabel="ProvinceName"
+                optionValue="ProvinceID"
               />
             </span>
             <span>
@@ -112,6 +170,10 @@ function UserRegister() {
                 errorText="Quận/Huyện là bắt buộc!"
                 classes="register-input"
                 onChange={(value) => setHuyen(value)}
+                data={districtData}
+                select={true}
+                optionLabel="DistrictName"
+                optionValue="DistrictID"
               />
             </span>
             <span>
@@ -122,6 +184,10 @@ function UserRegister() {
                 errorText="Phường/Xã là bắt buộc!"
                 classes="register-input"
                 onChange={(value) => setXa(value)}
+                data={wardData}
+                select={true}
+                optionLabel="WardName"
+                optionValue="WardCode"
               />
             </span>
           </div>
@@ -138,12 +204,14 @@ function UserRegister() {
                 onChange={(value) => setPassword(value)}
               />
             </span>
+            {/* {console.log('re-render: ', password)} */}
             <span>
               <Input
+                valueCheck={password}
                 leftIcon={<FontAwesomeIcon icon={faEyeSlash} />}
                 rightIcon={eyeIcon === 0 ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
                 placeHolder="Xác nhận mật khẩu"
-                errorText="Trường này là bắt buộc!"
+                errorText={password !== repassword ? 'Mật khẩu không khớp!' : ''}
                 classes="register-input"
                 type={passType}
                 onClick={() => handleEye()}

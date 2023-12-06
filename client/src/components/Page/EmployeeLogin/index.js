@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 import classNames from 'classnames/bind';
 import styles from './EmployeeLogin.module.scss';
@@ -18,9 +19,26 @@ function CustomerLogin() {
   const [passType, setPassType] = useState('password');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const usernameRef = useRef();
+  const passwordRef = useRef();
+
   const handleEye = () => {
     setEyeIcon(1 - eyeIcon);
     setPassType(passType === 'text' ? 'password' : 'text');
+  };
+  const handleLogin = () => {
+    usernameRef.current.focus();
+    axios
+      .get(`http://localhost:1510/employeeLogin/12345`, {
+        username: username,
+        password: password,
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
   return (
     <Form>
@@ -30,6 +48,7 @@ function CustomerLogin() {
       </div>
       <div className={cx('login-form-body')}>
         <Input
+          refC={usernameRef}
           value={username}
           leftIcon={<FontAwesomeIcon icon={faUser} />}
           placeHolder="Tài khoản"
@@ -39,6 +58,7 @@ function CustomerLogin() {
           }}
         />
         <Input
+          refC={passwordRef}
           value={password}
           type={passType}
           leftIcon={<FontAwesomeIcon icon={faLock} />}
@@ -54,7 +74,7 @@ function CustomerLogin() {
           <Button
             log
             onClick={() => {
-              console.log(username);
+              handleLogin();
             }}
           >
             Đăng nhập

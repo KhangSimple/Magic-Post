@@ -6,6 +6,8 @@ import Input from '~/components/Input';
 import Button from '~/components/Button';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
@@ -70,20 +72,21 @@ function RestorePassword() {
           <span>
             <Input
               placeHolder="Mật khẩu"
+              rightIcon={eyeIcon === 0 ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
               errorText="Mật khẩu là bắt buộc!"
-              classes="register-input"
               type={passType}
               onClick={() => handleEye()}
               onChange={(value) => setPassword(value)}
             />
           </span>
-          {/* {console.log('re-render: ', password)} */}
+        </div>
+        <div>
           <span>
             <Input
               valueCheck={password}
+              rightIcon={eyeIcon === 0 ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
               placeHolder="Xác nhận mật khẩu"
               errorText={password !== repassword ? 'Mật khẩu không khớp!' : ''}
-              classes="register-input"
               type={passType}
               onClick={() => handleEye()}
               onChange={(value) => setRepassword(value)}

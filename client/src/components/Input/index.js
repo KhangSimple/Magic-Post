@@ -13,13 +13,14 @@ const citySelectItems = [
   { ProvinceName: 'Paris', ProviceID: 'PRS' },
 ];
 function Input({
-  value,
+  value = '',
   valueCheck,
   type,
   select = false,
   leftIcon,
   rightIcon,
   placeHolder,
+  refC,
   rightIconClass,
   onClick,
   errorText,
@@ -59,8 +60,9 @@ function Input({
         {leftIcon && <span className={cx('left-input-icon', { showError })}>{leftIcon}</span>}
         {!select && (
           <input
+            ref={refC}
             className={cx(classes)}
-            value={inputValue}
+            value={value}
             type={type}
             placeholder={placeHolder}
             onChange={(e) => handleInput(e.target.value)}

@@ -63,6 +63,9 @@ function UserRegister() {
   }, []);
   useEffect(() => {
     if (tinh !== '') {
+      setHuyen('');
+      setXa('');
+      setWardData([]);
       axios
         .get(`https://online-gateway.ghn.vn/shiip/public-api/master-data/district`, {
           headers: { token: '7dbb1c13-7e11-11ee-96dc-de6f804954c9' },
@@ -80,6 +83,7 @@ function UserRegister() {
   }, [tinh]);
   useEffect(() => {
     if (huyen !== '') {
+      setXa('');
       axios
         .get(`https://online-gateway.ghn.vn/shiip/public-api/master-data/ward`, {
           headers: { token: '7dbb1c13-7e11-11ee-96dc-de6f804954c9' },

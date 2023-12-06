@@ -2,7 +2,8 @@
   display: flex;
   position: absolute;
   left: -20px;
-  width: 220px;
+  width: clamp(220px, 50%, 300px);
+  /* width: 220px; */
   box-sizing: border-box;
   background-color: #fff;
   border-radius: 3px;

@@ -1,0 +1,102 @@
+.logo {
+  margin-left: 50px;
+  width: 100px;
+  margin-bottom: 15px;
+}
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #4cb9f8;
+}
+.search-login {
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+}
+.search input {
+  padding: 10px;
+  border-radius: 20px;
+  margin-right: 10px;
+  background-color: aquamarine;
+}
+
+.login-register {
+  display: flex;
+  align-items: center;
+}
+.login-register button {
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-left: 10px;
+  background-color: aquamarine;
+}
+
+nav ul {
+  background-color: #ffffff;
+  list-style: none;
+  padding: 0;
+  display: flex;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  // position: absolute;
+}
+
+.menu-item {
+  margin-left: 30px;
+  list-style: none;
+  padding: 10px 15px;
+  position: relative;
+  transition: background-color 0.3s ease;
+}
+
+.menu-item:hover {
+  background-color: #3498db;
+  cursor: pointer;
+}
+
+.sub-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #3498db;
+  display: none;
+  flex-direction: column;
+}
+.sub-menu li {
+  padding: 10px 15px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.menu-item:hover .sub-menu {
+  display: flex;
+}
+
+.sub-menu li:hover {
+  background-color: #f821ff;
+}
+.app-bar {
+  position: relative;
+  background-color: transparent; // Initial background color
+  transition: background-color 0.3s ease;
+}
+
+.app-bar-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+}
+#main-menu {
+  padding-left: 10px;
+}

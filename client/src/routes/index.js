@@ -6,11 +6,11 @@ import RestorePassword from '~/components/Page/RestorePassword';
 import HomePage from '~/components/Page/Home';
 
 const publicRoutes = [
+  { path: '', component: HomePage, name: 'Home Page' },
   { path: '/user/login', component: CustomerLogin, name: 'User Login' },
   { path: '/employee/login', component: EmployeeLogin, name: 'Employee Login' },
   { path: '/register', component: UserRegister, name: 'Register' },
   { path: '/restore-password', component: RestorePassword, name: 'Restore Password' },
-  { path: '/home', component: HomePage, name: 'Home Page' },
 ];
 
 const privateRoutes = [];

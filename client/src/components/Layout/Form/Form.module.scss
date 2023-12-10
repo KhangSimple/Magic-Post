@@ -1,0 +1,31 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.bgImg {
+  height: 100vh;
+  position: relative;
+  background-image: url('https://meest.com/uploads/images/58ff1989b97bbae7bcda3158eb77caf2.png');
+  -webkit-filter: blur(2px);
+  filter: blur(2px);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  z-index: 0;
+}
+
+.main-form {
+  text-align: center;
+  z-index: 2;
+  background: #fff;
+  width: clamp(300px, 50%, 500px);
+  padding: 32px 56px;
+  margin: 0 auto;
+  border-radius: 12px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 20px 20px 18px 0 rgba(0, 0, 0, 0.3411764705882353);
+}

@@ -1,8 +1,9 @@
 import classNames from 'classnames/bind';
 import styles from './home.module.scss';
-import Slider from 'react-slick';
 import images from '~/assets/images';
 import React from 'react';
+
+import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 const Banner = () => {
@@ -16,11 +17,11 @@ const Banner = () => {
   const imageStyle = {
     width: '100%',
     height: '100%',
-    objectFit: 'cover', // Đảm bảo ảnh fit vào kích thước đã thiết lập
+    objectFit: 'cover',
   };
   const cx = classNames.bind(styles);
   return (
-    <div>
+    <div className={cx('banner-container')}>
       <Slider {...settings}>
         <div>
           <img className={cx('banner')} src={images.banner1} alt="banner1" style={imageStyle} />

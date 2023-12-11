@@ -22,6 +22,7 @@ function CustomerLogin() {
     setEyeIcon(1 - eyeIcon);
     setPassType(passType === 'text' ? 'password' : 'text');
   };
+
   return (
     <Form>
       <div className="login-form-header">

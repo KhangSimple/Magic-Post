@@ -21,7 +21,7 @@ function Input({
   rightIcon,
   placeHolder,
   refC,
-  rightIconClass,
+  error,
   onClick,
   errorText,
   classes,

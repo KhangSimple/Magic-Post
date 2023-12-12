@@ -52,7 +52,7 @@ function UserRegister() {
   useEffect(() => {
     axios
       .get(`https://online-gateway.ghn.vn/shiip/public-api/master-data/province`, {
-        headers: { token: '7dbb1c13-7e11-11ee-96dc-de6f804954c9' },
+        headers: { token: '1b869b93-97de-11ee-a59f-a260851ba65c' },
       })
       .then(function (response) {
         setProvinceData((prev) => [...response.data.data]);

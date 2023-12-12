@@ -5,6 +5,7 @@ let router = express.Router();
 const initWebRoute = (app) => {
   router.get('/transaction/:id', homeController.getTransactionPage);
   router.post('/employeeLogin/:id', homeController.getEmployeePage);
+  router.post('/register', homeController.register);
   return app.use('/', router);
 };
 

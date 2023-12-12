@@ -29,7 +29,20 @@ let getEmployeePage = async (req, res) => {
   // return res.json({ data: jsonData });
 };
 
-let register = async (req, res) => {};
+let register = async (req, res) => {
+  // console.log(req.body);
+  const data = req.body.data;
+  console.log(data);
+
+  await pool.execute('insert into customer(username,password,email,phoneNumber,address) values (?,?,?,?,?)', [
+    data.username,
+    data.password,
+    data.email,
+    data.phoneNumber,
+    data.address,
+  ]);
+  console.log('Success');
+};
 
 export default {
   getTransactionPage,

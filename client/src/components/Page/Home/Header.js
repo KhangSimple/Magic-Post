@@ -1,12 +1,17 @@
 import classNames from 'classnames/bind';
 import styles from './home.module.scss';
 import images from '~/assets/images';
-import { FontAwesomeIcon } from '@fortawesome/fontawesome-free';
+import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 //header
 const Header = () => {
+  const navigate = useNavigate();
+  const handleLoginRegisterClick = () => {
+    navigate('/user/login');
+  };
   return (
     <header>
       <div>
@@ -14,9 +19,11 @@ const Header = () => {
       </div>
       <div className={cx('search-login')}>
         <div className={cx('search')}>
+          <div className={cx('search-icon')}>
+            <FontAwesomeIcon icon={faSearch} />
+          </div>
           <input
             className={cx('search-input')}
-            // leftIcon={<FontAwesomeIcon icon={faSearch} />}
             placeHolder="Tìm kiếm"
             onChange={(value) => {
               console.log('Hehe');
@@ -24,7 +31,7 @@ const Header = () => {
           />
         </div>
         <div className={cx('login-register')}>
-          <button>Đăng ký/Đăng nhập</button>
+          <button onClick={handleLoginRegisterClick}>Đăng ký/Đăng nhập</button>
         </div>
       </div>
     </header>

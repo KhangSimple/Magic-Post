@@ -25,12 +25,15 @@ const Banner = () => {
       <Slider {...settings}>
         <div>
           <img className={cx('banner')} src={images.banner1} alt="banner1" style={imageStyle} />
+          <div className={cx('line-banner')}></div>
         </div>
         <div>
           <img className={cx('banner')} src={images.banner2} alt="banner2" style={imageStyle} />
+          <div className={cx('line-banner')}></div>
         </div>
         <div>
           <img className={cx('banner')} src={images.banner3} alt="banner3" style={imageStyle} />
+          <div className={cx('line-banner')}></div>
         </div>
       </Slider>
     </div>

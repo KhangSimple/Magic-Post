@@ -20,11 +20,24 @@ header {
   display: flex;
   align-items: center;
 }
+.search {
+  align-items: center;
+  display: flex;
+  border-radius: 20px;
+  background-color: aquamarine;
+}
 .search input {
+  flex: 1;
   padding: 10px;
   border-radius: 20px;
-  margin-right: 10px;
   background-color: aquamarine;
+}
+.search-icon {
+  margin: 12px;
+  display: flex;
+  color: #000000;
+  margin-right: 10px;
+  align-self: flex-start;
 }
 .login-register {
   display: flex;
@@ -44,23 +57,41 @@ nav ul {
   padding: 0;
   display: flex;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
   // position: absolute;
 }
 
 .menu-item {
-  margin-left: 30px;
-
+  font-family: 'pfb', sans-serif;
+  margin-left: 20px;
   list-style: none;
-  padding: 20px 15px;
+  padding: 20px 50px;
+  font-size: 16px;
   position: relative;
   transition: background-color 0.3s ease;
+
+  &:hover .sub-menu {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  &::after {
+    content: '▼';
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    right: 30px;
+    transform: translateY(-50%);
+    font-size: 0.8em;
+    color: #8a9397;
+  }
 }
 
 .menu-item:hover {
-  background-color: #3498db;
+  background-color: #4cb9f8;
   cursor: pointer;
+  transition: 0.5s;
 }
-
 .sub-menu {
   list-style: none;
   padding: 0;
@@ -68,27 +99,29 @@ nav ul {
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: #3498db;
+  background-color: #ffffff;
   display: none;
   flex-direction: column;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .sub-menu li {
-  padding: 10px 15px;
-  color: white;
+  padding: 10px 50px;
+  color: rgb(0, 0, 0);
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 .menu-item:hover .sub-menu {
   display: flex;
 }
 
 .sub-menu li:hover {
-  background-color: #f821ff;
+  background-color: aquamarine;
+  color: #4cb9f8;
 }
 .app-bar {
   position: relative;
-  background-color: transparent; // Initial background color
+  background-color: transparent;
   transition: background-color 0.3s ease;
+  z-index: 1000;
 }
 
 .app-bar-fixed {
@@ -102,6 +135,14 @@ nav ul {
 .banner:hover {
   cursor: pointer;
 }
+.line-banner {
+  height: 7px;
+  width: 100%;
+  background: #4cb9f8;
+}
 #main-menu {
-  padding-left: 10px;
+  padding-left: 30px;
+}
+.main {
+  margin-top: 50px;
 }

@@ -17,7 +17,7 @@ import { faEye, faEyeSlash, faLock, faUser } from '@fortawesome/free-solid-svg-i
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 const cx = classNames.bind(styles);
 
-function CustomerLogin() {
+function EmployeeLogin() {
   const [eyeIcon, setEyeIcon] = useState(0);
   const [passType, setPassType] = useState('password');
   const [username, setUsername] = useState('');
@@ -32,14 +32,12 @@ function CustomerLogin() {
   const handleLogin = () => {
     usernameRef.current.focus();
     axios
-      .post(`http://localhost:1510/confirmParcel`, {
+      .post(`http://localhost:1510/sendParcel`, {
         data: {
           parcel_id: 'new',
-          sender_zip_code: '12345',
           cur_pos: 1,
-          coll_id: 'abc',
           kind_point: 'collection',
-          trans_id: '12345',
+          coll_id: 'abc',
         },
       })
       .then(function (response) {
@@ -77,57 +75,7 @@ function CustomerLogin() {
     //   setPassword('');
     // }
   };
-  // const handleLogin = () => {
-  //   usernameRef.current.focus();
-  //   axios
-  //     .get('https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee', {
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         token: '1b869b93-97de-11ee-a59f-a260851ba65c',
-  //         shop_id: 4758658,
-  //       },
-  //       // params: {
-  //       //   shop_id: 885,
-  //       //   from_district: 1447,
-  //       //   to_district: 1905,
-  //       // },
-  //       params: {
-  //         service_type_id: 5,
-  //         from_district_id: 1442,
-  //         to_district_id: 1820,
-  //         to_ward_code: '030712',
-  //         height: 10,
-  //         length: 10,
-  //         weight: 200,
-  //         width: 10,
-  //         insurance_value: 0,
-  //         coupon: null,
-  //         items: [
-  //           {
-  //             name: 'TEST1',
-  //             height: 5,
-  //             weight: 200,
-  //             length: 5,
-  //             width: 5,
-  //           },
-  //         ],
-  //       },
-  //     })
-  //     .then(function (response) {
-  //       console.log(response.data);
-  //     })
-  //     .catch(function (error) {
-  //       // console.log('aaaa');
-  //       // console.log(error.toJSON());
-  //       if (error.response) {
-  //         console.log('Respone');
-  //       } else if (error.request) {
-  //         console.log('Request');
-  //       } else if (error.message) {
-  //         console.log('Message');
-  //       }
-  //     });
-  // };
+
   return (
     <React.Fragment>
       <Form>
@@ -198,4 +146,4 @@ function CustomerLogin() {
   );
 }
 
-export default CustomerLogin;
+export default EmployeeLogin;

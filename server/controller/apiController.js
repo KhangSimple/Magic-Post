@@ -108,16 +108,14 @@ let sendParcel = async (req, res) => {
       'SELECT parcels.id,sender_name,receiver_name,sender_zip_code,receiver_zip_code,cur_pos,is_confirm,ts.sender_col_zip_code,ts.status,ts.type from parcels join transaction_stock as ts on parcels.id = ts.parcel_id where ts.transaction_zip_code = ?',
       [trans_id],
     );
-
     // let jsonData = a[0];
-    console.log('Success');
-    // return res.render('trans.ejs', { data: jsonData, trans_id: trans_id });
+    console.log('Send Parcel Success');
   } else {
-    let cur_pos = req.body.cur_pos;
+    let cur_pos = data.cur_pos;
     console.log(cur_pos);
     if (cur_pos == 1) {
-      let parcel_id = req.body.parcel_id;
-      let coll_id = req.body.coll_id;
+      let parcel_id = data.parcel_id;
+      let coll_id = data.coll_id;
       let [row, field] = await pool.execute(
         'select collection_zip_code from transaction where zip_code = (select receiver_zip_code from parcels where id = ?)',
         [parcel_id],
@@ -135,13 +133,11 @@ let sendParcel = async (req, res) => {
         'SELECT parcels.id,sender_name,receiver_name,sender_zip_code,receiver_zip_code,cur_pos,cs.sender_transaction_zip_code,cs.sender_col_zip_code,cs.status,cs.type,cs.is_confirm from parcels join collection_stock as cs on parcels.id = cs.parcel_id where cs.collection_zip_code = ?',
         [coll_id],
       );
-      let jsonData = a[0];
-      console.log('Confirm success');
-      // return res.render('collection.ejs', { data: jsonData, coll_id: coll_id });
+      console.log('Send Parcel success');
     }
     if (cur_pos == 2) {
-      let parcel_id = req.body.parcel_id;
-      let coll_id = req.body.coll_id;
+      let parcel_id = data.parcel_id;
+      let coll_id = data.coll_id;
       let [row, field] = await pool.execute('select receiver_zip_code from parcels where id = ?', [parcel_id]);
       await pool.execute(
         'update collection_stock set status = "Đang gửi",type = "out" where parcel_id = ? and collection_zip_code = ?',
@@ -157,8 +153,9 @@ let sendParcel = async (req, res) => {
         'SELECT parcels.id,sender_name,receiver_name,sender_zip_code,receiver_zip_code,cur_pos,cs.sender_transaction_zip_code,cs.sender_col_zip_code,cs.status,cs.type,cs.is_confirm from parcels join collection_stock as cs on parcels.id = cs.parcel_id where cs.collection_zip_code = ?',
         [coll_id],
       );
-      let jsonData = a[0];
-      return res.render('collection.ejs', { data: jsonData, coll_id: coll_id });
+      console.log('Send Parcel Success');
+      // let jsonData = a[0];
+      // return res.render('collection.ejs', { data: jsonData, coll_id: coll_id });
     }
     return res.send('Fail');
   }

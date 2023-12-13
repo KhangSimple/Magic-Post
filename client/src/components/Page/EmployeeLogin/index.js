@@ -32,9 +32,9 @@ function CustomerLogin() {
   const handleLogin = () => {
     usernameRef.current.focus();
     axios
-      .get(`http://localhost:1510/getTransactionList`, {
+      .get(`http://localhost:1510/getCollectionList`, {
         params: {
-          trans_id: 12345,
+          id: 'abc',
         },
       })
       .then(function (response) {

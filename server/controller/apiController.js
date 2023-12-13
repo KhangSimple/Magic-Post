@@ -40,10 +40,22 @@ let deleteStaffCollAccount = async (req, res) => {
 // Dữ liệu đầu vào là transaction id
 let getTransactionList = async (req, res) => {
   console.log('VLL');
-  let { trans_id } = req.query;
+  let { id } = req.query;
   let [rows, field] = await pool.execute(
     'SELECT parcels.id,sender_name,receiver_name,sender_zip_code,receiver_zip_code,cur_pos,is_confirm,ts.sender_col_zip_code,ts.status,ts.type from parcels join transaction_stock as ts on parcels.id = ts.parcel_id where ts.transaction_zip_code = ?',
-    [trans_id],
+    [id],
+  );
+  return res.json(rows);
+};
+
+// Lấy dang sách hàng đến và đi của collection
+// Dữ liệu đầu vào là collection id
+let getCollectionList = async (req, res) => {
+  console.log('VLL');
+  let { id } = req.query;
+  let [rows, field] = await pool.execute(
+    'SELECT parcels.id,sender_name,receiver_name,sender_zip_code,receiver_zip_code,cur_pos,cs.sender_transaction_zip_code,cs.sender_col_zip_code,cs.status,cs.type,cs.is_confirm from parcels join collection_stock as cs on parcels.id = cs.parcel_id where cs.collection_zip_code = ?',
+    [id],
   );
   return res.json(rows);
 };
@@ -53,4 +65,5 @@ export default {
   deleteStaffTransAccount,
   deleteStaffCollAccount,
   getTransactionList,
+  getCollectionList,
 };

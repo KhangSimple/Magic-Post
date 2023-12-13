@@ -164,7 +164,7 @@ let sendParcel = async (req, res) => {
 /*Xác nhận đơn hàng
 parcel_id: 'new',
 sender_zip_code: '12345',
-sender_coll_zip_code: '',
+sender_col_zip_code: '',
 cur_pos: 1,
 coll_id: 'abc',
 kind_point: 'collection',

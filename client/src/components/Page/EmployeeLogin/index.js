@@ -32,12 +32,13 @@ function EmployeeLogin() {
   const handleLogin = () => {
     usernameRef.current.focus();
     axios
-      .post(`http://localhost:1510/sendParcel`, {
+      .post(`http://localhost:1510/confirmParcel`, {
         data: {
           parcel_id: 'new',
-          cur_pos: 1,
-          kind_point: 'collection',
-          coll_id: 'abc',
+          sender_zip_code: 'cba',
+          cur_pos: 3,
+          kind_point: 'transaction',
+          trans_id: '54321',
         },
       })
       .then(function (response) {

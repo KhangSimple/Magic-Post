@@ -3,7 +3,6 @@ import homeController from '../controller/homeController.js';
 let router = express.Router();
 
 const initWebRoute = (app) => {
-  router.get('/transaction/:id', homeController.getTransactionPage);
   router.post('/employeeLogin', homeController.getEmployeePage);
   router.post('/register', homeController.register);
   return app.use('/', router);

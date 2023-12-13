@@ -32,13 +32,13 @@ function CustomerLogin() {
   const handleLogin = () => {
     usernameRef.current.focus();
     axios
-      .post(`http://localhost:1510/deleteStaffCollAccount`, {
-        data: {
-          id: 4,
+      .get(`http://localhost:1510/getTransactionList`, {
+        params: {
+          trans_id: 12345,
         },
       })
       .then(function (response) {
-        //
+        console.log(response);
       })
       .catch(function (error) {
         console.log(error);

@@ -31,34 +31,46 @@ function CustomerLogin() {
   };
   const handleLogin = () => {
     usernameRef.current.focus();
-    if (username === '' || password === '') {
-      toast.error('Vui lòng điền đầu đủ thông tin!');
-    } else {
-      axios
-        .post(`http://localhost:1510/employeeLogin/12345`, {
-          username: username,
-          password: password,
-        })
-        .then(function (response) {
-          let data = response.data;
-          if (data.flag === 0) {
-            console.log('Fail');
-            if (!data.checkUsername) {
-              toast.error('Tài khoản không tồn tại!');
-            } else {
-              toast.error('Mật khẩu không chính xác!');
-            }
-          } else {
-            // Do something ...
-            console.log('Success');
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-      setUsername('');
-      setPassword('');
-    }
+    axios
+      .post(`http://localhost:1510/deleteStaffCollAccount`, {
+        data: {
+          id: 4,
+        },
+      })
+      .then(function (response) {
+        //
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    // if (username === '' || password === '') {
+    //   toast.error('Vui lòng điền đầu đủ thông tin!');
+    // } else {
+    //   axios
+    //     .post(`http://localhost:1510/employeeLogin`, {
+    //       username: username,
+    //       password: password,
+    //     })
+    //     .then(function (response) {
+    //       let data = response.data;
+    //       if (data.flag === 0) {
+    //         console.log('Fail');
+    //         if (!data.checkUsername) {
+    //           toast.error('Tài khoản không tồn tại!');
+    //         } else {
+    //           toast.error('Mật khẩu không chính xác!');
+    //         }
+    //       } else {
+    //         // Do something ...
+    //         console.log('Success');
+    //       }
+    //     })
+    //     .catch(function (error) {
+    //       console.log(error);
+    //     });
+    //   setUsername('');
+    //   setPassword('');
+    // }
   };
   // const handleLogin = () => {
   //   usernameRef.current.focus();

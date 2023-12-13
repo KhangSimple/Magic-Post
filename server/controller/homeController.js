@@ -9,6 +9,7 @@ let getTransactionPage = async (req, res) => {
   return res.json({ data: jsonData });
 };
 
+// Đăng nhập vào trang nhân viên
 let getEmployeePage = async (req, res) => {
   let { username, password } = req.body;
   let checkUsername = await pool.execute('select count(username) as ct from staff_transaction where username=?', [
@@ -32,7 +33,7 @@ let getEmployeePage = async (req, res) => {
 let register = async (req, res) => {
   // console.log(req.body);
   const data = req.body.data;
-  console.log(data);
+  // console.log(data);
 
   await pool.execute('insert into customer(username,password,email,phoneNumber,address) values (?,?,?,?,?)', [
     data.username,

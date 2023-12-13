@@ -64,6 +64,9 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   background-color: rgb(245, 235, 235);
+  &.active {
+    color: #4cb9f8;
+  }
   &:hover {
     cursor: pointer;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);

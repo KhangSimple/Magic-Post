@@ -9,6 +9,7 @@ const initAPIRoute = (app) => {
   router.post('/deleteStaffCollAccount', apiController.deleteStaffCollAccount);
   router.get('/getTransactionList', apiController.getTransactionList);
   router.get('/getCollectionList', apiController.getCollectionList);
+  router.post('/createParcel', apiController.createParcel);
   return app.use('/', router);
 };
 

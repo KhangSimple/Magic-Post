@@ -32,31 +32,14 @@ function CustomerLogin() {
   const handleLogin = () => {
     usernameRef.current.focus();
     axios
-      .post(`http://localhost:1510/createParcel`, {
+      .post(`http://localhost:1510/confirmParcel`, {
         data: {
-          sender_name: 'khang dz',
-          sender_phone: ' ',
-          sender_address: ' ',
-          sender_province_name: ' ',
-          sender_district_name: ' ',
-          sender_ward_name: ' ',
-          receiver_name: ' ',
-          receiver_phone: ' ',
-          receiver_address: ' ',
-          receiver_ward_code: ' ',
-          receiver_district_id: ' ',
-          cod_amount: ' ',
-          content: ' ',
-          weight: ' ',
-          length: ' ',
-          width: ' ',
-          height: ' ',
-          insurance_value: ' ',
-          service_type_id: ' ',
-          payment_type_id: ' ',
-          note: ' ',
-          required_note: ' ',
-          // items: [],
+          parcel_id: 'new',
+          sender_zip_code: '12345',
+          cur_pos: 1,
+          coll_id: 'abc',
+          kind_point: 'collection',
+          trans_id: '12345',
         },
       })
       .then(function (response) {

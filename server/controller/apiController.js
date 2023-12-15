@@ -104,10 +104,10 @@ let sendParcel = async (req, res) => {
     );
     await pool.execute('update parcels set cur_pos = cur_pos + 1 where id = ?', [parcel_id]);
 
-    let a = await pool.execute(
-      'SELECT parcels.id,sender_name,receiver_name,sender_zip_code,receiver_zip_code,cur_pos,is_confirm,ts.sender_col_zip_code,ts.status,ts.type from parcels join transaction_stock as ts on parcels.id = ts.parcel_id where ts.transaction_zip_code = ?',
-      [trans_id],
-    );
+    // let a = await pool.execute(
+    //   'SELECT parcels.id,sender_name,receiver_name,sender_zip_code,receiver_zip_code,cur_pos,is_confirm,ts.sender_col_zip_code,ts.status,ts.type from parcels join transaction_stock as ts on parcels.id = ts.parcel_id where ts.transaction_zip_code = ?',
+    //   [trans_id],
+    // );
     // let jsonData = a[0];
     console.log('Send Parcel Success');
   } else {
@@ -129,10 +129,10 @@ let sendParcel = async (req, res) => {
       );
       await pool.execute('update parcels set cur_pos = cur_pos + 1 where id = ?', [parcel_id]);
 
-      let a = await pool.execute(
-        'SELECT parcels.id,sender_name,receiver_name,sender_zip_code,receiver_zip_code,cur_pos,cs.sender_transaction_zip_code,cs.sender_col_zip_code,cs.status,cs.type,cs.is_confirm from parcels join collection_stock as cs on parcels.id = cs.parcel_id where cs.collection_zip_code = ?',
-        [coll_id],
-      );
+      // let a = await pool.execute(
+      //   'SELECT parcels.id,sender_name,receiver_name,sender_zip_code,receiver_zip_code,cur_pos,cs.sender_transaction_zip_code,cs.sender_col_zip_code,cs.status,cs.type,cs.is_confirm from parcels join collection_stock as cs on parcels.id = cs.parcel_id where cs.collection_zip_code = ?',
+      //   [coll_id],
+      // );
       console.log('Send Parcel success');
     }
     if (cur_pos == 2) {
@@ -149,10 +149,10 @@ let sendParcel = async (req, res) => {
       );
       await pool.execute('update parcels set cur_pos = cur_pos + 1 where id = ?', [parcel_id]);
 
-      let a = await pool.execute(
-        'SELECT parcels.id,sender_name,receiver_name,sender_zip_code,receiver_zip_code,cur_pos,cs.sender_transaction_zip_code,cs.sender_col_zip_code,cs.status,cs.type,cs.is_confirm from parcels join collection_stock as cs on parcels.id = cs.parcel_id where cs.collection_zip_code = ?',
-        [coll_id],
-      );
+      // let a = await pool.execute(
+      //   'SELECT parcels.id,sender_name,receiver_name,sender_zip_code,receiver_zip_code,cur_pos,cs.sender_transaction_zip_code,cs.sender_col_zip_code,cs.status,cs.type,cs.is_confirm from parcels join collection_stock as cs on parcels.id = cs.parcel_id where cs.collection_zip_code = ?',
+      //   [coll_id],
+      // );
       console.log('Send Parcel Success');
       // let jsonData = a[0];
       // return res.render('collection.ejs', { data: jsonData, coll_id: coll_id });
@@ -183,16 +183,16 @@ let confirmParcel = async (req, res) => {
         [parcel_id, sender],
       );
       await pool.execute(
-        "update transaction_stock set status = 'Chờ khách đến nhận hàng',type='out',is_confirm = 2 where parcel_id = ? and transaction_zip_code = ?",
+        "update transaction_stock set status = 'Chờ gửi đến người nhận hàng',type='out',is_confirm = 1 where parcel_id = ? and transaction_zip_code = ?",
         [parcel_id, trans_id],
       );
 
-      let a = await pool.execute(
-        'SELECT parcels.id,sender_name,receiver_name,sender_zip_code,receiver_zip_code,cur_pos,is_confirm,ts.sender_col_zip_code,ts.status,ts.type from parcels join transaction_stock as ts on parcels.id = ts.parcel_id where ts.transaction_zip_code = ?',
-        [trans_id],
-      );
-      let jsonData = a[0];
-      return res.render('trans.ejs', { data: jsonData, trans_id: trans_id });
+      // let a = await pool.execute(
+      //   'SELECT parcels.id,sender_name,receiver_name,sender_zip_code,receiver_zip_code,cur_pos,is_confirm,ts.sender_col_zip_code,ts.status,ts.type from parcels join transaction_stock as ts on parcels.id = ts.parcel_id where ts.transaction_zip_code = ?',
+      //   [trans_id],
+      // );
+      // let jsonData = a[0];
+      // return res.render('trans.ejs', { data: jsonData, trans_id: trans_id });
     }
     return res.send('Fail');
   } else {
@@ -240,6 +240,60 @@ let confirmParcel = async (req, res) => {
   }
   return res.send('Fail');
 };
+
+let searchParcel = async (req, res) => {
+  let { parcel_id } = req.query;
+  let [parcel_info, field] = await pool.execute('select * from parcels where id = ?', [parcel_id]);
+  let [trans_info, _] = await pool.execute('select * from transaction_stock where parcel_id = ?', [parcel_id]);
+  let [coll_info, __] = await pool.execute('select * from collection_stock where parcel_id = ?', [parcel_id]);
+  let cur_pos = parcel_info[0].cur_pos;
+  let f_trans_address = await pool.execute('select address from transaction where zip_code = ?', [
+    parcel_info[0].sender_zip_code,
+  ]);
+  let f_colls_address = await pool.execute(
+    'select c.address from collection as c join transaction as t on c.zip_code = t.collection_zip_code where t.zip_code = ?',
+    [parcel_info[0].sender_zip_code],
+  );
+  let l_colls_address = await pool.execute(
+    'select c.address from collection as c join transaction as t on c.zip_code = t.collection_zip_code where t.zip_code = ?',
+    [parcel_info[0].receiver_zip_code],
+  );
+  let l_trans_address = await pool.execute('select address from transaction where zip_code = ?', [
+    parcel_info[0].receiver_zip_code,
+  ]);
+  let info = [];
+  if (cur_pos == 0) {
+    if (trans_info[0].type == 'in') {
+      info.push({ name: 'Đang xử lí', time: trans_info.receive_time, address: f_trans_address[0][0].address });
+    }
+    // } else {
+    //   info.push({ name: 'Đang chuyển hàng', time: trans_info.send_time, address: trans_address[0][0].address });
+    // }
+  }
+  if (cur_pos > 0) {
+    info.push({ name: 'Đã rời', time: trans_info[0].send_time, address: f_trans_address[0][0].address });
+    if (coll_info[0].is_confirm == 1) {
+      info.push({ name: 'Đang tại', time: coll_info[0].receive_time, address: f_colls_address[0][0].address });
+    }
+  }
+  if (cur_pos > 1) {
+    // console.log(coll_info);
+    info.push({ name: 'Đã rời', time: coll_info[0].send_time, address: f_colls_address[0][0].address });
+    if (coll_info[1].is_confirm == 1) {
+      info.push({ name: 'Đang tại', time: coll_info[1].receive_time, address: l_colls_address[0][0].address });
+    }
+  }
+  if (cur_pos > 2) {
+    console.log(trans_info);
+    info.push({ name: 'Đã rời', time: coll_info[1].send_time, address: l_colls_address[0][0].address });
+    console.log(trans_info);
+    if (trans_info[1].is_confirm == 2) {
+      info.push({ name: 'Đang tại', time: trans_info[1].receive_time, address: l_trans_address[0][0].address });
+    }
+  }
+
+  return res.json({ data: parcel_info, info: info });
+};
 export default {
   createStaffTransAccount,
   createStaffCollAccount,
@@ -250,4 +304,5 @@ export default {
   createParcel,
   sendParcel,
   confirmParcel,
+  searchParcel,
 };

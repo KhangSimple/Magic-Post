@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import AppBarEmployee from '../AppBar/AppBar';
 import WavingHandIcon from '@mui/icons-material/WavingHand';
 import { yellow } from '@mui/material/colors';
-import DataTable from '../ParcelTransInStockTable/ParcelTransInStock';
+import DataTable from '../ParcelCollectionsInStockTable/ParcelCollectionsInStock';
 import classNames from 'classnames/bind';
 import styles from './dashboard.module.scss';
 const cx = classNames.bind(styles);

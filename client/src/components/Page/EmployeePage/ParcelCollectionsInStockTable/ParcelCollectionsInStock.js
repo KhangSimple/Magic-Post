@@ -11,7 +11,7 @@ import TextField from '@mui/material/TextField';
 import { rows } from './row';
 import { columns } from './columns';
 import classNames from 'classnames/bind';
-import styles from './parcelTransInStock.module.scss';
+import styles from './parcelCollectionsInStock.module.scss';
 
 const cx = classNames.bind(styles);
 
@@ -81,7 +81,7 @@ const DataTable = () => {
         pageSizeOptions={[5, 10]}
         checkboxSelection
       />
-      <Dialog className={cx('dialog')} open={open} onClose={handleClose}>
+      <Dialog className={cx('dialog')} open={open} onClose={handleClose} maxWidth="md" fullWidth>
         <DialogTitle>
           <div className={cx('title')}>Create Invoice</div>
         </DialogTitle>
@@ -109,19 +109,35 @@ const DataTable = () => {
               </div>
               <div className={cx('selected-rows-details')}>
                 Selected Rows Details:
-                <ul>
-                  {selectedRows.map((id) => (
-                    <li key={id}>
-                      {Object.keys(rows[id--]).map((field) => (
-                        <span key={field}>
-                          {field}: {rows[id][field]}
-                          <br />
-                        </span>
+                <table>
+                  <thead>
+                    <tr>
+                      {columns.map((column) => (
+                        <th key={column.field}>{column.headerName}</th>
                       ))}
-                      <br />
-                    </li>
-                  ))}
-                </ul>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {selectedRows.map((id) => (
+                      <tr key={id}>
+                        {Object.keys(
+                          rows.find((e) => {
+                            return e.id === id;
+                          }),
+                        ).map((field) => (
+                          <td key={field}>
+                            {
+                              rows.find((e) => {
+                                return e.id === id;
+                              })[field]
+                            }
+                          </td>
+                        ))}
+                        {/* console.log(rows[id]) */}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </DialogContentText>
           </DialogContent>

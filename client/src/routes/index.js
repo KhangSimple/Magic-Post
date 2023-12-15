@@ -5,6 +5,7 @@ import UserRegister from '~/components/Page/UserRegister';
 import RestorePassword from '~/components/Page/RestorePassword';
 import TransactionEmployee from '~/components/Page/TransactionEmployee';
 
+console.log(typeof CustomerLogin);
 const publicRoutes = [
   // { path: '', component: HomePage, name: 'Home Page' },
   { path: '/user/login', component: CustomerLogin, name: 'User Login' },

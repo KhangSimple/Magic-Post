@@ -1,7 +1,6 @@
 import logo from './logo.svg';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import CustomerLogin from '~/components/Page/CustomerLogin';
 import { Routes, Route, Link } from 'react-router-dom';
 import { publicRoutes } from './routes';
 

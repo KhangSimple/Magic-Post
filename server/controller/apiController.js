@@ -194,7 +194,7 @@ let confirmParcel = async (req, res) => {
       // let jsonData = a[0];
       // return res.render('trans.ejs', { data: jsonData, trans_id: trans_id });
     }
-    return res.send('Fail');
+    // return res.send('Fail');
   } else {
     let cur_pos = data.cur_pos;
     if (cur_pos == 1) {
@@ -287,12 +287,44 @@ let searchParcel = async (req, res) => {
     console.log(trans_info);
     info.push({ name: 'Đã rời', time: coll_info[1].send_time, address: l_colls_address[0][0].address });
     console.log(trans_info);
-    if (trans_info[1].is_confirm == 2) {
+    if (trans_info[1].is_confirm == 1) {
       info.push({ name: 'Đang tại', time: trans_info[1].receive_time, address: l_trans_address[0][0].address });
     }
   }
 
   return res.json({ data: parcel_info, info: info });
+};
+
+let addTransaction = (req, res) => {
+  const data = req.body.data;
+  data.map((item) => {
+    pool.execute('insert into transaction values(?,?,?,?,?)', [
+      item.DistrictID,
+      item.DistrictName,
+      item.ProvinceID,
+      +item.Code,
+      item.DistrictName,
+    ]);
+  });
+};
+
+let addCollection = (req, res) => {
+  const data = req.body.data;
+  data.map((item) => {
+    pool.execute('insert into collection values(?,?,?,?)', [
+      item.ProvinceID,
+      item.ProvinceName,
+      +item.Code,
+      item.NameExtension[1],
+    ]);
+  });
+  // await pool.execute('insert into collection values(?,?,?,?)', [
+  //   data.ProvinceID,
+  //   data.ProvinceName,
+  //   +data.Code,
+  //   data.NameExtension[1],
+  // ]);
+  //
 };
 export default {
   createStaffTransAccount,
@@ -305,4 +337,6 @@ export default {
   sendParcel,
   confirmParcel,
   searchParcel,
+  addTransaction,
+  addCollection,
 };

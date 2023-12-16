@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import classNames from 'classnames/bind';
 import { ToastContainer, toast } from 'react-toastify';
@@ -29,6 +28,10 @@ import {
 import { faCompass } from '@fortawesome/free-regular-svg-icons';
 
 const cx = classNames.bind(styles);
+
+const address = new Address();
+address.getProvinceData();
+console.log(address.provinceData);
 
 function UserRegister() {
   const [eyeIcon, setEyeIcon] = useState(0);
@@ -122,6 +125,14 @@ function UserRegister() {
         });
     }
   }, [tinh]);
+  useEffect(() => {
+    if (districtData.length !== 0) {
+      console.log(districtData);
+      axios.post('http://localhost:1510/addTransaction', {
+        data: districtData,
+      });
+    }
+  }, [districtData]);
   useEffect(() => {
     if (huyen !== '') {
       setXa('');

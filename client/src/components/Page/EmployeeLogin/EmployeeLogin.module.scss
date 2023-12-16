@@ -32,7 +32,7 @@
 
 .title {
   color: var(--primary);
-  font-size: 21px;
+  font-size: clamp(14px, 2vw, 20px);
   font-weight: bolder;
   margin-bottom: 10px;
 }

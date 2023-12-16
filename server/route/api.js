@@ -13,6 +13,8 @@ const initAPIRoute = (app) => {
   router.post('/sendParcel', apiController.sendParcel);
   router.post('/confirmParcel', apiController.confirmParcel);
   router.get('/searchParcel', apiController.searchParcel);
+  router.post('/addTransaction', apiController.addTransaction);
+  router.post('/addCollection', apiController.addCollection);
   return app.use('/', router);
 };
 

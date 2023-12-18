@@ -1,9 +1,7 @@
 import images from '~/assets/images';
 import React, { useState } from 'react';
 import AppBarEmployee from '../AppBar/AppBar';
-import WavingHandIcon from '@mui/icons-material/WavingHand';
-import { yellow } from '@mui/material/colors';
-import DataTable from '../ParcelCollectionsInStockTable/ParcelCollectionsInStock';
+import CollectionDataTable from '../ParcelCollection/ParcelCollectionsInStock';
 import classNames from 'classnames/bind';
 import styles from './dashboard.module.scss';
 const cx = classNames.bind(styles);
@@ -41,12 +39,7 @@ const Dashboard = () => {
         {activeTab === 'don-di' && (
           <div>
             <AppBarEmployee />
-            <h1 className={cx('welcome')}>
-              {' '}
-              Hi, Welcome Nhut Ne <WavingHandIcon fontSize="large" sx={{ color: yellow[800] }} />
-            </h1>
-
-            <DataTable />
+            <CollectionDataTable />
           </div>
         )}
         {activeTab === 'don-den' && (

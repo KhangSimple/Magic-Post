@@ -19,6 +19,7 @@ const AppBarEmployee = () => {
           }}
         />
       </div>
+
       <div className={cx('noti-avt')}>
         <div className={cx('icon-notification')}>
           <NotificationsIcon fontSize="large" color="primary" sx={{ m: 1 }} />

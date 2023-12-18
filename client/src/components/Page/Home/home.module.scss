@@ -7,13 +7,14 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: 0.2rem;
   background-color: #4cb9f8;
 }
 .logo {
   margin-left: 50px;
-  width: 100px;
-  margin-bottom: 15px;
+  width: 60px;
+  margin-bottom: 10px;
+  margin-top: 5px;
 }
 .search-login {
   margin-right: 20px;
@@ -24,13 +25,13 @@ header {
   align-items: center;
   display: flex;
   border-radius: 20px;
-  background-color: aquamarine;
+  background-color: rgb(255, 255, 255);
 }
 .search input {
   flex: 1;
-  padding: 10px;
+  padding: 1px;
   border-radius: 20px;
-  background-color: aquamarine;
+  background-color: rgb(255, 255, 255);
 }
 
 .search-icon {
@@ -46,7 +47,7 @@ header {
 }
 .login-register button {
   border-radius: 10px;
-  padding: 1rem;
+  padding: 0.1rem;
   margin-left: 50px;
   background-color: aquamarine;
 }

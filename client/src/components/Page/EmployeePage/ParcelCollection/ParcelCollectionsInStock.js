@@ -12,12 +12,21 @@ import { rows } from './row';
 import { columns } from './columns';
 import classNames from 'classnames/bind';
 import styles from './parcelCollectionsInStock.module.scss';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import WarehouseIcon from '@mui/icons-material/Warehouse';
+import { yellow } from '@mui/material/colors';
 
 const cx = classNames.bind(styles);
 
-const DataTable = () => {
+const CollectionDataTable = () => {
   const [open, setOpen] = React.useState(false);
   const [selectedRows, setSelectedRows] = React.useState([]);
+  const [selectedSenderAddress, setSelectedSenderAddress] = React.useState('');
+  const [filteredRows, setFilteredRows] = React.useState([]);
+  const [isFilterActive, setIsFilterActive] = React.useState(false);
 
   const handleCreateInvoiceClick = () => {
     setOpen(true);
@@ -32,21 +41,70 @@ const DataTable = () => {
     // console.log('Selected Rows:', selectionModel.length);
     console.log('hehe');
   };
+  // Array.prototype.unique = function () {
+  //   var arr = [];
+  //   for (var i = 0; i < this.length; i++) {
+  //     if (arr.indexOf(this[i] === -1)) {
+  //       arr.push(this[i]);
+  //     }
+  //   }
+  //   return arr;
+  // };
+  // const list = rows
+  //   .map((value, index) => {
+  //     return value.senderAddress;
+  //   })
+  //   .unique();
+  // console.log(list);
+  const uniqueSenderAddresses = rows
+    .map((value) => value.senderAddress)
+    .filter((value, index, self) => self.indexOf(value) === index);
 
+  // chọn item để datagrid hiện các sender address tương ứng
+  const handleChangeDataGrid = (event) => {
+    const selectedAddress = event.target.value;
+    if (selectedAddress === 'All') {
+      setIsFilterActive(false);
+      setSelectedSenderAddress('');
+      setFilteredRows([]);
+    } else {
+      setIsFilterActive(true);
+      setSelectedSenderAddress(selectedAddress);
+      // Tạo mảng gồm các hàng có SenderAddress tương ứng
+      const newFilteredRows = rows.filter((row) => row.senderAddress === selectedAddress);
+      setFilteredRows(newFilteredRows);
+    }
+  };
   return (
-    <div style={{ height: 500, width: '1200px' }}>
-      <div
-        style={{
-          padding: '10px',
-          display: 'flex',
-          justifyContent: 'flex-end',
-          marginBottom: '10px',
-          marginRight: '150px',
-        }}
-      >
-        <Button variant="contained" color="primary" onClick={handleCreateInvoiceClick}>
+    <div style={{ height: '70vh', width: '73.5vw' }}>
+      <div className={cx('navigate')}>
+        <h1 className={cx('title-table')}>
+          Quản lý kho hàng <WarehouseIcon fontSize="large" sx={{ color: yellow[800] }} />
+        </h1>
+        <FormControl className={cx('control-sender-address')}>
+          <InputLabel id="sender-address-label">Sender Address</InputLabel>
+          <Select
+            className={cx('select-address-sender')}
+            labelId="sender-address-label"
+            id="sender-address"
+            value={selectedSenderAddress}
+            label="Sender Address"
+            onChange={handleChangeDataGrid}
+          >
+            <MenuItem className={cx('menu-address-sender')} value="All">
+              All
+            </MenuItem>
+            {uniqueSenderAddresses.map((address) => (
+              <MenuItem className={cx('menu-address-sender')} key={address} value={address}>
+                {address}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <Button className={cx('create-invoice')} variant="contained" color="primary" onClick={handleCreateInvoiceClick}>
           <AddIcon fontSize="large" />
-          Create Invoice{' '}
+          Create Invoice
         </Button>
       </div>
 
@@ -69,9 +127,8 @@ const DataTable = () => {
           border: 2,
           fontSize: 16,
         }}
-        rows={rows}
+        rows={isFilterActive ? filteredRows : rows}
         columns={columns}
-        // selectionModel={selectedRows}
         onRowSelectionModelChange={handleSelectionModelChange}
         initialState={{
           pagination: {
@@ -81,6 +138,9 @@ const DataTable = () => {
         pageSizeOptions={[5, 10]}
         checkboxSelection
       />
+
+      {/* Hiển thị model các đơn được chọn  */}
+
       <Dialog className={cx('dialog')} open={open} onClose={handleClose} maxWidth="md" fullWidth>
         <DialogTitle>
           <div className={cx('title')}>Create Invoice</div>
@@ -155,4 +215,4 @@ const DataTable = () => {
   );
 };
 
-export default DataTable;
+export default CollectionDataTable;

@@ -9,6 +9,7 @@ import styles from './UserRegister.module.scss';
 import images from '~/assets/images';
 import Input from '~/components/Input';
 import Button from '~/components/Button';
+import Address from '~/Object/Address';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {

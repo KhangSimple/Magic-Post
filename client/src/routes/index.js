@@ -6,6 +6,7 @@ import RestorePassword from '~/components/Page/RestorePassword';
 import TransactionEmployee from '~/components/Page/TransactionEmployee';
 import HomePage from '~/components/Page/Home';
 import EmployeePage from '~/components/Page/EmployeePage';
+import ParcelTracking from '~/components/Page/ParcelTracking';
 
 console.log(typeof CustomerLogin);
 const publicRoutes = [
@@ -16,6 +17,7 @@ const publicRoutes = [
   { path: '/register', component: UserRegister, name: 'Register' },
   { path: '/restore-password', component: RestorePassword, name: 'Restore Password' },
   { path: '/transaction-employee', component: TransactionEmployee, name: 'Transaction Employee' },
+  { path: '/parcel-tracking', component: ParcelTracking, name: 'Parcel Tracking' },
 ];
 
 const privateRoutes = [];

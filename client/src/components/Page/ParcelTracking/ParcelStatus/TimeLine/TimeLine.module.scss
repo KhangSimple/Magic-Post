@@ -1,0 +1,78 @@
+.wrapper {
+  border-left: 1px solid #ddd;
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px;
+  margin: 0 auto;
+  letter-spacing: 0.2px;
+  position: relative;
+  line-height: 1.4em;
+  padding: 0 25px;
+  list-style: none;
+  text-align: left;
+  padding-bottom: 1rem;
+  .event {
+    letter-spacing: 0.2px;
+    line-height: 1.4em;
+    box-sizing: border-box;
+    position: relative;
+    padding-bottom: 15px;
+    .status {
+      color: #e03;
+      font-weight: 600;
+      line-height: 1.4em;
+      text-align: left;
+    }
+    .details {
+      font-weight: 600;
+      line-height: 1.4em;
+      text-align: left;
+    }
+    .indicator {
+      &:after {
+        position: absolute;
+        display: block;
+        left: -31px;
+        top: 3px;
+        background: #ddd;
+        border-radius: 50%;
+        height: 11px;
+        width: 11px;
+        content: '';
+        border: 1px solid #ddd;
+      }
+    }
+    .active {
+      &:after {
+        content: '';
+        border: 1px solid #ddd;
+        background-image: url(https://viettelpost.vn/viettelpost-iframe/radio-on.a79fea27dec5be84b100.svg);
+        background-size: 100%;
+        background-position: center;
+        margin: 0;
+        border: 1px solid #e03;
+        background-color: #fff;
+      }
+    }
+  }
+  .showDetail {
+    margin-top: 0.25rem;
+    line-height: 1.4em;
+    letter-spacing: 0.2px;
+    text-align: left;
+    color: #2575ff;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 12px;
+  }
+  .showPostPosition {
+    color: #e03 !important;
+    font-weight: 500;
+    font-size: 13px;
+    .img {
+      width: 25px;
+      vertical-align: middle;
+      border-style: none;
+      max-width: 100%;
+    }
+  }
+}

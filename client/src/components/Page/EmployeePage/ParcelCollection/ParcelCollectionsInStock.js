@@ -77,7 +77,7 @@ const CollectionDataTable = () => {
   };
   return (
     <div style={{ height: '70vh', width: '73.5vw' }}>
-      <div className={cx('navigate')}>
+      <div className={cx(styles.navigate)}>
         <h1 className={cx('title-table')}>
           Quản lý kho hàng <WarehouseIcon fontSize="large" sx={{ color: yellow[800] }} />
         </h1>

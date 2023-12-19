@@ -7,7 +7,7 @@ const cx = classNames.bind(styles);
 
 function EmployeePage() {
   return (
-    <div className={cx('EmployeePage')}>
+    <div className={cx(styles.EmployeePage)}>
       <Dashboard />
     </div>
   );

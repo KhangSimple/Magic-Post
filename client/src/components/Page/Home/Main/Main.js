@@ -7,29 +7,29 @@ const Main = () => {
   const [activeTab, setActiveTab] = useState('tra-cuu');
 
   return (
-    <div className={cx('container')}>
-      <ul className={cx('u1')}>
-        <li className={cx('tra-cuu', { active: activeTab === 'tra-cuu' })} onClick={() => setActiveTab('tra-cuu')}>
+    <div className={cx(styles.container)}>
+      <ul className={cx(styles.u1)}>
+        <li className={cx(styles.traCuu, { active: activeTab === 'tra-cuu' })} onClick={() => setActiveTab('tra-cuu')}>
           Tra cứu
         </li>
-        <li className={cx('dich-vu', { active: activeTab === 'dich-vu' })} onClick={() => setActiveTab('dich-vu')}>
+        <li className={cx(styles.dichVu, { active: activeTab === 'dich-vu' })} onClick={() => setActiveTab('dich-vu')}>
           Dịch vụ
         </li>
       </ul>
 
-      <ul className={cx('box')}>
+      <ul className={cx(styles.box)}>
         {activeTab === 'tra-cuu' && (
-          <ul className={cx('menu-items')}>
-            <li className={cx('sub-menu-item')} onClick={() => console.log('Tra cứu vận đơn')}>
+          <ul className={cx(styles.menuItems)}>
+            <li className={cx(styles.subMenuItem)} onClick={() => console.log('Tra cứu vận đơn')}>
               Tra cứu vận đơn
             </li>
-            <li className={cx('sub-menu-item')} onClick={() => console.log('Ước tính cước phí')}>
+            <li className={cx(styles.subMenuItem)} onClick={() => console.log('Ước tính cước phí')}>
               Ước tính cước phí
             </li>
-            <li className={cx('sub-menu-item')} onClick={() => console.log('Tìm kiếm bưu cục')}>
+            <li className={cx(styles.subMenuItem)} onClick={() => console.log('Tìm kiếm bưu cục')}>
               Tìm kiếm bưu cục
             </li>
-            <li className={cx('sub-menu-item')} onClick={() => console.log('Đăng ký đại lý thu gom')}>
+            <li className={cx(styles.subMenuItem)} onClick={() => console.log('Đăng ký đại lý thu gom')}>
               Đăng ký đại lý thu gom
             </li>
           </ul>

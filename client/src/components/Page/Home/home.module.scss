@@ -16,7 +16,7 @@ header {
   margin-bottom: 10px;
   margin-top: 5px;
 }
-.search-login {
+.searchLogin {
   margin-right: 20px;
   display: flex;
   align-items: center;
@@ -34,18 +34,18 @@ header {
   background-color: rgb(255, 255, 255);
 }
 
-.search-icon {
+.searchIcon {
   margin: 12px;
   display: flex;
   color: #000000;
   margin-right: 10px;
   align-self: flex-start;
 }
-.login-register {
+.loginRegister {
   display: flex;
   align-items: center;
 }
-.login-register button {
+.loginRegister button {
   border-radius: 10px;
   padding: 0.1rem;
   margin-left: 50px;
@@ -63,7 +63,7 @@ nav ul {
   // position: absolute;
 }
 
-.menu-item {
+.menuItem {
   font-family: 'pfb', sans-serif;
   margin-left: 20px;
   list-style: none;
@@ -72,7 +72,7 @@ nav ul {
   position: relative;
   transition: background-color 0.3s ease;
 
-  &:hover .sub-menu {
+  &:hover .subMenu {
     display: block;
     opacity: 1;
     transform: translateY(0);
@@ -89,12 +89,12 @@ nav ul {
   }
 }
 
-.menu-item:hover {
+.menuItem:hover {
   background-color: #4cb9f8;
   cursor: pointer;
   transition: 0.5s;
 }
-.sub-menu {
+.subMenu {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -106,27 +106,27 @@ nav ul {
   flex-direction: column;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.sub-menu li {
+.subMenu li {
   padding: 10px 50px;
   color: rgb(0, 0, 0);
   cursor: pointer;
 }
-.menu-item:hover .sub-menu {
+.menuItem:hover .subMenu {
   display: flex;
 }
 
-.sub-menu li:hover {
+.subMenu li:hover {
   background-color: aquamarine;
   color: #4cb9f8;
 }
-.app-bar {
+.appBar {
   position: relative;
   background-color: transparent;
   transition: background-color 0.3s ease;
   z-index: 1000;
 }
 
-.app-bar-fixed {
+.appBarFixed {
   position: fixed;
   top: 0;
   left: 0;
@@ -137,7 +137,7 @@ nav ul {
 .banner:hover {
   cursor: pointer;
 }
-.line-banner {
+.lineBanner {
   height: 7px;
   width: 100%;
   background: #4cb9f8;

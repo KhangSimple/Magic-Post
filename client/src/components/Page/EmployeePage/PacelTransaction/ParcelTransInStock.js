@@ -97,7 +97,7 @@ const TransactionDataCard = () => {
     orders = invoiceDetail;
     return (
       <TableContainer component={Paper}>
-        <Table className={cx('detail-table-transaction')} aria-label="simple table">
+        <Table className={cx(styles.detailTableTransaction)} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
@@ -141,13 +141,13 @@ const TransactionDataCard = () => {
 
   return (
     <div>
-      <h1 className={cx('title')}>
+      <h1 className={cx(styles.title)}>
         Quản lý đơn hàng đến kho <LocalShippingIcon fontSize="large" sx={{ color: yellow[800] }} />
       </h1>
       {showDetails ? (
         <div>
-          <div className={cx('back-and-title-trans-details')}>
-            <h2 className={cx('package-details-header')}>{`Đơn Đến Từ ${selectedPackage.name}`} </h2>
+          <div className={cx(styles.backAndTitle)}>
+            <h2 className={cx(styles.packageDetailsHeader)}>{`Đơn Đến Từ ${selectedPackage.name}`} </h2>
             <Button onClick={handleBackClick}>
               <ArrowBackIcon fontSize="large" /> Quay lại
             </Button>
@@ -158,7 +158,7 @@ const TransactionDataCard = () => {
       ) : (
         <div>
           <TableContainer component={Paper}>
-            <Table className={cx('package-table-transaction')} aria-label="simple table">
+            <Table className={cx(styles.packageTableTransaction)} aria-label="simple table">
               <TableHead>
                 <TableRow>
                   <TableCell>ID</TableCell>

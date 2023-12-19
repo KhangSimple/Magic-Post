@@ -35,32 +35,32 @@ function EmployeeLogin() {
     const cookies = new Cookies();
     cookies.set('name', 'khang', { path: '/employee/login' });
     console.log(cookies.get('name'));
-    // axios
-    //   .get(`https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee`, {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       token: '1b869b93-97de-11ee-a59f-a260851ba65c',
-    //       shop_id: 4758658,
-    //     },
-    //     params: {
-    //       service_type_id: 2,
-    //       from_district_id: 1442,
-    //       to_district_id: 1820,
-    //       to_ward_code: '030712',
-    //       height: 10,
-    //       length: 10,
-    //       weight: 200,
-    //       width: 10,
-    //       insurance_value: 0,
-    //       coupon: null,
-    //     },
-    //   })
-    //   .then(function (response) {
-    //     console.log(response.data);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
+    axios
+      .get(`https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee`, {
+        headers: {
+          'Content-Type': 'application/json',
+          token: '1b869b93-97de-11ee-a59f-a260851ba65c',
+          shop_id: 4758658,
+        },
+        params: {
+          service_type_id: 2,
+          from_district_id: 1442,
+          to_district_id: 1820,
+          to_ward_code: '030712',
+          height: 10,
+          length: 10,
+          weight: 200,
+          width: 10,
+          insurance_value: 0,
+          coupon: null,
+        },
+      })
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     // if (username === '' || password === '') {
     //   toast.error('Vui lòng điền đầu đủ thông tin!');
     // } else {

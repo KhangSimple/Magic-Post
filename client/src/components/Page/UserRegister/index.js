@@ -29,9 +29,9 @@ import { faCompass } from '@fortawesome/free-regular-svg-icons';
 
 const cx = classNames.bind(styles);
 
-const address = new Address();
-address.getProvinceData();
-console.log(address.provinceData);
+// const address = new Address();
+// address.getProvinceData();
+// console.log(address.provinceData);
 
 function UserRegister() {
   const [eyeIcon, setEyeIcon] = useState(0);

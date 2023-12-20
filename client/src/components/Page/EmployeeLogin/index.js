@@ -36,23 +36,13 @@ function EmployeeLogin() {
     cookies.set('name', 'khang', { path: '/employee/login' });
     console.log(cookies.get('name'));
     axios
-      .get(`https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee`, {
-        headers: {
-          'Content-Type': 'application/json',
-          token: '1b869b93-97de-11ee-a59f-a260851ba65c',
-          shop_id: 4758658,
-        },
-        params: {
-          service_type_id: 2,
-          from_district_id: 1442,
-          to_district_id: 1820,
-          to_ward_code: '030712',
-          height: 10,
-          length: 10,
-          weight: 200,
-          width: 10,
-          insurance_value: 0,
-          coupon: null,
+      .post(`http://localhost:1510/createStaffTransAccount`, {
+        data: {
+          username: 'test',
+          password: 'test',
+          phone: 'khangpncm@gmail.com',
+          email: '0983535470',
+          transaction_zip_code: '12345',
         },
       })
       .then(function (response) {

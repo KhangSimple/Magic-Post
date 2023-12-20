@@ -1,15 +1,32 @@
 import pool from '../configs/connectDB.js';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 // Tạo tài khoản cho nhân viên tại điểm giao dịch
 // Đầu vào chứa các thông tin của nhân viên: Username, password, phone, email, transaction_zip_code
 let createStaffTransAccount = async (req, res) => {
-  let data = req.body.data;
-  let keys = Object.keys(data);
-  let column_list = keys.join(',');
-  const mark = '?,'.repeat(keys.length - 1) + '?';
-  const values = keys.map((key) => data[key]);
-  await pool.execute(`insert into staff_transaction(${column_list}) values(` + `${mark}` + `)`, values);
-  console.log('Success');
+  try {
+    console.log('VLLLLLLLL');
+    let data = req.body.data;
+    let keys = Object.keys(data);
+    let column_list = keys.join(',');
+    const mark = '?,'.repeat(keys.length - 1) + '?';
+    const values = keys.map((key) => data[key]);
+    var encryptedPassword = await bcrypt.hash(data.password, 10);
+    data.password = encryptedPassword;
+    // const token = jwt.sign({ user_id: data.username }, process.env.TOKEN_KEY, {
+    //   expiresIn: '1h',
+    // });
+    // console.log(token);
+    // await pool.execute(`insert into staff_transaction(${column_list}) values(` + `${mark}` + `)`, values);
+    res.status(200).send({ data: 'Success' });
+  } catch (err) {
+    console.log(err);
+    return res.status(401).send({ Error: 'Lỗi' });
+  }
 };
 
 // Tạo tài khoản cho nhân viên tại điểm tập kết

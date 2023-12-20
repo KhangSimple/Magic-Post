@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
@@ -11,6 +11,7 @@ import images from '~/assets/images';
 import Input from '~/components/Input';
 import Button from '~/components/Button';
 import Form from '~/components/Layout/Form';
+import { AuthContext } from '~/provider/authProvider';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash, faLock, faUser } from '@fortawesome/free-solid-svg-icons';
@@ -25,7 +26,7 @@ function EmployeeLogin() {
   const [password, setPassword] = useState('');
   const usernameRef = useRef();
   const passwordRef = useRef();
-
+  const authContext = useContext(AuthContext);
   const handleEye = () => {
     setEyeIcon(1 - eyeIcon);
     setPassType(passType === 'text' ? 'password' : 'text');
@@ -34,24 +35,18 @@ function EmployeeLogin() {
     usernameRef.current.focus();
     const cookies = new Cookies();
     cookies.set('name', 'khang', { path: '/employee/login' });
-    console.log(cookies.get('name'));
     axios
-      .post(`http://localhost:1510/createStaffTransAccount`, {
-        headers: {
-          token:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIiLCJpYXQiOjE3MDMwMzkxODMsImV4cCI6MTcwMzA0Mjc4M30.-lajF7pdLnpF6VETTTzJxNzDYp8IJrtdF8Ba4tZChMk',
-        },
-        data: {
-          username: 'test',
-          password: 'test',
-          phone: 'khangpncm@gmail.com',
-          email: '0983535470',
-          transaction_zip_code: '12345',
+      .get(`http://localhost:1510/verify-token`, {
+        params: {
+          token: localStorage.getItem('token'),
         },
       })
       .then(function (response) {
-        let data = response.data.data;
-        localStorage.setItem('token', data.token);
+        var status = response.data.status;
+        console.log(status);
+        // let data = response.data;
+        // localStorage.setItem('token', data.token);
+        // authContext.setToken(data.token);
       })
       .catch(function (error) {
         console.log(error);

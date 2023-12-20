@@ -2,7 +2,7 @@ import express from 'express';
 import apiController from '../controller/apiController.js';
 import auth from '../middleware/auth.js';
 let router = express.Router();
-router.use(auth);
+// router.use(auth);
 const initAPIRoute = (app) => {
   router.post('/createStaffTransAccount', apiController.createStaffTransAccount);
   router.post('/createStaffCollAccount', apiController.createStaffCollAccount);

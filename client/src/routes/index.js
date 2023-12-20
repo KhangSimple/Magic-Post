@@ -3,6 +3,7 @@ import CustomerLogin from '~/components/Page/CustomerLogin';
 import EmployeeLogin from '~/components/Page/EmployeeLogin';
 import UserRegister from '~/components/Page/UserRegister';
 import RestorePassword from '~/components/Page/RestorePassword';
+import Test from '~/components/Page/Test';
 
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useAuth } from '../provider/authProvider';
@@ -47,7 +48,7 @@ const Routes = () => {
         },
         {
           path: '/logout',
-          element: <div>Logout</div>,
+          element: <Test />,
         },
       ],
     },

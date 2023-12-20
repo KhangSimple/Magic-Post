@@ -1,4 +1,9 @@
 import pool from '../configs/connectDB.js';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 let getTransactionPage = async (req, res) => {
   let a = await pool.execute(
@@ -22,8 +27,10 @@ let getEmployeePage = async (req, res) => {
   checkUsername = checkUsername[0][0].ct;
   checkPassword = checkPassword[0][0].ct;
   if ((checkUsername != 0) & (checkPassword != 0)) {
-    console.log('Success');
-    return res.json({ flag: 1 });
+    var encryptedPassword = await bcrypt.hash(password, 10);
+    password = encryptedPassword;
+    var token = jwt.sign({ username: username, password: password }, process.env.TOKEN_KEY, { expiresIn: '1h' });
+    return res.status(200).json({ flag: 1, token: token });
   } else {
     return res.json({ flag: 0, checkUsername: checkUsername, checkPassword: checkPassword });
   }

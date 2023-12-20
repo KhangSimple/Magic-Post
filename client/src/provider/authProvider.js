@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   // State to hold the authentication token
@@ -14,15 +14,35 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (token) {
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-      localStorage.setItem('token', token);
+      var status;
+      axios
+        .get(`http://localhost:1510/verify-token`, {
+          params: {
+            token: token,
+          },
+        })
+        .then(function (response) {
+          status = response.data.status;
+          if (status == 'success') {
+            console.log('Okeee');
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+            localStorage.setItem('token', token);
+          } else {
+            console.log('vllll');
+            delete axios.defaults.headers.common['Authorization'];
+            localStorage.removeItem('token');
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     } else {
       delete axios.defaults.headers.common['Authorization'];
       localStorage.removeItem('token');
     }
   }, [token]);
 
-  // Memoized value of the authentication context
+  // Memoized value  the authentication context
   const contextValue = useMemo(
     () => ({
       token,
@@ -30,7 +50,6 @@ const AuthProvider = ({ children }) => {
     }),
     [token],
   );
-
   // Provide the authentication context to the children components
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 };

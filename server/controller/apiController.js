@@ -9,7 +9,6 @@ dotenv.config();
 // Đầu vào chứa các thông tin của nhân viên: Username, password, phone, email, transaction_zip_code
 let createStaffTransAccount = async (req, res) => {
   try {
-    console.log('VLLLLLLLL');
     let data = req.body.data;
     let keys = Object.keys(data);
     let column_list = keys.join(',');
@@ -17,12 +16,10 @@ let createStaffTransAccount = async (req, res) => {
     const values = keys.map((key) => data[key]);
     var encryptedPassword = await bcrypt.hash(data.password, 10);
     data.password = encryptedPassword;
-    // const token = jwt.sign({ user_id: data.username }, process.env.TOKEN_KEY, {
-    //   expiresIn: '1h',
-    // });
-    // console.log(token);
     // await pool.execute(`insert into staff_transaction(${column_list}) values(` + `${mark}` + `)`, values);
-    res.status(200).send({ data: 'Success' });
+    var token = jwt.sign({ foo: 'bar' }, process.env.TOKEN_KEY, { expiresIn: '1h' });
+    console.log(token);
+    res.status(200).json({ data: { token: token } });
   } catch (err) {
     console.log(err);
     return res.status(401).send({ Error: 'Lỗi' });

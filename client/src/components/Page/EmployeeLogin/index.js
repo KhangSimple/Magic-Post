@@ -37,6 +37,10 @@ function EmployeeLogin() {
     console.log(cookies.get('name'));
     axios
       .post(`http://localhost:1510/createStaffTransAccount`, {
+        headers: {
+          token:
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIiLCJpYXQiOjE3MDMwMzkxODMsImV4cCI6MTcwMzA0Mjc4M30.-lajF7pdLnpF6VETTTzJxNzDYp8IJrtdF8Ba4tZChMk',
+        },
         data: {
           username: 'test',
           password: 'test',
@@ -46,7 +50,8 @@ function EmployeeLogin() {
         },
       })
       .then(function (response) {
-        console.log(response.data);
+        let data = response.data.data;
+        localStorage.setItem('token', data.token);
       })
       .catch(function (error) {
         console.log(error);

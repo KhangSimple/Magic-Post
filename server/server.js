@@ -5,6 +5,7 @@ import initAPIRoute from './route/api.js';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import auth from './middleware/auth.js';
+import jwt from 'jsonwebtoken';
 
 dotenv.config();
 const app = express();

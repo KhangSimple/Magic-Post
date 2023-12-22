@@ -8,8 +8,10 @@ import TransactionEmployee from '~/components/Page/TransactionEmployee';
 import HomePage from '~/components/Page/Home';
 import EmployeePage from '~/components/Page/EmployeePage';
 import ParcelTracking from '~/components/Page/ParcelTracking';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { useAuth } from '../provider/authProvider';
+import { ProtectedRoute } from './ProtectedRoute';
 
-console.log(typeof CustomerLogin);
 const publicRoutes = [
   { path: '', component: HomePage, name: 'Home Page' },
   { path: '/employee', component: EmployeePage, name: 'Employee Page' },
@@ -20,10 +22,6 @@ const publicRoutes = [
   { path: '/transaction-employee', component: TransactionEmployee, name: 'Transaction Employee' },
   { path: '/parcel-tracking', component: ParcelTracking, name: 'Parcel Tracking' },
 ];
-
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { useAuth } from '../provider/authProvider';
-import { ProtectedRoute } from './ProtectedRoute';
 
 const Routes = () => {
   const { token } = useAuth();
@@ -45,6 +43,10 @@ const Routes = () => {
     {
       path: '/restore-password',
       element: <RestorePassword />,
+    },
+    {
+      path: '/parcel-tracking',
+      element: <ParcelTracking />,
     },
   ];
 

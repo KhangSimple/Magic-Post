@@ -18,12 +18,12 @@
   font-size: 16px;
   margin-right: 200px;
 }
-.count-rows-select {
+.countRowsSelect {
   font-weight: bold;
   margin-left: 200px;
   font-size: 16px;
 }
-.selected-rows-details {
+.selectedRowsDetails {
   margin-top: 20px;
   table {
     width: 100%;
@@ -50,18 +50,20 @@
   margin-right: 150px;
   margin-top: 50px;
 }
-.control-sender-address {
+.controlSenderAddress {
   width: 10vw;
 }
 
-.control-sender-address {
+.controlSenderAddress {
   margin-right: 20px;
 }
-.menu-address-sender,
-.select-address-sender {
-  font-size: 14px;
+.menuAddressSender,
+.selectAddressSender {
+  margin-right: 20px;
+  width: 150px;
+  font-size: 16px;
 }
-.title-table {
+.titleTable {
   margin: 5px 40% 0px 0px;
   font-weight: bold;
   font-size: 30px;

@@ -18,16 +18,16 @@ const cx = classNames.bind(styles);
 
 function HomePage() {
   return (
-    <div className={cx('App')}>
-      <div class={cx('header')}>
+    <div className={cx(styles.App)}>
+      <div class={cx(styles.header)}>
         <Header />
         <AppBarMenu />
       </div>
       <Banner />
-      <div class={cx('main')}>
+      <div class={cx(styles.main)}>
         <Main />
       </div>
-      <div class={cx('footer')}>
+      <div class={cx(styles.footer)}>
         <Footer />
       </div>
     </div>

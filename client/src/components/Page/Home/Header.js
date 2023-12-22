@@ -14,10 +14,10 @@ const Header = () => {
   return (
     <header>
       <div>
-        <img className={cx('logo')} src={images.logo} alt="logo" />
+        <img className={cx(styles.logo)} src={images.logo} alt="logo" />
       </div>
-      <div className={cx('search-login')}>
-        <div className={cx('search')}>
+      <div className={cx(styles.searchLogin)}>
+        <div className={cx(styles.search)}>
           <SearchIcon fontSize="large" color="primary" sx={{ m: 1 }} />
           <input
             className={cx('search-input')}
@@ -27,7 +27,7 @@ const Header = () => {
             }}
           />
         </div>
-        <div className={cx('login-register')}>
+        <div className={cx(styles.loginRegister)}>
           <button onClick={handleLoginRegisterClick}>
             {' '}
             <LoginIcon fontSize="large" color="primary" sx={{ m: 1 }} />

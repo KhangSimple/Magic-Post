@@ -2,6 +2,7 @@ import images from '~/assets/images';
 import React, { useState } from 'react';
 import AppBarEmployee from '../AppBar/AppBar';
 import CollectionDataTable from '../ParcelCollection/ParcelCollectionsInStock';
+import TransactionDataCard from '../PacelTransaction/ParcelTransInStock';
 import classNames from 'classnames/bind';
 import styles from './dashboard.module.scss';
 const cx = classNames.bind(styles);
@@ -45,12 +46,11 @@ const Dashboard = () => {
         {activeTab === 'don-den' && (
           <div>
             <AppBarEmployee />
-            keke
+            <TransactionDataCard />
           </div>
         )}
       </div>
     </div>
   );
 };
-
 export default Dashboard;

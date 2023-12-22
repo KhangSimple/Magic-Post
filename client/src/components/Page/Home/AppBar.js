@@ -18,43 +18,43 @@ const AppBarMenu = () => {
     };
   }, []);
   return (
-    <nav className={cx('app-bar', { 'app-bar-fixed': isFixed })}>
+    <nav className={cx(styles.appBar, { 'app-bar-fixed': isFixed })}>
       <ul id="main-menu">
-        <li className={cx('menu-item')}>
+        <li className={cx(styles.menuItem)}>
           Trang chủ
-          <ul className={cx('sub-menu')}>
+          <ul className={cx(styles.subMenu)}>
             <li>Mục 1</li>
             <li>Mục 2</li>
             <li>Mục 3</li>
           </ul>
         </li>
-        <li className={cx('menu-item')}>
+        <li className={cx(styles.menuItem)}>
           Dịch vụ
-          <ul className={cx('sub-menu')}>
+          <ul className={cx(styles.subMenu)}>
             <li>Mục 1</li>
             <li>Mục 2</li>
             <li>Mục 3</li>
           </ul>
         </li>
-        <li className={cx('menu-item')}>
+        <li className={cx(styles.menuItem)}>
           Tin tức
-          <ul className={cx('sub-menu')}>
+          <ul className={cx(styles.subMenu)}>
             <li>Mục 1</li>
             <li>Mục 2</li>
             <li>Mục 3</li>
           </ul>
         </li>
-        <li className={cx('menu-item')}>
+        <li className={cx(styles.menuItem)}>
           Ứng dụng số
-          <ul className={cx('sub-menu')}>
+          <ul className={cx(styles.subMenu)}>
             <li>Mục 1</li>
             <li>Mục 2</li>
             <li>Mục 3</li>
           </ul>
         </li>
-        <li className={cx('menu-item')}>
+        <li className={cx(styles.menuItem)}>
           Hỗ trợ khách hàng
-          <ul className={cx('sub-menu')}>
+          <ul className={cx(styles.subMenu)}>
             <li>Mục 1</li>
             <li>Mục 2</li>
             <li>Mục 3</li>

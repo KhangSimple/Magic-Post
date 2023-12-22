@@ -77,32 +77,37 @@ const CollectionDataTable = () => {
   };
   return (
     <div style={{ height: '70vh', width: '73.5vw' }}>
-      <div className={cx('navigate')}>
-        <h1 className={cx('title-table')}>
+      <div className={cx(styles.navigate)}>
+        <h1 className={cx(styles.titleTable)}>
           Quản lý kho hàng <WarehouseIcon fontSize="large" sx={{ color: yellow[800] }} />
         </h1>
-        <FormControl className={cx('control-sender-address')}>
+        <FormControl className={cx(styles.controlSenderSddress)}>
           <InputLabel id="sender-address-label">Sender Address</InputLabel>
           <Select
-            className={cx('select-address-sender')}
+            className={cx(styles.selectAddressSender)}
             labelId="sender-address-label"
             id="sender-address"
             value={selectedSenderAddress}
             label="Sender Address"
             onChange={handleChangeDataGrid}
           >
-            <MenuItem className={cx('menu-address-sender')} value="All">
+            <MenuItem className={cx(styles.menuAddressSender)} value="All">
               All
             </MenuItem>
             {uniqueSenderAddresses.map((address) => (
-              <MenuItem className={cx('menu-address-sender')} key={address} value={address}>
+              <MenuItem className={cx(styles.menuAddressSender)} key={address} value={address}>
                 {address}
               </MenuItem>
             ))}
           </Select>
         </FormControl>
 
-        <Button className={cx('create-invoice')} variant="contained" color="primary" onClick={handleCreateInvoiceClick}>
+        <Button
+          className={cx(styles.createInvoice)}
+          variant="contained"
+          color="primary"
+          onClick={handleCreateInvoiceClick}
+        >
           <AddIcon fontSize="large" />
           Create Invoice
         </Button>
@@ -141,33 +146,33 @@ const CollectionDataTable = () => {
 
       {/* Hiển thị model các đơn được chọn  */}
 
-      <Dialog className={cx('dialog')} open={open} onClose={handleClose} maxWidth="md" fullWidth>
+      <Dialog className={cx(styles.dialog)} open={open} onClose={handleClose} maxWidth="md" fullWidth>
         <DialogTitle>
-          <div className={cx('title')}>Create Invoice</div>
+          <div className={cx(styles.title)}>Create Invoice</div>
         </DialogTitle>
         <DialogContent>
           <DialogContent>
             <DialogContentText>
               <div>
                 {console.log(selectedRows)}
-                <span className={cx('date')}>Current Date: {new Date().toLocaleDateString()}</span>
-                <span className={cx('count-rows-select')}>Invoice quantity: {selectedRows.length}</span>
+                <span className={cx(styles.date)}>Current Date: {new Date().toLocaleDateString()}</span>
+                <span className={cx(styles.countRowsSelect)}>Invoice quantity: {selectedRows.length}</span>
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <div className={cx('from')}>
+                <div className={cx(styles.from)}>
                   <TextField sx={{ marginBottom: 1 }} label="Sender Name" fullWidth />
                   <TextField sx={{ marginBottom: 1 }} label="Sender Phone" fullWidth />
                   <TextField sx={{ marginBottom: 1 }} label="Sender Address" fullWidth />
                 </div>
 
-                <div className={cx('to')}>
+                <div className={cx(styles.to)}>
                   <TextField sx={{ marginBottom: 1 }} label="Receiver Name" fullWidth />
                   <TextField sx={{ marginBottom: 1 }} label="Receiver Phone" fullWidth />
                   <TextField sx={{ marginBottom: 1 }} label="Receiver Address" fullWidth />
                 </div>
               </div>
-              <div className={cx('selected-rows-details')}>
+              <div className={cx(styles.selectedRowsDetails)}>
                 Selected Rows Details:
                 <table>
                   <thead>

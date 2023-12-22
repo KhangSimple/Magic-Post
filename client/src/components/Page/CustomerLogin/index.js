@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-
 import classNames from 'classnames/bind';
 import styles from './CustomerLogin.module.scss';
 import images from '~/assets/images';
-import Input from '~/components/Input';
 import Button from '~/components/Button';
 import Form from '~/components/Layout/Form';
-
+import Input from '~/components/Input';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash, faLock, faUser } from '@fortawesome/free-solid-svg-icons';
 
@@ -22,6 +20,7 @@ function CustomerLogin() {
     setEyeIcon(1 - eyeIcon);
     setPassType(passType === 'text' ? 'password' : 'text');
   };
+
   return (
     <Form>
       <div className="login-form-header">

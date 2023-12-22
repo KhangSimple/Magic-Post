@@ -1,0 +1,18 @@
+.row {
+  display: flex;
+  //   flex-wrap: wrap;
+  .left {
+    flex: 1;
+    max-width: 80%;
+    display: flex;
+    flex-direction: column;
+    margin-right: 30px;
+  }
+  .right {
+    flex: 1;
+    max-width: 80%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 30px;
+  }
+}

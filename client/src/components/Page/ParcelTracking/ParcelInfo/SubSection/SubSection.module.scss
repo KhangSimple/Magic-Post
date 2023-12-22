@@ -1,0 +1,13 @@
+.subSection {
+  display: flex;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  justify-content: space-between;
+
+  .textLeft {
+    text-align: left;
+  }
+}
+.bold {
+  font-weight: 600;
+}

@@ -29,9 +29,8 @@ const Header = () => {
         </div>
         <div className={cx(styles.loginRegister)}>
           <button onClick={handleLoginRegisterClick}>
-            {' '}
             <LoginIcon fontSize="large" color="primary" sx={{ m: 1 }} />
-            Đăng ký/Đăng nhập
+            Đăng ký / Đăng nhập
           </button>
         </div>
       </div>

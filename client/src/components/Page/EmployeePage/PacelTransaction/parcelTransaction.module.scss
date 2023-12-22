@@ -49,16 +49,12 @@
   }
 }
 
-.backAndTitle {
-  display: flex;
-  h2 {
-    margin-left: 30px;
-    font-weight: bold;
-  }
-  Button {
+.dialog {
+  width: 100vw;
+  .buttonModel {
     font-family: 'Public Sans', sans-serif;
     font-size: 14px;
-    margin: 10px 10px 10px 50vw;
+    padding: 8px;
     background-color: #1976d2;
     color: white;
 

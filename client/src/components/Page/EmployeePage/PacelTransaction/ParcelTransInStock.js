@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
+import * as React from 'react';
 import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import classNames from 'classnames/bind';
 import styles from './parcelTransaction.module.scss';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import { yellow } from '@mui/material/colors';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import { DataGrid } from '@mui/x-data-grid';
+
 const cx = classNames.bind(styles);
 
 const TransactionDataCard = () => {
-  const [showDetails, setShowDetails] = useState(false);
-  const [selectedPackage, setSelectedPackage] = useState(null);
-
+  const [open, setOpen] = React.useState(false);
+  const [selectedRows, setSelectedRows] = React.useState([]);
   const packages = [
     { id: 1, type: 'Điểm tập kết', name: 'ThaiNguyen - DiemTapKet', sendDate: '30/12/2023 3h50p' },
     { id: 2, type: 'Điểm dao dịch', name: 'HaNoi - DiemDaoDich', sendDate: '29/12/2023 3h25p' },
@@ -81,54 +85,69 @@ const TransactionDataCard = () => {
       cost: null,
     },
   ];
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'senderName', headerName: 'Sender Name', width: 150 },
+    { field: 'senderPhone', headerName: 'Sender Phone', width: 150 },
+    { field: 'senderAddress', headerName: 'Sender Address', width: 200 },
+    { field: 'receiverName', headerName: 'Receiver Name', width: 150 },
+    { field: 'receiverPhone', headerName: 'Receiver Phone', width: 150 },
+    { field: 'receiverAddress', headerName: 'Receiver Address', width: 200 },
+    { field: 'from', headerName: 'From', width: 150 },
+    { field: 'to', headerName: 'To', width: 150 },
+    { field: 'cost', headerName: 'Cost', width: 100 },
+  ];
+
+  const rows = invoiceDetail.map((detail) => ({
+    id: detail.id,
+    senderName: detail.senderName,
+    senderPhone: detail.senderPhone,
+    senderAddress: detail.senderAddress,
+    receiverName: detail.receiverName,
+    receiverPhone: detail.receiverPhone,
+    receiverAddress: detail.receiverAddress,
+    from: detail.from,
+    to: detail.to,
+    cost: detail.cost,
+  }));
 
   const handleDetailsClick = (packageData) => {
-    setShowDetails(true);
-    setSelectedPackage(packageData);
+    setOpen(true);
   };
-  const handleAcceptedClick = () => {
+  const handleAcceptedClick = (selectionModel) => {
+    setSelectedRows(selectionModel);
     console.log('hehe');
+    handleClose();
   };
-  const handleBackClick = () => {
-    setShowDetails(false);
-    setSelectedPackage(null);
+  const handleClose = () => {
+    setOpen(false);
   };
-  const PackageDetailsTable = ({ orders }) => {
-    orders = invoiceDetail;
-    return (
+  return (
+    <div>
+      <div className={cx(styles.title)}>
+        Quản lý đơn hàng đến kho <LocalShippingIcon fontSize="large" sx={{ color: yellow[800] }} />
+      </div>
       <TableContainer component={Paper}>
-        <Table className={cx(styles.detailTableTransaction)} aria-label="simple table">
+        <Table className={cx(styles.packageTableTransaction)} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
-              <TableCell>Sender Name</TableCell>
-              <TableCell>Sender Phone</TableCell>
-              <TableCell>Sender Address</TableCell>
-              <TableCell>Receiver Name</TableCell>
-              <TableCell>Receiver Phone</TableCell>
-              <TableCell>Receiver Address</TableCell>
-              <TableCell>From</TableCell>
-              <TableCell>To</TableCell>
-              <TableCell>Cost</TableCell>
-              <TableCell>Xác nhận</TableCell>
+              <TableCell>Loại</TableCell>
+              <TableCell>Tên</TableCell>
+              <TableCell>Ngày tháng gửi</TableCell>
+              <TableCell>Xem chi tiết</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {orders.map((order) => (
-              <TableRow key={order.id}>
-                <TableCell>{order.id}</TableCell>
-                <TableCell>{order.senderName}</TableCell>
-                <TableCell>{order.senderPhone}</TableCell>
-                <TableCell>{order.senderAddress}</TableCell>
-                <TableCell>{order.receiverName}</TableCell>
-                <TableCell>{order.receiverPhone}</TableCell>
-                <TableCell>{order.receiverAddress}</TableCell>
-                <TableCell>{order.from}</TableCell>
-                <TableCell>{order.to}</TableCell>
-                <TableCell>{order.cost}</TableCell>
+            {packages.map((packageData) => (
+              <TableRow key={packageData.id}>
+                <TableCell>{packageData.id}</TableCell>
+                <TableCell>{packageData.type}</TableCell>
+                <TableCell>{packageData.name}</TableCell>
+                <TableCell>{packageData.sendDate}</TableCell>
                 <TableCell>
-                  <Button variant="contained" onClick={() => handleAcceptedClick()}>
-                    Chấp nhận
+                  <Button variant="contained" onClick={() => handleDetailsClick(packageData)}>
+                    Xem chi tiết
                   </Button>
                 </TableCell>
               </TableRow>
@@ -136,57 +155,36 @@ const TransactionDataCard = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    );
-  };
 
-  return (
-    <div>
-      <h1 className={cx(styles.title)}>
-        Quản lý đơn hàng đến kho <LocalShippingIcon fontSize="large" sx={{ color: yellow[800] }} />
-      </h1>
-      {showDetails ? (
-        <div>
-          <div className={cx(styles.backAndTitle)}>
-            <h2 className={cx(styles.packageDetailsHeader)}>{`Đơn Đến Từ ${selectedPackage.name}`} </h2>
-            <Button onClick={handleBackClick}>
-              <ArrowBackIcon fontSize="large" /> Quay lại
-            </Button>
-          </div>
-
-          <PackageDetailsTable packageData={selectedPackage} />
-        </div>
-      ) : (
-        <div>
-          <TableContainer component={Paper}>
-            <Table className={cx(styles.packageTableTransaction)} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>ID</TableCell>
-                  <TableCell>Loại</TableCell>
-                  <TableCell>Tên</TableCell>
-                  <TableCell>Ngày tháng gửi</TableCell>
-                  <TableCell>Xem chi tiết</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {packages.map((packageData) => (
-                  <TableRow key={packageData.id}>
-                    <TableCell>{packageData.id}</TableCell>
-                    <TableCell>{packageData.type}</TableCell>
-                    <TableCell>{packageData.name}</TableCell>
-                    <TableCell>{packageData.sendDate}</TableCell>
-                    <TableCell>
-                      <Button variant="contained" onClick={() => handleDetailsClick(packageData)}>
-                        Xem chi tiết
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
-      )}
+      <Dialog className={cx(styles.dialog)} open={open} onClose={handleClose} maxWidth="md" fullWidth>
+        <DialogTitle>
+          <div className={cx(styles.title)}>Xem chi tiết các đơn hàng</div>
+        </DialogTitle>
+        <DialogContent>
+          <DialogContent>
+            <DataGrid
+              sx={{
+                m: 0,
+                boxShadow: 2,
+                border: 2,
+                fontSize: 16,
+              }}
+              rows={rows}
+              columns={columns}
+              checkboxSelection
+              onSelectionModelChange={handleAcceptedClick}
+            />
+          </DialogContent>
+        </DialogContent>
+        <DialogActions>
+          <Button className={cx(styles.buttonModel)} onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button className={cx(styles.buttonModel)} onClick={handleAcceptedClick} color="primary">
+            Accepted
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

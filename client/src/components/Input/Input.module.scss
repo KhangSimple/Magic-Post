@@ -12,7 +12,7 @@
   line-height: 1.5715;
   background-color: #fff;
   border: 1px solid #bfbfbf;
-  border-radius: 3px;
+  border-radius: 12px;
   transition: all 0.3s;
   display: inline-flex;
 
@@ -37,7 +37,7 @@
 Input {
   padding: 5px;
   font-size: 17px;
-  margin-left: 10px;
+  // margin-left: 10px;
   align-items: center;
   width: 100%;
   &::-ms-reveal,
@@ -75,6 +75,7 @@ Input {
   font-size: 13px;
   font-weight: 600;
   border-radius: 3px;
+  padding: 5px;
 }
 
 .p-dropdown {

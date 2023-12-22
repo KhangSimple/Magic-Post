@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './home.module.scss';
 import React from 'react';
-import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/';
 import 'slick-carousel/slick/slick-theme.css';
 import Header from './Header';
 import AppBarMenu from './AppBar';

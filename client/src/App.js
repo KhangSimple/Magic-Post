@@ -1,9 +1,8 @@
 import logo from './logo.svg';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import CustomerLogin from '~/components/Page/CustomerLogin';
-import { Routes, Route, Link } from 'react-router-dom';
-import { publicRoutes } from './routes';
+import AuthProvider from './provider/authProvider';
+import Routes from './routes';
 
 function App() {
   const [backendData, setBackendData] = useState([]);
@@ -31,18 +30,9 @@ function App() {
 
   return (
     <div className="App">
-      <Routes>
-        {publicRoutes.map((route, index) => {
-          // let Layout = DefaultLayout;
-          // if (route.layout) {
-          //   Layout = route.layout;
-          // } else if (route.layout === null) {
-          //   Layout = Fragment;
-          // }
-          const Page = route.component;
-          return <Route key={index} path={route.path} element={<Page />} />;
-        })}
-      </Routes>
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
     </div>
   );
 }

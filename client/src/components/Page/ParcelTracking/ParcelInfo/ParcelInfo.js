@@ -8,7 +8,6 @@ const cx = classNames.bind(styles);
 const ParcelInfo = () => {
   const parcel = useContext(ParcelContext).parcelData;
   const data = parcel.data[0] ? parcel.data[0] : {};
-  const routeInfo = parcel.info;
   return (
     <div className={cx(styles.wrapper)}>
       <h4 className={cx(styles.header)}>THÔNG TIN VẬN ĐƠN</h4>
@@ -16,8 +15,8 @@ const ParcelInfo = () => {
         <div className={cx(styles.section, styles.rightBorder)}>
           <SubSection textLeft={'Mã phiếu gửi:'} textLeftBold={data.id}></SubSection>
           <SubSection textLeft={'Chi tiết đơn hàng:'} textLeftBold={'...'}></SubSection>
-          <SubSection textLeft={'Người gửi:'} textLeftBold={data.sender_address}></SubSection>
-          <SubSection textLeft={'Người nhận:'} textLeftBold={data.receiver_address}></SubSection>
+          <SubSection textLeft={'Người gửi:'} textLeftBold={data.sender_name}></SubSection>
+          <SubSection textLeft={'Người nhận:'} textLeftBold={data.receiver_name}></SubSection>
         </div>
         <div className={cx(styles.section, styles.rightBorder)}>
           <SubSection textLeft={'Khối lượng(Gram):'} textLeftBold={data.weight}></SubSection>

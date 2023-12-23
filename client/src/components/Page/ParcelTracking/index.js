@@ -9,10 +9,16 @@ const cx = classNames.bind(styles);
 export function dateFormat(date) {
   if (date) {
     const d = new Date(date);
-    const year = d.getFullYear();
-    const month = d.getMonth() + 1;
-    const day = d.getDate();
-    return day + '/' + month + '/' + year;
+    var year = d.getFullYear();
+    var month = d.getMonth() + 1;
+    var day = d.getDate();
+    var hours = d.getHours();
+    var minutes = d.getMinutes();
+    var second = d.getSeconds();
+    hours = hours > 9 ? hours : '0' + hours.toString();
+    minutes = minutes > 9 ? minutes : '0' + minutes.toString();
+    second = second > 9 ? second : '0' + second.toString();
+    return day + '/' + month + '/' + year + ' ' + hours + ':' + minutes + ':' + second;
   }
 }
 
@@ -23,7 +29,6 @@ const ParcelTracking = () => {
   const setParcelData = (data) => {
     setParcelData_(data);
   };
-  console.log(parcelData);
   const contextValue = useMemo(
     () => ({
       parcelData,

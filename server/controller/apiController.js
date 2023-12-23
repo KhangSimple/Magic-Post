@@ -294,29 +294,29 @@ let searchParcel = async (req, res) => {
     let info = [];
     if (cur_pos == 0) {
       if (trans_info[0].type == 'in') {
-        info.push({ name: 'Đang xử lí', time: trans_info.receive_time, address: f_trans_address[0][0].address });
+        info.push({ status: 'Đang xử lí', time: trans_info.receive_time, address: f_trans_address[0][0].address });
       }
       // } else {
-      //   info.push({ name: 'Đang chuyển hàng', time: trans_info.send_time, address: trans_address[0][0].address });
+      //   info.push({ status: 'Đang chuyển hàng', time: trans_info.send_time, address: trans_address[0][0].address });
       // }
     }
     if (cur_pos > 0) {
-      info.push({ name: 'Đã rời', time: trans_info[0].send_time, address: f_trans_address[0][0].address });
+      info.push({ status: 'Đã rời', time: trans_info[0].send_time, address: f_trans_address[0][0].address });
       if (coll_info[0].is_confirm == 1) {
-        info.push({ name: 'Đang tại', time: coll_info[0].receive_time, address: f_colls_address[0][0].address });
+        info.push({ status: 'Nhận tại', time: coll_info[0].receive_time, address: f_colls_address[0][0].address });
       }
     }
     if (cur_pos > 1) {
-      info.push({ name: 'Đã rời', time: coll_info[0].send_time, address: f_colls_address[0][0].address });
+      info.push({ status: 'Đã rời', time: coll_info[0].send_time, address: f_colls_address[0][0].address });
       if (coll_info[1].is_confirm == 1) {
-        info.push({ name: 'Đang tại', time: coll_info[1].receive_time, address: l_colls_address[0][0].address });
+        info.push({ status: 'Nhận tại', time: coll_info[1].receive_time, address: l_colls_address[0][0].address });
       }
     }
     if (cur_pos > 2) {
-      info.push({ name: 'Đã rời', time: coll_info[1].send_time, address: l_colls_address[0][0].address });
+      info.push({ status: 'Đã rời', time: coll_info[1].send_time, address: l_colls_address[0][0].address });
       console.log(trans_info);
       if (trans_info[1].is_confirm == 1) {
-        info.push({ name: 'Đang tại', time: trans_info[1].receive_time, address: l_trans_address[0][0].address });
+        info.push({ status: 'Nhận tại', time: trans_info[1].receive_time, address: l_trans_address[0][0].address });
       }
     }
     return res.json({ data: parcel_info, info: info });

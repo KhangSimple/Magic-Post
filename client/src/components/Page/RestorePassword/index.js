@@ -53,6 +53,7 @@ function RestorePassword() {
               select={true}
               optionLabel="name"
               optionValue="type"
+              required
             />
           </span>
         </div>
@@ -62,6 +63,7 @@ function RestorePassword() {
               value={type === 'phone' ? phone : email}
               placeHolder={type === 'phone' ? '0123456789' : 'Email'}
               errorText={type === 'phone' ? 'Số điện thoại là bắt buộc!' : 'Email là bắt buộc!'}
+              required
               onChange={(value) => {
                 type === 'phone' ? setPhone(value) : setEmail(value);
               }}
@@ -76,6 +78,7 @@ function RestorePassword() {
               rightIcon={eyeIcon === 0 ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
               errorText="Mật khẩu là bắt buộc!"
               type={passType}
+              required
               onClick={() => handleEye()}
               onChange={(value) => setPassword(value)}
             />
@@ -90,6 +93,7 @@ function RestorePassword() {
               placeHolder="Xác nhận mật khẩu"
               errorText={password !== repassword ? 'Mật khẩu không khớp!' : ''}
               type={passType}
+              required
               onClick={() => handleEye()}
               onChange={(value) => setRepassword(value)}
             />

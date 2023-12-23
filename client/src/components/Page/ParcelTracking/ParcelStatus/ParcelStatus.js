@@ -1,8 +1,11 @@
 import styles from './ParcelStatus.module.scss';
 import classNames from 'classnames/bind';
 import TimeLine from './TimeLine/TimeLine';
+import { ParcelContext } from '..';
+import { useContext } from 'react';
 const cx = classNames.bind(styles);
 const ParcelStatus = () => {
+  const parcel = useContext(ParcelContext);
   return (
     <div className={cx(styles.wrapper)}>
       <TimeLine

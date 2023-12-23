@@ -28,6 +28,7 @@ function Input({
   data,
   optionLabel,
   optionValue,
+  required,
   onChange = () => {},
 }) {
   const [inputValue, setInputValue] = useState('');
@@ -88,10 +89,12 @@ function Input({
           </span>
         )}
       </div>
-      <div className={cx('error')}>
-        {!showError && <span className={cx('empty-error')}>&nbsp;</span>}
-        {showError && <span className={cx('item-explain-error')}>{errorText}</span>}
-      </div>
+      {required && (
+        <div className={cx('error')}>
+          {!showError && <span className={cx('empty-error')}>&nbsp;</span>}
+          {showError && <span className={cx('item-explain-error')}>{errorText}</span>}
+        </div>
+      )}
     </React.Fragment>
   );
 }

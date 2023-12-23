@@ -95,6 +95,7 @@ function EmployeeLogin() {
             leftIcon={<FontAwesomeIcon icon={faUser} />}
             placeHolder="Tài khoản"
             errorText="Tài khoản là bắt buộc!"
+            required
             onChange={(value) => {
               setUsername(value);
             }}
@@ -107,6 +108,7 @@ function EmployeeLogin() {
             rightIcon={eyeIcon === 0 ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
             placeHolder="Mật khẩu"
             errorText="Mật khẩu là bắt buộc!"
+            required
             onClick={() => handleEye()}
             onChange={(value) => {
               setPassword(value);

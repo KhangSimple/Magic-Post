@@ -33,6 +33,7 @@ function CustomerLogin() {
           leftIcon={<FontAwesomeIcon icon={faUser} />}
           placeHolder="Tài khoản"
           errorText="Tài khoản là bắt buộc!"
+          required
           onChange={(value) => {
             setUsername(value);
           }}
@@ -45,6 +46,7 @@ function CustomerLogin() {
           placeHolder="Mật khẩu"
           errorText="Mật khẩu là bắt buộc!"
           onClick={() => handleEye()}
+          required
           onChange={(value) => {
             setPassword(value);
           }}

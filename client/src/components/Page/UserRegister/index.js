@@ -172,6 +172,7 @@ function UserRegister() {
                   errorText="Họ và tên là bắt buộc!"
                   classes="register-input"
                   onChange={(value) => setUsername(value)}
+                  required
                 />
               </span>
               <span>
@@ -183,6 +184,7 @@ function UserRegister() {
                   classes="register-input"
                   type="email"
                   onChange={(value) => setEmail(value)}
+                  required
                 />
               </span>
               <span>
@@ -193,6 +195,7 @@ function UserRegister() {
                   errorText="Điện thoại là bắt buộc!"
                   classes="register-input"
                   onChange={(value) => setPhoneNumber(value)}
+                  required
                 />
               </span>
             </div>
@@ -206,6 +209,7 @@ function UserRegister() {
                   errorText="Địa chỉ là bắt buộc!"
                   classes="register-input"
                   onChange={(value) => setAddress(value)}
+                  required
                 />
               </span>
             </div>
@@ -223,6 +227,7 @@ function UserRegister() {
                   select={true}
                   optionLabel="ProvinceName"
                   optionValue="ProvinceID"
+                  required
                 />
               </span>
               <span>
@@ -238,6 +243,7 @@ function UserRegister() {
                   select={true}
                   optionLabel="DistrictName"
                   optionValue="DistrictID"
+                  required
                 />
               </span>
               <span>
@@ -253,6 +259,7 @@ function UserRegister() {
                   select={true}
                   optionLabel="WardName"
                   optionValue="WardCode"
+                  required
                 />
               </span>
             </div>
@@ -268,6 +275,7 @@ function UserRegister() {
                   type={passType}
                   onClick={() => handleEye()}
                   onChange={(value) => setPassword(value)}
+                  required
                 />
               </span>
               <span>
@@ -282,6 +290,7 @@ function UserRegister() {
                   type={passType}
                   onClick={() => handleEye()}
                   onChange={(value) => setRepassword(value)}
+                  required
                 />
               </span>
             </div>

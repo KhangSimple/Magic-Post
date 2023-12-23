@@ -48,6 +48,14 @@ const Routes = () => {
       path: '/parcel-tracking',
       element: <ParcelTracking />,
     },
+    {
+      path: '/employee',
+      element: <EmployeePage />,
+    },
+    {
+      path: '/',
+      element: <HomePage />,
+    },
   ];
 
   // Define routes accessible only to authenticated users

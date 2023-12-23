@@ -4,7 +4,6 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Cookies } from 'react-cookie';
-import { Navigate } from 'react-router-dom';
 
 import classNames from 'classnames/bind';
 import styles from './EmployeeLogin.module.scss';
@@ -75,7 +74,6 @@ function EmployeeLogin() {
             authContext.setToken(data.token);
             console.log('Success');
             nagivate('/employee');
-            // return <Navigate to="employee" />;
           }
         })
         .catch(function (error) {

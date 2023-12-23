@@ -6,7 +6,6 @@ export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   // State to hold the authentication token
   const [token, setToken_] = useState(localStorage.getItem('token'));
-
   // Function to set the authentication token
   const setToken = (newToken) => {
     setToken_(newToken);
@@ -41,7 +40,6 @@ const AuthProvider = ({ children }) => {
       localStorage.removeItem('token');
     }
   }, [token]);
-
   // Memoized value  the authentication context
   const contextValue = useMemo(
     () => ({

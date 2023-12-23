@@ -27,9 +27,20 @@ let getEmployeePage = async (req, res) => {
   checkUsername = checkUsername[0][0].ct;
   checkPassword = checkPassword[0][0].ct;
   if ((checkUsername != 0) & (checkPassword != 0)) {
+    let [rows, field] = await pool.execute('select * from staff_transaction where username=? and password = ?', [
+      username,
+      password,
+    ]);
+    let info = rows[0];
     var encryptedPassword = await bcrypt.hash(password, 10);
-    password = encryptedPassword;
-    var token = jwt.sign({ username: username, password: password }, process.env.TOKEN_KEY, { expiresIn: '1h' });
+    info.password = encryptedPassword;
+    var token = jwt.sign(
+      { id: info.id, role: 'trans-employee', zip_code: info.transaction_zip_code },
+      process.env.TOKEN_KEY,
+      {
+        expiresIn: '1h',
+      },
+    );
     return res.status(200).json({ flag: 1, token: token });
   } else {
     return res.json({ flag: 0, checkUsername: checkUsername, checkPassword: checkPassword });

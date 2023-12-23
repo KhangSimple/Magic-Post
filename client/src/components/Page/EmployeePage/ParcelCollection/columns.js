@@ -1,39 +1,39 @@
 export const columns = [
-  { field: 'id', headerClassName: 'super-app-theme--header', headerName: 'ID', width: 70 },
+  { field: 'id', headerClassName: 'super-app-theme--header', headerName: 'ID', width: 90 },
   {
-    field: 'senderName',
+    field: 'sender_name',
     headerClassName: 'super-app-theme--header',
     headerName: 'Sender Name',
     width: 160,
   },
   {
-    field: 'senderPhone',
+    field: 'sender_phone',
     headerClassName: 'super-app-theme--header',
     headerName: 'Sender Phone',
     width: 160,
   },
 
   {
-    field: 'senderAddress',
+    field: 'sender_address',
     headerClassName: 'super-app-theme--header',
     headerName: 'Sender Address',
     width: 160,
   },
   {
-    field: 'receiverName',
+    field: 'receiver_name',
     headerClassName: 'super-app-theme--header',
     headerName: 'Receiver Name',
     width: 160,
   },
   {
-    field: 'receiverPhone',
+    field: 'receiver_phone',
     headerClassName: 'super-app-theme--header',
     headerName: 'Receive Phone',
     width: 160,
   },
 
   {
-    field: 'receiverAddress',
+    field: 'receiver_address',
     headerClassName: 'super-app-theme--header',
     headerName: 'Receiver Address',
     width: 160,
@@ -51,7 +51,7 @@ export const columns = [
     width: 100,
   },
   {
-    field: 'cost',
+    field: 'cod_amount',
     headerClassName: 'super-app-theme--header',
     headerName: 'Cost ($)',
     width: 130,

@@ -8,7 +8,6 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import AddIcon from '@mui/icons-material/Add';
 import TextField from '@mui/material/TextField';
-import { rows } from './row';
 import { columns } from './columns';
 import classNames from 'classnames/bind';
 import styles from './parcelCollectionsInStock.module.scss';
@@ -19,14 +18,33 @@ import Select from '@mui/material/Select';
 import WarehouseIcon from '@mui/icons-material/Warehouse';
 import { yellow } from '@mui/material/colors';
 
+import { EmployeePageContext } from '..';
+import axios from 'axios';
+
 const cx = classNames.bind(styles);
 
 const CollectionDataTable = () => {
+  const [rows, setRows] = React.useState([]);
   const [open, setOpen] = React.useState(false);
+  const authInfo = React.useContext(EmployeePageContext);
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [selectedSenderAddress, setSelectedSenderAddress] = React.useState('');
   const [filteredRows, setFilteredRows] = React.useState([]);
   const [isFilterActive, setIsFilterActive] = React.useState(false);
+  React.useMemo(() => {
+    axios
+      .get(`http://localhost:1510/getTransactionList`, {
+        params: {
+          id: authInfo.zip_code,
+        },
+      })
+      .then(function (response) {
+        setRows(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
 
   const handleCreateInvoiceClick = () => {
     setOpen(true);
@@ -57,7 +75,7 @@ const CollectionDataTable = () => {
   //   .unique();
   // console.log(list);
   const uniqueSenderAddresses = rows
-    .map((value) => value.senderAddress)
+    .map((value) => value.sender_address)
     .filter((value, index, self) => self.indexOf(value) === index);
 
   // chọn item để datagrid hiện các sender address tương ứng
@@ -71,7 +89,7 @@ const CollectionDataTable = () => {
       setIsFilterActive(true);
       setSelectedSenderAddress(selectedAddress);
       // Tạo mảng gồm các hàng có SenderAddress tương ứng
-      const newFilteredRows = rows.filter((row) => row.senderAddress === selectedAddress);
+      const newFilteredRows = rows.filter((row) => row.sender_address === selectedAddress);
       setFilteredRows(newFilteredRows);
     }
   };
@@ -154,7 +172,6 @@ const CollectionDataTable = () => {
           <DialogContent>
             <DialogContentText>
               <div>
-                {console.log(selectedRows)}
                 <span className={cx(styles.date)}>Current Date: {new Date().toLocaleDateString()}</span>
                 <span className={cx(styles.countRowsSelect)}>Invoice quantity: {selectedRows.length}</span>
               </div>

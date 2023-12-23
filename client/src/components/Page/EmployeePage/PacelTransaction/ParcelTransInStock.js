@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import classNames from 'classnames/bind';
 import styles from './parcelTransaction.module.scss';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import { yellow } from '@mui/material/colors';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { EmployeePageContext } from '..';
+import axios from 'axios';
 const cx = classNames.bind(styles);
 
 const TransactionDataCard = () => {
   const [showDetails, setShowDetails] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
-
+  const data = useContext(EmployeePageContext);
   const packages = [
     { id: 1, type: 'Điểm tập kết', name: 'ThaiNguyen - DiemTapKet', sendDate: '30/12/2023 3h50p' },
     { id: 2, type: 'Điểm dao dịch', name: 'HaNoi - DiemDaoDich', sendDate: '29/12/2023 3h25p' },
@@ -19,6 +21,23 @@ const TransactionDataCard = () => {
     { id: 5, type: 'Điểm dao dịch', name: 'HaiPhong - DiemDaoDich', sendDate: '2/2/2023 13h5p' },
     { id: 6, type: 'Điểm dao dịch', name: 'HaNoi - DiemDaoDich', sendDate: '20/1/2023 3h35p' },
   ];
+  const [parcelData, setParcelData] = useState([]);
+  // useEffect(() => {
+  //   try {
+  //     axios
+  //       .get(`http://localhost:1510/getTransactionList`, {
+  //         params: {
+  //           id: data.zip_code,
+  //         },
+  //       })
+  //       .then(function (response) {
+  //         setParcelData(response.data);
+  //       })
+  //       .catch(function (error) {
+  //         console.log(error);
+  //       });
+  //   } catch (err) {}
+  // }, []);
   const invoiceDetail = [
     {
       id: 1,
@@ -87,7 +106,18 @@ const TransactionDataCard = () => {
     setSelectedPackage(packageData);
   };
   const handleAcceptedClick = () => {
-    console.log('hehe');
+    // axios
+    //   .get(`http://localhost:1510/getTransactionList`, {
+    //     params: {
+    //       id: data.zip_code,
+    //     },
+    //   })
+    //   .then(function (response) {
+    //     console.log(response.data);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
   };
   const handleBackClick = () => {
     setShowDetails(false);

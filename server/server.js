@@ -45,10 +45,11 @@ app.get('/get_session', (req, res) => {
 app.get('/verify-token', (req, res) => {
   //check session
   try {
-    var token = req.query.token;
+    var token = req.body.token || req.query.token;
     var decode = jwt.verify(token, process.env.TOKEN_KEY);
-    return res.status(200).json({ status: 'success' });
+    return res.status(200).json({ status: 'success', decodeData: decode });
   } catch (err) {
+    console.log(err);
     return res.status(200).json({ status: 'Invalid token' });
   }
 });

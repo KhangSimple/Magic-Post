@@ -49,10 +49,6 @@ const Routes = () => {
       element: <ParcelTracking />,
     },
     {
-      path: '/employee',
-      element: <EmployeePage />,
-    },
-    {
       path: '/',
       element: <HomePage />,
     },
@@ -75,6 +71,10 @@ const Routes = () => {
         {
           path: '/logout',
           element: <Test />,
+        },
+        {
+          path: '/employee',
+          element: <EmployeePage />,
         },
       ],
     },

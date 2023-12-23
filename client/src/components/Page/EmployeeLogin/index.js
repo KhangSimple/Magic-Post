@@ -1,9 +1,10 @@
 import React, { useState, useRef, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Cookies } from 'react-cookie';
+import { Navigate } from 'react-router-dom';
 
 import classNames from 'classnames/bind';
 import styles from './EmployeeLogin.module.scss';
@@ -24,6 +25,7 @@ function EmployeeLogin() {
   const [passType, setPassType] = useState('password');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const nagivate = useNavigate();
   const usernameRef = useRef();
   const passwordRef = useRef();
   const authContext = useContext(AuthContext);
@@ -35,50 +37,53 @@ function EmployeeLogin() {
     usernameRef.current.focus();
     const cookies = new Cookies();
     cookies.set('name', 'khang', { path: '/employee/login' });
-    axios
-      .get(`http://localhost:1510/verify-token`, {
-        params: {
-          token: localStorage.getItem('token'),
-        },
-      })
-      .then(function (response) {
-        var status = response.data.status;
-        console.log(status);
-        // let data = response.data;
-        // localStorage.setItem('token', data.token);
-        // authContext.setToken(data.token);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    // if (username === '' || password === '') {
-    //   toast.error('Vui lòng điền đầu đủ thông tin!');
-    // } else {
-    //   axios
-    //     .post(`http://localhost:1510/employeeLogin`, {
-    //       username: username,
-    //       password: password,
-    //     })
-    //     .then(function (response) {
-    //       let data = response.data;
-    //       if (data.flag === 0) {
-    //         console.log('Fail');
-    //         if (!data.checkUsername) {
-    //           toast.error('Tài khoản không tồn tại!');
-    //         } else {
-    //           toast.error('Mật khẩu không chính xác!');
-    //         }
-    //       } else {
-    //         // Do something ...
-    //         console.log('Success');
-    //       }
-    //     })
-    //     .catch(function (error) {
-    //       console.log(error);
-    //     });
-    //   setUsername('');
-    //   setPassword('');
-    // }
+    // axios
+    //   .get(`http://localhost:1510/verify-token`, {
+    //     params: {
+    //       token: localStorage.getItem('token'),
+    //     },
+    //   })
+    //   .then(function (response) {
+    //     var status = response.data.status;
+    //     console.log(status);
+    //     // let data = response.data;
+    //     // localStorage.setItem('token', data.token);
+    //     // authContext.setToken(data.token);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
+    if (username === '' || password === '') {
+      toast.error('Vui lòng điền đầu đủ thông tin!');
+    } else {
+      axios
+        .post(`http://localhost:1510/employeeLogin`, {
+          username: username,
+          password: password,
+        })
+        .then(function (response) {
+          let data = response.data;
+          if (data.flag === 0) {
+            console.log('Fail');
+            if (!data.checkUsername) {
+              toast.error('Tài khoản không tồn tại!');
+            } else {
+              toast.error('Mật khẩu không chính xác!');
+            }
+          } else {
+            localStorage.setItem('token', data.token);
+            authContext.setToken(data.token);
+            console.log('Success');
+            nagivate('/employee');
+            // return <Navigate to="employee" />;
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      setUsername('');
+      setPassword('');
+    }
   };
 
   return (

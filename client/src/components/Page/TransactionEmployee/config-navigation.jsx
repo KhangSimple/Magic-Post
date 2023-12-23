@@ -36,15 +36,26 @@ const navConfig = [
   //   icon: icon('ic_disabled'),
   // },
   {
-    title: 'Danh sách đơn đến',
+    title: 'Chờ xác nhận',
     path: '/products',
     icon: icon('ic_cart'),
   },
   {
-    title: 'Danh sách đơn đi',
+    title: 'Trong kho',
     path: '/products',
     icon: icon('ic_cart'),
   },
+  {
+    title: 'Đang vận chuyển',
+    path: '/products',
+    icon: icon('ic_cart'),
+  },
+  {
+    title: 'Thành công',
+    path: '/products',
+    icon: icon('ic_cart'),
+  },
+
   {
     title: 'Thống kê',
     path: '/',

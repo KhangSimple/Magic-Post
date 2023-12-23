@@ -41,6 +41,11 @@ const navConfig = [
     icon: icon('ic_user'),
   },
   {
+    title: 'Danh sách đơn hàng',
+    path: '/transaction-manager',
+    icon: icon('ic_user'),
+  },
+  {
     title: 'Thống kê',
     path: '/transaction-manager/statistics',
     icon: icon('ic_analytics'),

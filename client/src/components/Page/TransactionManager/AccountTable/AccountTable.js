@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -9,11 +9,11 @@ import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
+import { Link } from 'react-router-dom';
 
 import { users } from 'src/_mock/user';
 
 import Iconify from 'src/components/iconify';
-import Scrollbar from 'src/components/scrollbar';
 
 import TableNoData from './table-no-data';
 import UserTableRow from './user-table-row';
@@ -95,10 +95,11 @@ export default function UserPage() {
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">ĐIỂM GIAO DỊCH THÁI NGUYÊN</Typography>
-
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
-          Tạo tài khoản
-        </Button>
+        <Link to={'/transaction-manager/create-user'}>
+          <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
+            Tạo tài khoản
+          </Button>
+        </Link>
       </Stack>
 
       <Card>

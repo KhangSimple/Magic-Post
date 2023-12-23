@@ -8,6 +8,8 @@ import TransactionEmployee from '~/components/Page/TransactionEmployee';
 import HomePage from '~/components/Page/Home';
 import EmployeePage from '~/components/Page/EmployeePage';
 import ParcelTracking from '~/components/Page/ParcelTracking';
+import TransactionManager from '~/components/Page/TransactionManager';
+import Statistics from '~/components/Page/TransactionManager/Statistics/Statistics';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useAuth } from '../provider/authProvider';
 import { ProtectedRoute } from './ProtectedRoute';
@@ -47,6 +49,18 @@ const Routes = () => {
     {
       path: '/parcel-tracking',
       element: <ParcelTracking />,
+    },
+    {
+      path: '/transaction-employee',
+      element: <TransactionEmployee />,
+    },
+    {
+      path: '/transaction-manager',
+      element: <TransactionManager />,
+    },
+    {
+      path: '/transaction-manager/statistics',
+      element: <Statistics />,
     },
   ];
 

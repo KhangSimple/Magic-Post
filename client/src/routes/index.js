@@ -12,16 +12,16 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useAuth } from '../provider/authProvider';
 import { ProtectedRoute } from './ProtectedRoute';
 
-const publicRoutes = [
-  { path: '', component: HomePage, name: 'Home Page' },
-  { path: '/employee', component: EmployeePage, name: 'Employee Page' },
-  { path: '/user/login', component: CustomerLogin, name: 'User Login' },
-  { path: '/employee/login', component: EmployeeLogin, name: 'Employee Login' },
-  { path: '/register', component: UserRegister, name: 'Register' },
-  { path: '/restore-password', component: RestorePassword, name: 'Restore Password' },
-  { path: '/transaction-employee', component: TransactionEmployee, name: 'Transaction Employee' },
-  { path: '/parcel-tracking', component: ParcelTracking, name: 'Parcel Tracking' },
-];
+// const publicRoutes = [
+//   { path: '', component: HomePage, name: 'Home Page' },
+//   { path: '/employee', component: EmployeePage, name: 'Employee Page' },
+//   { path: '/user/login', component: CustomerLogin, name: 'User Login' },
+//   { path: '/employee/login', component: EmployeeLogin, name: 'Employee Login' },
+//   { path: '/register', component: UserRegister, name: 'Register' },
+//   { path: '/restore-password', component: RestorePassword, name: 'Restore Password' },
+//   { path: '/transaction-employee', component: TransactionEmployee, name: 'Transaction Employee' },
+//   { path: '/parcel-tracking', component: ParcelTracking, name: 'Parcel Tracking' },
+// ];
 
 const Routes = () => {
   const { token } = useAuth();

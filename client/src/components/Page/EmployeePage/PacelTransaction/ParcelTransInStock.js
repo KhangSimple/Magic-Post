@@ -23,6 +23,7 @@ const TransactionDataCard = () => {
   //   { id: 6, type: 'Điểm dao dịch', name: 'HaNoi - DiemDaoDich', sendDate: '20/1/2023 3h35p' },
   // ];
   const [packages, setPackages] = useState([]);
+  const [invoiceDetail, setInvoiceDetail] = useState([]);
   useEffect(() => {
     try {
       console.log('Call');
@@ -33,7 +34,6 @@ const TransactionDataCard = () => {
           },
         })
         .then(function (response) {
-          console.log(response.data);
           let data = response.data;
           setPackages(data.tranParcel.concat(data.collParcel));
         })
@@ -42,72 +42,89 @@ const TransactionDataCard = () => {
         });
     } catch (err) {}
   }, []);
-  const invoiceDetail = [
-    {
-      id: 1,
-      senderName: 'Nhut Le',
-      senderPhone: '0123456789',
-      senderAddress: 'Ha Noi',
-      receiverName: 'Jon',
-      receiverPhone: '9876543210',
-      receiverAddress: 'Khum bic',
-      from: 'abx',
-      to: 'xyz',
-      cost: 35,
-    },
-    {
-      id: 2,
-      senderName: 'Duy Khanh',
-      senderPhone: '0123456789',
-      senderAddress: 'Hai Phong',
-      receiverName: 'Cersei',
-      receiverPhone: '9876543210',
-      receiverAddress: 'Khum bic',
-      from: 'abx',
-      to: 'xyz',
-      cost: 42,
-    },
-    {
-      id: 3,
-      senderName: 'Phuc Khang',
-      senderPhone: '0123456789',
-      senderAddress: 'Ha Noi',
-      receiverName: 'Jaime',
-      receiverPhone: '9876543210',
-      receiverAddress: 'Khum bic',
-      from: 'abx',
-      to: 'xyz',
-      cost: 45,
-    },
-    {
-      id: 4,
-      senderName: 'Duy Nong',
-      senderPhone: '0123456789',
-      senderAddress: 'Thai Nguyn',
-      receiverName: 'Arya',
-      receiverPhone: '9876543210',
-      receiverAddress: 'Khum bic',
-      from: 'abx',
-      to: 'xyz',
-      cost: 16,
-    },
-    {
-      id: 5,
-      senderName: 'Hai Nam',
-      senderPhone: '0123456789',
-      senderAddress: 'Thanh Hoa',
-      receiverName: 'Daenerys',
-      receiverPhone: '9876543210',
-      receiverAddress: 'Khum bic',
-      from: 'abx',
-      to: 'xyz',
-      cost: null,
-    },
-  ];
+  // const invoiceDetail = [
+  //   {
+  //     id: 1,
+  //     senderName: 'Nhut Le',
+  //     senderPhone: '0123456789',
+  //     senderAddress: 'Ha Noi',
+  //     receiverName: 'Jon',
+  //     receiverPhone: '9876543210',
+  //     receiverAddress: 'Khum bic',
+  //     from: 'abx',
+  //     to: 'xyz',
+  //     cost: 35,
+  //   },
+  //   {
+  //     id: 2,
+  //     senderName: 'Duy Khanh',
+  //     senderPhone: '0123456789',
+  //     senderAddress: 'Hai Phong',
+  //     receiverName: 'Cersei',
+  //     receiverPhone: '9876543210',
+  //     receiverAddress: 'Khum bic',
+  //     from: 'abx',
+  //     to: 'xyz',
+  //     cost: 42,
+  //   },
+  //   {
+  //     id: 3,
+  //     senderName: 'Phuc Khang',
+  //     senderPhone: '0123456789',
+  //     senderAddress: 'Ha Noi',
+  //     receiverName: 'Jaime',
+  //     receiverPhone: '9876543210',
+  //     receiverAddress: 'Khum bic',
+  //     from: 'abx',
+  //     to: 'xyz',
+  //     cost: 45,
+  //   },
+  //   {
+  //     id: 4,
+  //     senderName: 'Duy Nong',
+  //     senderPhone: '0123456789',
+  //     senderAddress: 'Thai Nguyn',
+  //     receiverName: 'Arya',
+  //     receiverPhone: '9876543210',
+  //     receiverAddress: 'Khum bic',
+  //     from: 'abx',
+  //     to: 'xyz',
+  //     cost: 16,
+  //   },
+  //   {
+  //     id: 5,
+  //     senderName: 'Hai Nam',
+  //     senderPhone: '0123456789',
+  //     senderAddress: 'Thanh Hoa',
+  //     receiverName: 'Daenerys',
+  //     receiverPhone: '9876543210',
+  //     receiverAddress: 'Khum bic',
+  //     from: 'abx',
+  //     to: 'xyz',
+  //     cost: null,
+  //   },
+  // ];
 
   const handleDetailsClick = (packageData) => {
+    console.log(packageData);
     setShowDetails(true);
     setSelectedPackage(packageData);
+    try {
+      console.log('Call get detail');
+      axios
+        .get(`http://localhost:1510/getPackageDetail`, {
+          params: {
+            package_id: packageData.parcel_package_id,
+          },
+        })
+        .then(function (response) {
+          // console.log(response.data.data);
+          setInvoiceDetail(response.data.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } catch (err) {}
   };
   const handleAcceptedClick = () => {
     // axios
@@ -141,8 +158,8 @@ const TransactionDataCard = () => {
               <TableCell>Receiver Name</TableCell>
               <TableCell>Receiver Phone</TableCell>
               <TableCell>Receiver Address</TableCell>
-              <TableCell>From</TableCell>
-              <TableCell>To</TableCell>
+              {/* <TableCell>From</TableCell> */}
+              {/* <TableCell>To</TableCell> */}
               <TableCell>Cost</TableCell>
               <TableCell>Xác nhận</TableCell>
             </TableRow>
@@ -150,16 +167,16 @@ const TransactionDataCard = () => {
           <TableBody>
             {orders.map((order) => (
               <TableRow key={order.id}>
-                <TableCell>{order.id}</TableCell>
-                <TableCell>{order.senderName}</TableCell>
-                <TableCell>{order.senderPhone}</TableCell>
-                <TableCell>{order.senderAddress}</TableCell>
-                <TableCell>{order.receiverName}</TableCell>
-                <TableCell>{order.receiverPhone}</TableCell>
-                <TableCell>{order.receiverAddress}</TableCell>
-                <TableCell>{order.from}</TableCell>
-                <TableCell>{order.to}</TableCell>
-                <TableCell>{order.cost}</TableCell>
+                <TableCell>{order.parcel_id}</TableCell>
+                <TableCell>{order.sender_name}</TableCell>
+                <TableCell>{order.sender_phone}</TableCell>
+                <TableCell>{order.sender_address}</TableCell>
+                <TableCell>{order.receiver_name}</TableCell>
+                <TableCell>{order.receiver_phone}</TableCell>
+                <TableCell>{order.receiver_address}</TableCell>
+                {/* <TableCell>{order.from}</TableCell> */}
+                {/* <TableCell>{order.to}</TableCell> */}
+                <TableCell>{order.cod_amount}</TableCell>
                 <TableCell>
                   <Button variant="contained" onClick={() => handleAcceptedClick()}>
                     Chấp nhận

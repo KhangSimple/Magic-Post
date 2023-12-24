@@ -19,6 +19,7 @@ import { ProtectedRoute } from './ProtectedRoute';
 //collection
 import ParcelCollectionInStock from '~/components/Page/Collection/ParcelCollectionsInStock/ParcelCollectionsInStock';
 import ParcelCollectionWaitAccept from '~/components/Page/Collection/ParcelCollectionWaitAccept/ParcelCollectionWaitAccept';
+import ParcelCollectionHistory from '~/components/Page/Collection/ParcelCollectionHistory/ParcelCollectionHistory';
 import ParcelCollectionStatistics from '~/components/Page/Collection';
 
 // const publicRoutes = [
@@ -92,6 +93,10 @@ const Routes = () => {
     {
       path: '/collection/employee/parcel-wait-accept',
       element: <ParcelCollectionWaitAccept />,
+    },
+    {
+      path: '/collection/employee/parcel-history',
+      element: <ParcelCollectionHistory />,
     },
   ];
 

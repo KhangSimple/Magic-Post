@@ -120,7 +120,7 @@ const ParcelCollectionInStock = () => {
 
         {/* Hiển thị model các đơn được chọn  */}
 
-        <Dialog className={cx(styles.dialog)} open={open} onClose={handleClose} maxWidth="md" fullWidth>
+        <Dialog className={cx(styles.dialog)} open={open} onClose={handleClose} maxWidth="lg" fullWidth>
           <DialogTitle>
             <div className={cx(styles.title)}>Create Invoice</div>
           </DialogTitle>

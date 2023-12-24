@@ -52,7 +52,7 @@ const navConfig = [
   },
   {
     title: 'Lịch sử đơn hàng',
-    path: '/collection/employee/parcel-wait-accept-',
+    path: '/collection/employee/parcel-history',
     icon: icon('ic_analytics'),
   },
 ];

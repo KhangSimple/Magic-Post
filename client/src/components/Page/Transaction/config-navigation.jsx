@@ -36,29 +36,28 @@ const navConfig = [
   //   icon: icon('ic_disabled'),
   // },
   {
+    title: 'Thống kê đơn hàng',
+    path: '/transaction/employee/',
+    icon: icon('ic_user'),
+  },
+  {
+    title: 'Tạo đơn hàng',
+    path: '/transaction/employee/create-invoice',
+    icon: icon('ic_user'),
+  },
+  {
+    title: 'Chờ gửi',
+    path: '/transaction/employee/parcel-in-stock',
+    icon: icon('ic_user'),
+  },
+  {
     title: 'Chờ xác nhận',
-    path: '/products',
-    icon: icon('ic_cart'),
+    path: '/transaction/employee/parcel-wait-accept',
+    icon: icon('ic_analytics'),
   },
   {
-    title: 'Trong kho',
-    path: '/products',
-    icon: icon('ic_cart'),
-  },
-  {
-    title: 'Đang vận chuyển',
-    path: '/products',
-    icon: icon('ic_cart'),
-  },
-  {
-    title: 'Thành công',
-    path: '/products',
-    icon: icon('ic_cart'),
-  },
-
-  {
-    title: 'Thống kê',
-    path: '/',
+    title: 'Lịch sử đơn hàng',
+    path: '/transaction/employee/parcel-history',
     icon: icon('ic_analytics'),
   },
 ];

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import classNames from 'classnames/bind';
-import styles from './ParcelCollectionWaitAccept.module.scss';
+import styles from './ParcelCollectionHistory.module.scss';
 import Container from '@mui/material/Container';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -13,6 +13,7 @@ import navConfig from '../config-navigation';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import Label from 'src/components/label';
 
 const cx = classNames.bind(styles);
 
@@ -20,12 +21,18 @@ const ParcelCollectionHistory = () => {
   const [open, setOpen] = React.useState(false);
   const [selectedRows, setSelectedRows] = React.useState([]);
   const packages = [
-    { id: 1, type: 'Điểm tập kết', name: 'ThaiNguyen - DiemTapKet', sendDate: '30/12/2023 3h50p' },
-    { id: 2, type: 'Điểm dao dịch', name: 'HaNoi - DiemDaoDich', sendDate: '29/12/2023 3h25p' },
-    { id: 3, type: 'Điểm tập kết', name: 'ThanhHoa - DiemTapKet', sendDate: '2/8/2023 14h43p' },
-    { id: 4, type: 'Điểm tập kết', name: 'LangSon - DiemTapKet', sendDate: '3/5/2023 8h25p' },
-    { id: 5, type: 'Điểm dao dịch', name: 'HaiPhong - DiemDaoDich', sendDate: '2/2/2023 13h5p' },
-    { id: 6, type: 'Điểm dao dịch', name: 'HaNoi - DiemDaoDich', sendDate: '20/1/2023 3h35p' },
+    { id: 1, type: 'Điểm tập kết', name: 'ThaiNguyen - DiemTapKet', status: 'Đang gửi', sendDate: '30/12/2023 3h50p' },
+    { id: 2, type: 'Điểm dao dịch', name: 'HaNoi - DiemDaoDich', status: 'Đang gửi', sendDate: '29/12/2023 3h25p' },
+    {
+      id: 3,
+      type: 'Điểm tập kết',
+      name: 'ThanhHoa - DiemTapKet',
+      status: 'Gửi thành công',
+      sendDate: '2/8/2023 14h43p',
+    },
+    { id: 4, type: 'Điểm tập kết', name: 'LangSon - DiemTapKet', status: 'Đang gửi', sendDate: '3/5/2023 8h25p' },
+    { id: 5, type: 'Điểm dao dịch', name: 'HaiPhong - DiemDaoDich', status: 'Đang gửi', sendDate: '2/2/2023 13h5p' },
+    { id: 6, type: 'Điểm dao dịch', name: 'HaNoi - DiemDaoDich', status: 'Đang gửi', sendDate: '20/1/2023 3h35p' },
   ];
   const invoiceDetail = [
     {
@@ -79,6 +86,7 @@ const ParcelCollectionHistory = () => {
       cost: null,
     },
   ];
+
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
     { field: 'senderName', headerName: 'Sender Name', width: 150 },
@@ -98,8 +106,6 @@ const ParcelCollectionHistory = () => {
     receiverName: detail.receiverName,
     receiverPhone: detail.receiverPhone,
     receiverAddress: detail.receiverAddress,
-    from: detail.from,
-    to: detail.to,
     cost: detail.cost,
   }));
 
@@ -114,6 +120,7 @@ const ParcelCollectionHistory = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
   return (
     <DashboardLayout navConfig={navConfig}>
       <Container>
@@ -128,6 +135,7 @@ const ParcelCollectionHistory = () => {
                 <TableCell>Loại</TableCell>
                 <TableCell>Tên</TableCell>
                 <TableCell>Ngày tháng gửi</TableCell>
+                <TableCell>Status</TableCell>
                 <TableCell>Xem chi tiết</TableCell>
               </TableRow>
             </TableHead>
@@ -138,6 +146,11 @@ const ParcelCollectionHistory = () => {
                   <TableCell>{packageData.type}</TableCell>
                   <TableCell>{packageData.name}</TableCell>
                   <TableCell>{packageData.sendDate}</TableCell>
+                  <TableCell>
+                    <Label color={(packageData.status === 'Gửi thành công' && 'success') || 'primary'}>
+                      {packageData.status}
+                    </Label>
+                  </TableCell>
                   <TableCell>
                     <Button variant="contained" onClick={() => handleDetailsClick(packageData)}>
                       Xem chi tiết
@@ -163,9 +176,6 @@ const ParcelCollectionHistory = () => {
           <DialogActions>
             <Button className={cx(styles.buttonModel)} onClick={handleClose} color="primary">
               Hủy
-            </Button>
-            <Button className={cx(styles.buttonModel)} onClick={handleAcceptedClick} color="primary">
-              Xác nhận
             </Button>
           </DialogActions>
         </Dialog>

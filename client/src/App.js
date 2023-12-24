@@ -2,6 +2,8 @@ import logo from './logo.svg';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import AuthProvider from './provider/authProvider';
+import ThemeProvider from 'src/theme';
+
 import Routes from './routes';
 
 function App() {
@@ -31,7 +33,9 @@ function App() {
   return (
     <div className="App">
       <AuthProvider>
-        <Routes />
+        <ThemeProvider>
+          <Routes />
+        </ThemeProvider>
       </AuthProvider>
     </div>
   );

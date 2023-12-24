@@ -8,6 +8,10 @@ import TransactionEmployee from '~/components/Page/TransactionEmployee';
 import HomePage from '~/components/Page/Home';
 import EmployeePage from '~/components/Page/EmployeePage';
 import ParcelTracking from '~/components/Page/ParcelTracking';
+import TransactionManager from '~/components/Page/TransactionManager';
+import Statistics from '~/components/Page/TransactionManager/Statistics/Statistics';
+//test
+import CreateUser from '~/components/Page/TransactionManager/CreateUser/CreateUser';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useAuth } from '../provider/authProvider';
 import { ProtectedRoute } from './ProtectedRoute';
@@ -28,6 +32,10 @@ const Routes = () => {
 
   // Define public routes accessible to all users
   const routesForPublic = [
+    {
+      path: '/',
+      element: <HomePage />,
+    },
     {
       path: '/user/login',
       element: <CustomerLogin />,
@@ -55,6 +63,22 @@ const Routes = () => {
     {
       path: '/employee',
       element: <EmployeePage />,
+    },
+    {
+      path: '/transaction-manager',
+      element: <TransactionManager />,
+    },
+    {
+      path: '/transaction-manager/statistics',
+      element: <Statistics />,
+    },
+    {
+      path: '/transaction-manager/create-user',
+      element: <CreateUser />,
+    },
+    {
+      path: '/transaction-employee',
+      element: <TransactionEmployee />,
     },
   ];
 

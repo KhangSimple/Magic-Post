@@ -8,6 +8,8 @@ import Input from '~/components/Input';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
+import Grid from '@mui/material/Unstable_Grid2';
+
 
 import { Container, Divider } from '@mui/material';
 import AddMoreProduct from './AddMoreProduct/AddMoreProduct';
@@ -18,6 +20,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import DashboardLayout from 'src/layouts/dashboard';
 import navConfig from '../config-navigation';
+import AppWidgetSummary from '~/components/Page/Transaction/Statistics/components/WidgetSummary';
 
 const defaultPackageInfo = {
   sumOfCOD: '',
@@ -61,7 +64,7 @@ const CreateInvoice = () => {
 
     setPackageProductInfo({
       ...packageProductInfo, weight: productList.reduce((accumulator, currentValue, currentIndex, array) => {
-        console.log(parseInt(currentValue.weight) * parseInt(currentValue.quantity))
+        console.log(parseInt(currentValue.weight) * parseInt(currentValue.quantity));
         let newWeight = parseInt(currentValue.weight) * parseInt(currentValue.quantity);
         return accumulator + newWeight;
       }, 0),
@@ -104,12 +107,13 @@ const CreateInvoice = () => {
             style={{
               // width: '50%',
               // margin: 'auto',
-              padding: '0.875rem',
+              padding: '2rem',
             }}
           >
             <InfoTitle>Bên gửi</InfoTitle>
-            <div className={cx(styles.row)}>
-              <Box className={cx(styles.left)}>
+            <Grid container columnSpacing={10}>
+              <Grid xs={12} sm={6} md={6}>
+
                 <label>Số điện thoại</label>
                 <Input
                   placeHolder={'Nhập số điện thoại'}
@@ -126,8 +130,8 @@ const CreateInvoice = () => {
                     setSenderInfo({ ...senderInfo, name: value });
                   }}
                 ></Input>
-              </Box>
-              <Box className={cx(styles.right)}>
+              </Grid>
+              <Grid xs={12} sm={6} md={6}>
                 <label>Tỉnh - thành phố </label>
                 <Input
                   select
@@ -155,12 +159,13 @@ const CreateInvoice = () => {
                     setSenderInfo({ ...senderInfo, ward: value });
                   }}
                 ></Input>
-              </Box>
-            </div>
+              </Grid>
+            </Grid>
             <Divider />
+
             <InfoTitle>Bên nhận</InfoTitle>
-            <div className={cx(styles.row)}>
-              <Box className={cx(styles.left)}>
+            <Grid container columnSpacing={10}>
+              <Grid xs={12} sm={6} md={6}>
                 <label>Số điện thoại</label>
                 <Input
                   placeHolder={'Nhập số điện thoại'}
@@ -177,8 +182,9 @@ const CreateInvoice = () => {
                     setReceiverInfo({ ...receiverInfo, name: value });
                   }}
                 ></Input>
-              </Box>
-              <Box className={cx(styles.right)}>
+
+              </Grid>
+              <Grid xs={12} sm={6} md={6}>
                 <label>Tỉnh - thành phố</label>
                 <Input
                   select
@@ -206,8 +212,8 @@ const CreateInvoice = () => {
                     setReceiverInfo({ ...receiverInfo, ward: value });
                   }}
                 ></Input>
-              </Box>
-            </div>
+              </Grid>
+            </Grid>
             <Divider />
             <InfoTitle>Sản phẩm</InfoTitle>
             <>
@@ -232,8 +238,8 @@ const CreateInvoice = () => {
             {/*{console.log(packageProductInfo)}*/}
             <Divider />
             <InfoTitle>Lưu ý - Ghi chú</InfoTitle>
-            <div className={cx(styles.row)}>
-              <Box className={cx(styles.left)}>
+            <Grid container spacing={3}>
+              <Grid xs={12} sm={6} md={6}><Box>
                 <label>Lưu ý giao hàng</label>
                 <Input
                   select
@@ -243,8 +249,8 @@ const CreateInvoice = () => {
                   }}
                   value={note.requiredNote}
                 ></Input>
-              </Box>
-              <Box className={cx(styles.right)}>
+              </Box></Grid>
+              <Grid xs={12} sm={6} md={6}><Box>
                 <label>Ghi chú </label>
                 <MinHeightTextarea
                   value={note.note}
@@ -252,8 +258,8 @@ const CreateInvoice = () => {
                     setNote({ ...note, note: value.target.value });
                   }}
                 />
-              </Box>
-            </div>
+              </Box></Grid>
+            </Grid>
           </div>
         </Card>
       </Container>

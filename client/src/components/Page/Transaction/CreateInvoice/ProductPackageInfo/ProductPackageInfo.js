@@ -3,6 +3,7 @@ import styles from './ProductPackageInfo.module.scss';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Input from '~/components/Input';
+import Grid from '@mui/material/Unstable_Grid2';
 import { useState } from 'react';
 
 const cx = classNames.bind(styles);
@@ -13,18 +14,17 @@ const ProductPackageInfo = ({ productList, setPackageProductInfo, packageProduct
   }, 0);
   return (
     <div className={cx(styles.wrapper)}>
-      <div className={cx(styles.row)}>
-        <div className={cx(styles.blockCenter)}>
-          <label className={cx(styles.label)}>KL (gam)&emsp;</label>
+      <Grid container rowSpacing={3}>
+        <Grid item xs={12} sm={6} md={6}>
+          <label>KL(gam)&emsp;</label>
           <TextField
             id='standard-basic'
             variant='standard'
             value={packageProductInfo.weight}
             disabled
           />
-        </div>
-        <div className={cx(styles.blockCenter)}>
-          <label className={cx(styles.label)}>Dài&emsp;</label>
+        </Grid>
+        <Grid item xs={12} sm={6} md={6}><label>Dài&emsp;</label>
           <TextField
             id='standard-basic'
             variant='standard'
@@ -32,10 +32,8 @@ const ProductPackageInfo = ({ productList, setPackageProductInfo, packageProduct
             onChange={(value) => {
               setPackageProductInfo({ ...packageProductInfo, length: value.target.value });
             }}
-          />
-        </div>
-        <div className={cx(styles.blockCenter)}>
-          <label className={cx(styles.label)}>Rộng&emsp;</label>
+          /></Grid>
+        <Grid item xs={12} sm={6} md={6}><label>Rộng&emsp;</label>
           <TextField
             id='standard-basic'
             variant='standard'
@@ -44,10 +42,9 @@ const ProductPackageInfo = ({ productList, setPackageProductInfo, packageProduct
               setPackageProductInfo({ ...packageProductInfo, width: value.target.value });
             }}
 
-          />
-        </div>
-        <div className={cx(styles.blockCenter)}>
-          <label className={cx(styles.label)}>Cao&emsp;</label>
+          /></Grid>
+        <Grid item xs={12} sm={6} md={6}>
+          <label>Cao&emsp;</label>
           <TextField
             id='standard-basic'
             variant='standard'
@@ -56,13 +53,10 @@ const ProductPackageInfo = ({ productList, setPackageProductInfo, packageProduct
               setPackageProductInfo({ ...packageProductInfo, height: value.target.value });
             }}
           />
-        </div>
-      </div>
-      <div className={cx(styles.row)}>
-        <p>Khối lượng quy đổi: 40g</p>
-      </div>
-      <div className={cx(styles.row)}>
-        <Box className={cx(styles.left)}>
+        </Grid>
+      </Grid>
+      <Grid container columnSpacing={3} sx={{marginTop: '1rem'}}>
+        <Grid xs={12} sm={6} md={6}><Box>
           <label>Tổng tiền thu hộ COD</label>
           <Input
             value={packageProductInfo.sumOfCOD}
@@ -70,8 +64,8 @@ const ProductPackageInfo = ({ productList, setPackageProductInfo, packageProduct
               setPackageProductInfo({ ...packageProductInfo, sumOfCOD: value });
             }}
           ></Input>
-        </Box>
-        <Box className={cx(styles.right)}>
+        </Box></Grid>
+        <Grid xs={12} sm={6} md={6}><Box>
           <label>Tổng giá trị hàng hoá</label>
           <Input
             value={packageProductInfo.totalPackageValue}
@@ -79,8 +73,8 @@ const ProductPackageInfo = ({ productList, setPackageProductInfo, packageProduct
               setPackageProductInfo({ ...packageProductInfo, totalPackageValue: value });
             }}
           ></Input>
-        </Box>
-      </div>
+        </Box></Grid>
+      </Grid>
     </div>
   );
 };

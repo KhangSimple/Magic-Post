@@ -45,11 +45,11 @@ export default function AppConversionRates({ title, subheader, chart, ...other }
 
       <Box sx={{ mx: 3 }}>
         <Chart
-          dir="ltr"
-          type="bar"
+          dir='ltr'
+          type='bar'
           series={[{ data: chartSeries }]}
           options={chartOptions}
-          width="100%"
+          width='100%'
           height={364}
         />
       </Box>

@@ -357,7 +357,7 @@ let getArrivalParcelPackage = async (req, res) => {
   try {
     const id = req.body.id || req.query.id || req.params.id || '';
     const [rows, field] = await pool.execute(
-      'select * from parcel_package where status = "Chờ xác nhận" and receiver_id = ? ',
+      'select * from parcel_package where status = "Chờ xác nhận" and receiver_id = ? and package_kind = "in" ',
       [id],
     );
     console.log(rows);
@@ -383,8 +383,9 @@ let getArrivalParcelPackage = async (req, res) => {
 };
 let getPackageDetail = async (req, res) => {
   try {
+    const package_id = req.body.package_id || req.query.package_id || '';
     let [rows, field] = await pool.execute(
-      'select * from parcels as p join parcel_package as pk on p.id = pk.parcel_id where pk.parcel_package_id = ?',
+      'select * from parcels as p join transaction_stock as ts on p.id = ts.parcel_id where ts.parcel_package_id = ?',
       [package_id],
     );
     return res.status(200).json({ data: rows });

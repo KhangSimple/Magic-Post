@@ -394,6 +394,10 @@ let getPackageDetail = async (req, res) => {
   }
 };
 
+let sendPackage = async (req, res) => {
+  return res.status(200);
+};
+
 export default {
   createStaffTransAccount,
   createStaffCollAccount,
@@ -409,4 +413,5 @@ export default {
   addCollection,
   getArrivalParcelPackage,
   getPackageDetail,
+  sendPackage,
 };

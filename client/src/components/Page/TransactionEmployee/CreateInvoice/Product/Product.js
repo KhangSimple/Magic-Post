@@ -28,12 +28,6 @@ const Product = ({ handleDeleteProduct, handleUpdateProductInfo, initValue, inde
             }}
             // onChange=
             variant="standard"
-            inputProps={{
-              style: {
-                height: '30px',
-                fontSize: '17px',
-              },
-            }}
           />
           <TextField
             className={cx(styles.right)}
@@ -47,12 +41,6 @@ const Product = ({ handleDeleteProduct, handleUpdateProductInfo, initValue, inde
                 code: value.target.value,
               });
               handleUpdateProductInfo(index, { code: value.target.value });
-            }}
-            inputProps={{
-              style: {
-                height: '30px',
-                fontSize: '17px',
-              },
             }}
           />
         </div>
@@ -71,12 +59,6 @@ const Product = ({ handleDeleteProduct, handleUpdateProductInfo, initValue, inde
                 });
                 handleUpdateProductInfo(index, { weight: value.target.value });
               }}
-              inputProps={{
-                style: {
-                  height: '30px',
-                  fontSize: '17px',
-                },
-              }}
             />
           </div>
           <div className={cx(styles.right)}>
@@ -93,12 +75,6 @@ const Product = ({ handleDeleteProduct, handleUpdateProductInfo, initValue, inde
                 handleUpdateProductInfo(index, { quantity: value.target.value });
               }}
               variant="standard"
-              inputProps={{
-                style: {
-                  height: '30px',
-                  fontSize: '17px',
-                },
-              }}
             />
           </div>
         </div>

@@ -45,7 +45,6 @@ const ParcelStatus = () => {
         isShowPostPosition
       ></TimeLine>
       <TimeLine
-        isActive
         details={'21/12/2020 08:31:39: Nhận tại Bưu cục Dịch Vọng Hậu ABC'}
         status={'Vận chuyển'}
       ></TimeLine> */}

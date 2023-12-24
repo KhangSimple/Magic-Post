@@ -1,3 +1,10 @@
+.serviceContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
 .u1 {
   list-style: none;
   padding: 0;
@@ -8,7 +15,8 @@
 .traCuu,
 .dichVu {
   font-family: 'sf-ui-medium';
-  font-size: 24px;
+  font-size: 26px;
+  font-weight: 600;
   padding: 20px 100px 20px 100px;
   //   border: 1px solid #ccc;
   transition: 0.5s;
@@ -25,12 +33,11 @@
 }
 
 .box {
-  margin-top: 20px;
+  margin: 20px;
   width: 1200px;
-  height: 800px;
+  height: 900px;
   border-radius: 5px;
-  margin-bottom: 20px;
-  margin-left: 20vw;
+
   padding-top: 0;
   padding-left: 20px;
   padding-right: 20px;
@@ -60,13 +67,17 @@
   margin-left: 0px;
   flex-grow: 1;
   text-align: center;
-  padding: 20px;
+  padding: 10px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
-  background-color: rgb(245, 235, 235);
+  background-color: rgb(223, 208, 208);
+  font-weight: 500;
+  font-family: 'sf-ui-medium';
+  font-size: 18px;
   &.active {
     color: #4cb9f8;
+    background-color: rgb(247, 241, 241);
   }
   &:hover {
     cursor: pointer;
@@ -80,5 +91,188 @@
 
   .content.active {
     display: block;
+  }
+}
+.quangCao1 {
+  font-family: 'Roboto', sans-serif;
+
+  .title {
+    text-align: center;
+    font-size: 36px;
+  }
+  .greyBg {
+    background-color: #f0f0f0;
+    padding: 20px;
+  }
+  .row {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+  }
+
+  li {
+    border-right: 1px solid #fff;
+    padding: 15px;
+    flex: 1;
+    text-align: center;
+  }
+
+  li strong {
+    display: block;
+    margin-bottom: 5px;
+  }
+  li:last-child {
+    border-right: none;
+  }
+}
+.quangCao2 {
+  height: 20%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+  h4 {
+    color: rgba(68, 73, 77, 1);
+    font-size: 31px;
+    line-height: 40px;
+    font-family: 'sf-ui-bold';
+    width: 50%;
+    margin: 5px auto;
+  }
+  img {
+    vertical-align: middle;
+    border-style: none;
+    max-width: 100%;
+    height: auto;
+  }
+  .s1 {
+    background-color: #dfdbdb;
+    font-family: 'pfb', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    width: 30%;
+    text-align: center;
+  }
+  .s2 {
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    width: 70%;
+    display: flex;
+    background-color: #1ca4f3;
+  }
+  h5 {
+    font-size: 36px;
+    line-height: 45px;
+    font-family: 'sf-ui-bold';
+    color: #fff;
+  }
+  p {
+    font-size: 16px;
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    color: #fff;
+  }
+  .cout {
+    padding: 20px;
+    margin-left: 15%;
+    margin-top: 2%;
+    display: flex;
+  }
+}
+
+.subTabContentBox {
+  margin-top: 20px;
+  z-index: 1001;
+}
+.searchBuuCuc {
+  display: block;
+  .sellectProvince {
+    z-index: 1002;
+    background: #f8f8f8;
+    padding: 20px;
+    float: left;
+    width: 30%;
+    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 30px;
+  }
+}
+.rowContainer {
+  display: flex;
+}
+.sellectProvinceButton {
+  margin-right: 20px;
+  margin-top: 20px;
+  font-size: 16px;
+  width: 300px;
+}
+.ggMap {
+  margin-left: 150px;
+}
+// .sellectProvince {
+//   margin-top: 100px;
+// }
+.tinTucSuKien {
+  font-family: Montserrat, sans-serif;
+  margin-top: 20px;
+  margin-bottom: 80px;
+  .sTitle {
+    margin: 30px 10px 30px 50px;
+    font-size: 30px;
+  }
+  .row {
+    display: flex;
+    margin-right: -15px;
+    margin-left: 50px;
+    div {
+      display: block;
+    }
+    .colLeft {
+      width: 50%;
+      .ngayDang {
+        margin-top: 20px;
+      }
+    }
+  }
+  .image1 {
+    margin: 10px;
+    width: 700px;
+    height: 420px;
+  }
+  .colLeft {
+    float: left;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
+    .blogTitle {
+      margin-bottom: 20px;
+    }
+  }
+  .colRight {
+    .anhMinhHoa {
+      width: 147px;
+      height: 88px;
+      margin-top: 20px;
+    }
+    .blogItem {
+      display: flex;
+      box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
+    }
+    .blogDetail {
+      margin: 20px 50px 40px 20px;
+    }
   }
 }

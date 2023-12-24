@@ -22,7 +22,7 @@ const AuthProvider = ({ children }) => {
         })
         .then(function (response) {
           status = response.data.status;
-          if (status == 'success') {
+          if (status === 'success') {
             console.log('Okeee');
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
             localStorage.setItem('token', token);

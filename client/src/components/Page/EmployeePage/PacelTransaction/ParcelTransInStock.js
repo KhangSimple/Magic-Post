@@ -127,19 +127,41 @@ const TransactionDataCard = () => {
         });
     } catch (err) {}
   };
+  const confirmParcel = (parcel_id) => {
+    axios
+      .post(`http://localhost:1510/confirmParcel`, {
+        data: {
+          kind_point: 'transaction',
+          parcel_id: parcel_id,
+          cur_pos: 3,
+          sender_zip_code: 'cba',
+          trans_id: '54321',
+        },
+      })
+      .then(function (response) {
+        let parcel_ids = response.data;
+        console.log(parcel_ids);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
   const handleAcceptedClick = () => {
-    // axios
-    //   .get(`http://localhost:1510/getTransactionList`, {
-    //     params: {
-    //       id: data.zip_code,
-    //     },
-    //   })
-    //   .then(function (response) {
-    //     console.log(response.data);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
+    axios
+      .post(`http://localhost:1510/confirmPackage`, {
+        data: {
+          package_id: 'a',
+        },
+      })
+      .then(function (response) {
+        let parcel_ids = response.data.parcel_ids;
+        parcel_ids.map((row) => {
+          confirmParcel(row.parcel_id);
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
   const handleBackClick = () => {
     setShowDetails(false);

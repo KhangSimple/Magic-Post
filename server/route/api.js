@@ -19,6 +19,7 @@ const initAPIRoute = (app) => {
   router.get('/getArrivalParcelPackage', apiController.getArrivalParcelPackage);
   router.get('/getPackageDetail', apiController.getPackageDetail);
   router.post('/sendPackage', apiController.sendPackage);
+  router.post('/confirmPackage', apiController.confirmPackage);
   return app.use('/', router);
 };
 

@@ -4,83 +4,56 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Input from '~/components/Input';
 import { useState } from 'react';
+
 const cx = classNames.bind(styles);
 const ProductPackageInfo = ({ productList, setPackageProductInfo, packageProductInfo }) => {
   packageProductInfo.weight = productList.reduce((accumulator, currentValue, currentIndex, array) => {
-    return accumulator + parseInt(currentValue['weight']);
+    let newWeight = parseInt(currentValue.weight) * parseInt(currentValue.quantity);
+    return accumulator + newWeight;
   }, 0);
-
   return (
     <div className={cx(styles.wrapper)}>
       <div className={cx(styles.row)}>
         <div className={cx(styles.blockCenter)}>
           <label className={cx(styles.label)}>KL (gam)&emsp;</label>
           <TextField
-            id="standard-basic"
-            variant="standard"
+            id='standard-basic'
+            variant='standard'
             value={packageProductInfo.weight}
-            onChange={(value) => {
-              setPackageProductInfo({ ...packageProductInfo, weight: value.target.value });
-              setPackageProductInfo({ ...packageProductInfo, weight: value.target.value });
-            }}
             disabled
-            inputProps={{
-              style: {
-                height: '20px',
-                fontSize: '17px',
-              },
-            }}
           />
         </div>
         <div className={cx(styles.blockCenter)}>
           <label className={cx(styles.label)}>Dài&emsp;</label>
           <TextField
-            id="standard-basic"
-            variant="standard"
+            id='standard-basic'
+            variant='standard'
             value={packageProductInfo.length}
             onChange={(value) => {
               setPackageProductInfo({ ...packageProductInfo, length: value.target.value });
-              setPackageProductInfo({ ...packageProductInfo, length: value.target.value });
-            }}
-            inputProps={{
-              style: {
-                height: '20px',
-                fontSize: '17px',
-              },
             }}
           />
         </div>
         <div className={cx(styles.blockCenter)}>
           <label className={cx(styles.label)}>Rộng&emsp;</label>
           <TextField
-            id="standard-basic"
-            variant="standard"
+            id='standard-basic'
+            variant='standard'
             value={packageProductInfo.width}
             onChange={(value) => {
               setPackageProductInfo({ ...packageProductInfo, width: value.target.value });
             }}
-            inputProps={{
-              style: {
-                height: '20px',
-                fontSize: '17px',
-              },
-            }}
+
           />
         </div>
         <div className={cx(styles.blockCenter)}>
           <label className={cx(styles.label)}>Cao&emsp;</label>
           <TextField
-            id="standard-basic"
-            variant="standard"
+            id='standard-basic'
+            variant='standard'
             value={packageProductInfo.height}
             onChange={(value) => {
               setPackageProductInfo({ ...packageProductInfo, height: value.target.value });
-            }}
-            inputProps={{
-              style: {
-                height: '20px',
-                fontSize: '17px',
-              },
             }}
           />
         </div>
@@ -108,7 +81,6 @@ const ProductPackageInfo = ({ productList, setPackageProductInfo, packageProduct
           ></Input>
         </Box>
       </div>
-      {console.log(packageProductInfo)}
     </div>
   );
 };

@@ -37,7 +37,9 @@
     "simplebar-react": "^3.2.4",
     "slick-carousel": "^1.8.1",
     "uuid": "^9.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "@react-buddy/ide-toolbox": "^2.4.0",
+    "@react-buddy/palette-mui": "^5.0.1"
   },
   "scripts": {
     "start": "react-app-rewired start",

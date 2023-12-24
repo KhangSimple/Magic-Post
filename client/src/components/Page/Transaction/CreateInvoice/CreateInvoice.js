@@ -38,12 +38,13 @@ const requiredNoteState = {
 };
 
 const cx = classNames.bind(styles);
-const defaultProduct = { name: '', code: '', weight: '200', quantity: '0' };
+const defaultProduct = { name: '', code: '', weight: '200', quantity: '1' };
 
 const CreateInvoice = () => {
   function handleAddMoreProduct() {
     setProductList([...productList, { ...defaultProduct, uuid: uuidv4() }]);
   }
+
   function handleDeleteProduct(index) {
     // console.log(productList[index]);
     var productListClone = [];
@@ -53,10 +54,18 @@ const CreateInvoice = () => {
     // console.log(productListClone);
     setProductList(productListClone);
   }
+
   function handleUpdateProductInfo(index, updateInfo) {
     productList[index] = { ...productList[index], ...updateInfo };
     setProductList(productList);
-    // console.log(productList);
+
+    setPackageProductInfo({
+      ...packageProductInfo, weight: productList.reduce((accumulator, currentValue, currentIndex, array) => {
+        console.log(parseInt(currentValue.weight) * parseInt(currentValue.quantity))
+        let newWeight = parseInt(currentValue.weight) * parseInt(currentValue.quantity);
+        return accumulator + newWeight;
+      }, 0),
+    });
   }
 
   const [packageProductInfo, setPackageProductInfo] = useState(defaultPackageInfo);
@@ -83,8 +92,8 @@ const CreateInvoice = () => {
   return (
     <DashboardLayout navConfig={navConfig}>
       <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4">TẠO ĐƠN HÀNG ĐIỂM GIAO DỊCH</Typography>
+        <Stack direction='row' alignItems='center' justifyContent='space-between' mb={5}>
+          <Typography variant='h4'>TẠO ĐƠN HÀNG ĐIỂM GIAO DỊCH</Typography>
 
           {/* <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
           Tạo tài khoản
@@ -220,6 +229,7 @@ const CreateInvoice = () => {
               setPackageProductInfo={setPackageProductInfo}
               packageProductInfo={packageProductInfo}
             ></ProductPackageInfo>
+            {/*{console.log(packageProductInfo)}*/}
             <Divider />
             <InfoTitle>Lưu ý - Ghi chú</InfoTitle>
             <div className={cx(styles.row)}>

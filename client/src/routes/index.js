@@ -113,10 +113,6 @@ const Routes = () => {
           path: '/logout',
           element: <Test />,
         },
-        {
-          path: '/employee',
-          element: <EmployeePage />,
-        },
       ],
     },
   ];

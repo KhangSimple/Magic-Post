@@ -26,16 +26,20 @@ const cx = classNames.bind(styles);
 const CollectionDataTable = () => {
   const [rows, setRows] = React.useState([]);
   const [open, setOpen] = React.useState(false);
-  const authInfo = React.useContext(EmployeePageContext);
+  const [checkRerender, setCheckRerender] = React.useState(false);
+  const authInfo = React.useContext(EmployeePageContext).decodeData;
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [selectedSenderAddress, setSelectedSenderAddress] = React.useState('');
   const [filteredRows, setFilteredRows] = React.useState([]);
   const [isFilterActive, setIsFilterActive] = React.useState(false);
-  React.useMemo(() => {
+  React.useEffect(() => {
+    console.log('Use Effect');
     axios
       .get(`http://localhost:1510/getTransactionList`, {
         params: {
           id: authInfo.zip_code,
+          type: 'in',
+          status: 'Chờ gửi',
         },
       })
       .then(function (response) {
@@ -44,8 +48,7 @@ const CollectionDataTable = () => {
       .catch(function (error) {
         console.log(error);
       });
-  }, []);
-
+  }, [checkRerender]);
   const handleCreateInvoiceClick = () => {
     setOpen(true);
   };

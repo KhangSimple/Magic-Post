@@ -38,7 +38,7 @@ let getEmployeePage = async (req, res) => {
       { id: info.id, role: 'trans-employee', zip_code: info.transaction_zip_code },
       process.env.TOKEN_KEY,
       {
-        expiresIn: '1h',
+        expiresIn: '3h',
       },
     );
     return res.status(200).json({ flag: 1, token: token });

@@ -58,14 +58,14 @@ let deleteStaffCollAccount = async (req, res) => {
 // Dữ liệu đầu vào là transaction id
 let getTransactionList = async (req, res) => {
   try {
-    let { id } = req.query || req.body;
+    let { id, type, status } = req.query || req.body || req.params || '';
     let [rows, field] = await pool.execute(
-      'SELECT *,ts.sender_col_zip_code,ts.status,ts.type from parcels join transaction_stock as ts on parcels.id = ts.parcel_id where ts.transaction_zip_code = ?',
-      [id],
+      'SELECT *,ts.sender_col_zip_code,ts.status,ts.type from parcels join transaction_stock as ts on parcels.id = ts.parcel_id where ts.transaction_zip_code = ? and ts.type = ? and ts.status = ?',
+      [id, type, status],
     );
     return res.json(rows);
   } catch (err) {
-    console.log(err);
+    console.log('Vllll');
   }
 };
 
@@ -352,14 +352,33 @@ let addCollection = (req, res) => {
       item.NameExtension[1],
     ]);
   });
-  // await pool.execute('insert into collection values(?,?,?,?)', [
-  //   data.ProvinceID,
-  //   data.ProvinceName,
-  //   +data.Code,
-  //   data.NameExtension[1],
-  // ]);
-  //
 };
+let getArrivalParcelPackage = async (req, res) => {
+  try {
+    const id = req.body.id || req.query.id || req.params.id || '';
+    const [tranParcel, _] = await pool.execute(
+      'select * from collection_stock as cs join transaction as t on cs.sender_transaction_zip_code = t.zip_code where cs.sender_transaction_zip_code is NOT NULL and cs.collection_zip_code = ? and type = "in" and status = "Chờ xác nhận"',
+      [id],
+    );
+    const [collParcel, __] = await pool.execute(
+      'select * from collection_stock as cs join collection as c on cs.sender_col_zip_code = c.zip_code where cs.sender_col_zip_code is NOT NULL and cs.collection_zip_code = ? and type = "in" and status = "Chờ xác nhận"',
+      [id],
+    );
+    console.log('Tran', tranParcel);
+    console.log('Coll', collParcel);
+    tranParcel.map((row) => {
+      row.pointerType = 'Điểm giao dịch';
+    });
+    collParcel.map((row) => {
+      row.pointerType = 'Điểm tập kết';
+    });
+
+    return res.status(200).json({ tranParcel: tranParcel, collParcel: collParcel });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export default {
   createStaffTransAccount,
   createStaffCollAccount,
@@ -373,4 +392,5 @@ export default {
   searchParcel,
   addTransaction,
   addCollection,
+  getArrivalParcelPackage,
 };

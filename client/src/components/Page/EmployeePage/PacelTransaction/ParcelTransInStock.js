@@ -7,37 +7,41 @@ import { yellow } from '@mui/material/colors';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { EmployeePageContext } from '..';
 import axios from 'axios';
+import { dateFormat } from '..';
 const cx = classNames.bind(styles);
 
 const TransactionDataCard = () => {
   const [showDetails, setShowDetails] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
   const data = useContext(EmployeePageContext);
-  const packages = [
-    { id: 1, type: 'Điểm tập kết', name: 'ThaiNguyen - DiemTapKet', sendDate: '30/12/2023 3h50p' },
-    { id: 2, type: 'Điểm dao dịch', name: 'HaNoi - DiemDaoDich', sendDate: '29/12/2023 3h25p' },
-    { id: 3, type: 'Điểm tập kết', name: 'ThanhHoa - DiemTapKet', sendDate: '2/8/2023 14h43p' },
-    { id: 4, type: 'Điểm tập kết', name: 'LangSon - DiemTapKet', sendDate: '3/5/2023 8h25p' },
-    { id: 5, type: 'Điểm dao dịch', name: 'HaiPhong - DiemDaoDich', sendDate: '2/2/2023 13h5p' },
-    { id: 6, type: 'Điểm dao dịch', name: 'HaNoi - DiemDaoDich', sendDate: '20/1/2023 3h35p' },
-  ];
-  const [parcelData, setParcelData] = useState([]);
-  // useEffect(() => {
-  //   try {
-  //     axios
-  //       .get(`http://localhost:1510/getTransactionList`, {
-  //         params: {
-  //           id: data.zip_code,
-  //         },
-  //       })
-  //       .then(function (response) {
-  //         setParcelData(response.data);
-  //       })
-  //       .catch(function (error) {
-  //         console.log(error);
-  //       });
-  //   } catch (err) {}
-  // }, []);
+  // const packages = [
+  //   { id: 1, type: 'Điểm tập kết', name: 'ThaiNguyen - DiemTapKet', sendDate: '30/12/2023 3h50p' },
+  //   { id: 2, type: 'Điểm dao dịch', name: 'HaNoi - DiemDaoDich', sendDate: '29/12/2023 3h25p' },
+  //   { id: 3, type: 'Điểm tập kết', name: 'ThanhHoa - DiemTapKet', sendDate: '2/8/2023 14h43p' },
+  //   { id: 4, type: 'Điểm tập kết', name: 'LangSon - DiemTapKet', sendDate: '3/5/2023 8h25p' },
+  //   { id: 5, type: 'Điểm dao dịch', name: 'HaiPhong - DiemDaoDich', sendDate: '2/2/2023 13h5p' },
+  //   { id: 6, type: 'Điểm dao dịch', name: 'HaNoi - DiemDaoDich', sendDate: '20/1/2023 3h35p' },
+  // ];
+  const [packages, setPackages] = useState([]);
+  useEffect(() => {
+    try {
+      console.log('Call');
+      axios
+        .get(`http://localhost:1510/getArrivalParcelPackage`, {
+          params: {
+            id: '201',
+          },
+        })
+        .then(function (response) {
+          console.log(response.data);
+          let data = response.data;
+          setPackages(data.tranParcel.concat(data.collParcel));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } catch (err) {}
+  }, []);
   const invoiceDetail = [
     {
       id: 1,
@@ -194,7 +198,7 @@ const TransactionDataCard = () => {
                   <TableCell>ID</TableCell>
                   <TableCell>Loại</TableCell>
                   <TableCell>Tên</TableCell>
-                  <TableCell>Ngày tháng gửi</TableCell>
+                  <TableCell>Ngày tháng nhận</TableCell>
                   <TableCell>Xem chi tiết</TableCell>
                 </TableRow>
               </TableHead>
@@ -202,9 +206,9 @@ const TransactionDataCard = () => {
                 {packages.map((packageData) => (
                   <TableRow key={packageData.id}>
                     <TableCell>{packageData.id}</TableCell>
-                    <TableCell>{packageData.type}</TableCell>
-                    <TableCell>{packageData.name}</TableCell>
-                    <TableCell>{packageData.sendDate}</TableCell>
+                    <TableCell>{packageData.pointerType}</TableCell>
+                    <TableCell>{packageData.address}</TableCell>
+                    <TableCell>{dateFormat(packageData.receive_time)}</TableCell>
                     <TableCell>
                       <Button variant="contained" onClick={() => handleDetailsClick(packageData)}>
                         Xem chi tiết

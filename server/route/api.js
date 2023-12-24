@@ -16,6 +16,7 @@ const initAPIRoute = (app) => {
   router.get('/searchParcel', apiController.searchParcel);
   router.post('/addTransaction', apiController.addTransaction);
   router.post('/addCollection', apiController.addCollection);
+  router.get('/getArrivalParcelPackage', apiController.getArrivalParcelPackage);
   return app.use('/', router);
 };
 

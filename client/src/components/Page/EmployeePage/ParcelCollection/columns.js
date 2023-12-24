@@ -1,5 +1,5 @@
 export const columns = [
-  { field: 'id', headerClassName: 'super-app-theme--header', headerName: 'ID', width: 90 },
+  { field: 'parcel_id', headerClassName: 'super-app-theme--header', headerName: 'ID', width: 90 },
   {
     field: 'sender_name',
     headerClassName: 'super-app-theme--header',

@@ -356,29 +356,33 @@ let addCollection = (req, res) => {
 let getArrivalParcelPackage = async (req, res) => {
   try {
     const id = req.body.id || req.query.id || req.params.id || '';
-    const [tranParcel, _] = await pool.execute(
-      'select * from collection_stock as cs join transaction as t on cs.sender_transaction_zip_code = t.zip_code where cs.sender_transaction_zip_code is NOT NULL and cs.collection_zip_code = ? and type = "in" and status = "Chờ xác nhận"',
+    const [rows, field] = await pool.execute(
+      'select * from parcel_package where status = "Chờ xác nhận" and receiver_id = ? ',
       [id],
     );
-    const [collParcel, __] = await pool.execute(
-      'select * from collection_stock as cs join collection as c on cs.sender_col_zip_code = c.zip_code where cs.sender_col_zip_code is NOT NULL and cs.collection_zip_code = ? and type = "in" and status = "Chờ xác nhận"',
-      [id],
-    );
-    tranParcel.map((row) => {
-      row.pointerType = 'Điểm giao dịch';
-    });
-    collParcel.map((row) => {
-      row.pointerType = 'Điểm tập kết';
-    });
-
-    return res.status(200).json({ tranParcel: tranParcel, collParcel: collParcel });
+    console.log(rows);
+    return res.status(200).json({ data: rows });
+    // const [tranParcel, _] = await pool.execute(
+    //   'select * from collection_stock as cs join transaction as t on cs.sender_transaction_zip_code = t.zip_code where cs.sender_transaction_zip_code is NOT NULL and cs.collection_zip_code = ? and type = "in" and status = "Chờ xác nhận"',
+    //   [id],
+    // );
+    // const [collParcel, __] = await pool.execute(
+    //   'select * from collection_stock as cs join collection as c on cs.sender_col_zip_code = c.zip_code where cs.sender_col_zip_code is NOT NULL and cs.collection_zip_code = ? and type = "in" and status = "Chờ xác nhận"',
+    //   [id],
+    // );
+    // tranParcel.map((row) => {
+    //   row.pointerType = 'Điểm giao dịch';
+    // });
+    // collParcel.map((row) => {
+    //   row.pointerType = 'Điểm tập kết';
+    // });
+    // return res.status(200).json({ tranParcel: tranParcel, collParcel: collParcel });
   } catch (err) {
     console.log(err);
   }
 };
 let getPackageDetail = async (req, res) => {
   try {
-    const package_id = req.body.package_id || req.query.package_id || '';
     let [rows, field] = await pool.execute(
       'select * from parcels as p join parcel_package as pk on p.id = pk.parcel_id where pk.parcel_package_id = ?',
       [package_id],

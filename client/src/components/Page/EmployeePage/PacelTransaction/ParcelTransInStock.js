@@ -30,12 +30,13 @@ const TransactionDataCard = () => {
       axios
         .get(`http://localhost:1510/getArrivalParcelPackage`, {
           params: {
-            id: '201',
+            id: '12345',
           },
         })
         .then(function (response) {
-          let data = response.data;
-          setPackages(data.tranParcel.concat(data.collParcel));
+          let data = response.data.data;
+          console.log(data);
+          setPackages(data);
         })
         .catch(function (error) {
           console.log(error);
@@ -221,11 +222,11 @@ const TransactionDataCard = () => {
               </TableHead>
               <TableBody>
                 {packages.map((packageData) => (
-                  <TableRow key={packageData.id}>
-                    <TableCell>{packageData.id}</TableCell>
-                    <TableCell>{packageData.pointerType}</TableCell>
-                    <TableCell>{packageData.address}</TableCell>
-                    <TableCell>{dateFormat(packageData.receive_time)}</TableCell>
+                  <TableRow key={packageData.parcel_package_id}>
+                    <TableCell>{packageData.parcel_package_id}</TableCell>
+                    <TableCell>{packageData.type}</TableCell>
+                    <TableCell>{packageData.sender_name}</TableCell>
+                    <TableCell>{dateFormat(packageData.receive_date)}</TableCell>
                     <TableCell>
                       <Button variant="contained" onClick={() => handleDetailsClick(packageData)}>
                         Xem chi tiết

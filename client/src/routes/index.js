@@ -6,15 +6,20 @@ import RestorePassword from '~/components/Page/RestorePassword';
 import Test from '~/components/Page/Test';
 import TransactionEmployee from '~/components/Page/TransactionEmployee';
 import HomePage from '~/components/Page/Home';
-import EmployeePage from '~/components/Page/EmployeePage';
 import ParcelTracking from '~/components/Page/ParcelTracking';
 import TransactionManager from '~/components/Page/TransactionManager';
-import Statistics from '~/components/Page/TransactionManager/Statistics/Statistics';
+import TransactionStatistics from '~/components/Page/TransactionManager/Statistics/Statistics';
+
 //test
 import CreateUser from '~/components/Page/TransactionManager/CreateUser/CreateUser';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useAuth } from '../provider/authProvider';
 import { ProtectedRoute } from './ProtectedRoute';
+
+//collection
+import ParcelCollectionInStock from '~/components/Page/Collection/ParcelCollectionsInStock/ParcelCollectionsInStock';
+import ParcelCollectionWaitAccept from '~/components/Page/Collection/ParcelCollectionWaitAccept/ParcelCollectionWaitAccept';
+import ParcelCollectionStatistics from '~/components/Page/Collection';
 
 // const publicRoutes = [
 //   { path: '', component: HomePage, name: 'Home Page' },
@@ -61,16 +66,12 @@ const Routes = () => {
       element: <HomePage />,
     },
     {
-      path: '/employee',
-      element: <EmployeePage />,
-    },
-    {
       path: '/transaction-manager',
       element: <TransactionManager />,
     },
     {
       path: '/transaction-manager/statistics',
-      element: <Statistics />,
+      element: <TransactionStatistics />,
     },
     {
       path: '/transaction-manager/create-user',
@@ -79,6 +80,18 @@ const Routes = () => {
     {
       path: '/transaction-employee',
       element: <TransactionEmployee />,
+    },
+    {
+      path: '/collection/employee/statistics',
+      element: <ParcelCollectionStatistics />,
+    },
+    {
+      path: '/collection/employee/parcel-in-stock',
+      element: <ParcelCollectionInStock />,
+    },
+    {
+      path: '/collection/employee/parcel-wait-accept',
+      element: <ParcelCollectionWaitAccept />,
     },
   ];
 

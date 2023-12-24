@@ -1,18 +1,22 @@
 import * as React from 'react';
 import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import classNames from 'classnames/bind';
-import styles from './parcelTransaction.module.scss';
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
-import { yellow } from '@mui/material/colors';
+import styles from './ParcelCollectionWaitAccept.module.scss';
+import Container from '@mui/material/Container';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import { DataGrid } from '@mui/x-data-grid';
+import DashboardLayout from 'src/layouts/dashboard';
+import navConfig from '../config-navigation';
+import Card from '@mui/material/Card';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 
 const cx = classNames.bind(styles);
 
-const TransactionDataCard = () => {
+const ParcelCollectionWaitAccept = () => {
   const [open, setOpen] = React.useState(false);
   const [selectedRows, setSelectedRows] = React.useState([]);
   const packages = [
@@ -123,70 +127,63 @@ const TransactionDataCard = () => {
     setOpen(false);
   };
   return (
-    <div>
-      <div className={cx(styles.title)}>
-        Quản lý đơn hàng đến kho <LocalShippingIcon fontSize="large" sx={{ color: yellow[800] }} />
-      </div>
-      <TableContainer component={Paper}>
-        <Table className={cx(styles.packageTableTransaction)} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>Loại</TableCell>
-              <TableCell>Tên</TableCell>
-              <TableCell>Ngày tháng gửi</TableCell>
-              <TableCell>Xem chi tiết</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {packages.map((packageData) => (
-              <TableRow key={packageData.id}>
-                <TableCell>{packageData.id}</TableCell>
-                <TableCell>{packageData.type}</TableCell>
-                <TableCell>{packageData.name}</TableCell>
-                <TableCell>{packageData.sendDate}</TableCell>
-                <TableCell>
-                  <Button variant="contained" onClick={() => handleDetailsClick(packageData)}>
-                    Xem chi tiết
-                  </Button>
-                </TableCell>
+    <DashboardLayout navConfig={navConfig}>
+      <Container>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+          <Typography variant="h4">ĐƠN HÀNG CHỜ XÁC NHẬN</Typography>
+        </Stack>
+        <TableContainer component={Paper}>
+          <Table className={cx(styles.packageTableTransaction)} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>ID</TableCell>
+                <TableCell>Loại</TableCell>
+                <TableCell>Tên</TableCell>
+                <TableCell>Ngày tháng gửi</TableCell>
+                <TableCell>Xem chi tiết</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {packages.map((packageData) => (
+                <TableRow key={packageData.id}>
+                  <TableCell>{packageData.id}</TableCell>
+                  <TableCell>{packageData.type}</TableCell>
+                  <TableCell>{packageData.name}</TableCell>
+                  <TableCell>{packageData.sendDate}</TableCell>
+                  <TableCell>
+                    <Button variant="contained" onClick={() => handleDetailsClick(packageData)}>
+                      Xem chi tiết
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
 
-      <Dialog className={cx(styles.dialog)} open={open} onClose={handleClose} maxWidth="md" fullWidth>
-        <DialogTitle>
-          <div className={cx(styles.title)}>Xem chi tiết các đơn hàng</div>
-        </DialogTitle>
-        <DialogContent>
+        <Dialog className={cx(styles.dialog)} open={open} onClose={handleClose} maxWidth="lg">
+          <DialogTitle>
+            <div className={cx(styles.title)}>Xem chi tiết các đơn hàng</div>
+          </DialogTitle>
           <DialogContent>
-            <DataGrid
-              sx={{
-                m: 0,
-                boxShadow: 2,
-                border: 2,
-                fontSize: 16,
-              }}
-              rows={rows}
-              columns={columns}
-              checkboxSelection
-              onSelectionModelChange={handleAcceptedClick}
-            />
+            <DialogContent>
+              <Card>
+                <DataGrid rows={rows} columns={columns} onSelectionModelChange={handleAcceptedClick} />
+              </Card>
+            </DialogContent>
           </DialogContent>
-        </DialogContent>
-        <DialogActions>
-          <Button className={cx(styles.buttonModel)} onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button className={cx(styles.buttonModel)} onClick={handleAcceptedClick} color="primary">
-            Accepted
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+          <DialogActions>
+            <Button className={cx(styles.buttonModel)} onClick={handleClose} color="primary">
+              Hủy
+            </Button>
+            <Button className={cx(styles.buttonModel)} onClick={handleAcceptedClick} color="primary">
+              Xác nhận
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Container>
+    </DashboardLayout>
   );
 };
 
-export default TransactionDataCard;
+export default ParcelCollectionWaitAccept;

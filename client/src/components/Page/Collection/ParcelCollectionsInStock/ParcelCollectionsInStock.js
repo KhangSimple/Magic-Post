@@ -32,6 +32,7 @@ const ParcelCollectionInStock = () => {
   const [selectedSenderAddress, setSelectedSenderAddress] = React.useState('');
   const [filteredRows, setFilteredRows] = React.useState([]);
   const [isFilterActive, setIsFilterActive] = React.useState(false);
+  const [rows, setRows] = React.useState([]);
 
   const handleCreateInvoiceClick = () => {
     setOpen(true);

@@ -7,7 +7,21 @@ import Typography from '@mui/material/Typography';
 import AppAllStatistics from './Statistics/components/AllStatistics';
 import AppWidgetSummary from './Statistics/components/WidgetSummary';
 import AppConversionRates from './Statistics/components/ConversionRates';
-
+export function dateFormat(date) {
+  if (date) {
+    const d = new Date(date);
+    var year = d.getFullYear();
+    var month = d.getMonth() + 1;
+    var day = d.getDate();
+    var hours = d.getHours();
+    var minutes = d.getMinutes();
+    var second = d.getSeconds();
+    hours = hours > 9 ? hours : '0' + hours.toString();
+    minutes = minutes > 9 ? minutes : '0' + minutes.toString();
+    second = second > 9 ? second : '0' + second.toString();
+    return day + '/' + month + '/' + year + ' ' + hours + ':' + minutes + ':' + second;
+  }
+}
 const Statistics = () => {
   return (
     <DashboardLayout navConfig={navConfig}>

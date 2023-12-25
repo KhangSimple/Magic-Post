@@ -70,6 +70,33 @@ const ParcelTransactionHistory = () => {
 
   const handleDetailsClick = (packageData) => {
     setOpen(true);
+    try {
+      console.log('Call get detail');
+      axios
+        .get(`http://localhost:1510/getTransactionPackageDetail`, {
+          params: {
+            package_id: packageData.parcel_package_id,
+            transaction_id: '1442',
+          },
+        })
+        .then(function (response) {
+          setInvoiceDetail(
+            response.data.data.map((row) => ({
+              id: row.id,
+              senderName: row.sender_name,
+              senderPhone: row.sender_phone,
+              senderAddress: row.sender_address,
+              receiverName: row.receiver_name,
+              receiverPhone: row.receiver_phone,
+              receiverAddress: row.receiver_address,
+              cost: row.cod_amount,
+            })),
+          );
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } catch (err) {}
   };
   const handleAcceptedClick = (selectionModel) => {
     setSelectedRows(selectionModel);

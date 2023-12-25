@@ -434,6 +434,18 @@ let getCollectionPackageDetail = async (req, res) => {
     console.log(err);
   }
 };
+let getTransactionPackageDetail = async (req, res) => {
+  try {
+    const { package_id, transaction_id } = req.query || req.body || {};
+    let [rows, field] = await pool.execute(
+      'select * from parcels as p join transaction_stock as cs on p.id = cs.parcel_id where cs.parcel_package_id = ? and cs.transaction_zip_code = ?',
+      [package_id, transaction_id],
+    );
+    return res.status(200).json({ data: rows });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 let sendPackage = async (req, res) => {
   return res.status(200);
@@ -515,6 +527,7 @@ export default {
   sendPackage,
   confirmCollecionPackage,
   getCollectionPackageDetail,
+  getTransactionPackageDetail,
   createCollectionPackage,
   createTransactionPackage,
   getSendedParcelPackage,

@@ -40,7 +40,7 @@ const ParcelCollectionInStock = () => {
     axios
       .get(`http://localhost:1510/getCollectionList`, {
         params: {
-          id: '201',
+          id: '202',
           type: 'in',
           status: 'Chờ gửi',
         },

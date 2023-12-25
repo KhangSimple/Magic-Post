@@ -246,12 +246,20 @@ const Invoice = () => {
                             height: '70%',
                           }}
                         >
+                          <thead>
+                          <tr>
+                            <td className={cx(styles.td)}>Nội dung</td>
+                            <td className={cx(styles.td)}>Số lượng</td>
+                            <td className={cx(styles.td)}>Trị giá</td>
+                            <td className={cx(styles.td)}>Giấy tờ đính kèm</td>
+                          </tr>
+                          </thead>
                           <tbody>
                             <tr>
-                              <td className={cx(styles.td)}>Nội dung</td>
-                              <td className={cx(styles.td)}>Số lượng</td>
-                              <td className={cx(styles.td)}>Trị giá</td>
-                              <td className={cx(styles.td)}>Giấy tờ đính kèm</td>
+                              <td className={cx(styles.td)}>a </td>
+                              <td className={cx(styles.td)}>a </td>
+                              <td className={cx(styles.td)}>a</td>
+                              <td className={cx(styles.td)}>a </td>
                             </tr>
                             <tr>
                               <td className={cx(styles.td)}>a </td>

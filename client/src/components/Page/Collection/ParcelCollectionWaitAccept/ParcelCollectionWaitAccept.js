@@ -22,13 +22,14 @@ const ParcelCollectionHistory = () => {
   const [open, setOpen] = React.useState(false);
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [packages, setPackages] = React.useState([]);
+  const [selectedPackage, setSelectedPackage] = React.useState('');
   React.useEffect(() => {
     try {
       console.log('Call');
       axios
         .get(`http://localhost:1510/getArrivalParcelPackage`, {
           params: {
-            id: '201',
+            id: '202',
             type: 'collection',
           },
         })
@@ -69,13 +70,14 @@ const ParcelCollectionHistory = () => {
 
   const handleDetailsClick = (packageData) => {
     setOpen(true);
+    setSelectedPackage(packageData.parcel_package_id);
     try {
       console.log('Call get detail');
       axios
         .get(`http://localhost:1510/getCollectionPackageDetail`, {
           params: {
             package_id: packageData.parcel_package_id,
-            collection_id: '201',
+            collection_id: '202',
           },
         })
         .then(function (response) {
@@ -103,8 +105,6 @@ const ParcelCollectionHistory = () => {
         data: {
           kind_point: 'collection',
           parcel_id: parcel_id,
-          coll_id: '201',
-          sender_zip_code: '12345',
         },
       })
       .then(function (response) {
@@ -122,8 +122,8 @@ const ParcelCollectionHistory = () => {
     axios
       .post(`http://localhost:1510/confirmCollecionPackage`, {
         data: {
-          package_id: 'a',
-          zip_code: '201',
+          package_id: selectedPackage,
+          zip_code: '202',
         },
       })
       .then(function (response) {
@@ -163,7 +163,7 @@ const ParcelCollectionHistory = () => {
                   <TableCell>{packageData.parcel_package_id}</TableCell>
                   <TableCell>{packageData.type}</TableCell>
                   <TableCell>{packageData.sender_name}</TableCell>
-                  <TableCell>{dateFormat(packageData.receive_date)}</TableCell>
+                  <TableCell>{dateFormat(packageData.send_date)}</TableCell>
                   <TableCell>
                     <Button variant="contained" onClick={() => handleDetailsClick(packageData)}>
                       Xem chi tiết

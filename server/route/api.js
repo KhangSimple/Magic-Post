@@ -17,11 +17,14 @@ const initAPIRoute = (app) => {
   router.post('/addTransaction', apiController.addTransaction);
   router.post('/addCollection', apiController.addCollection);
   router.get('/getArrivalParcelPackage', apiController.getArrivalParcelPackage);
+  router.get('/getSendedParcelPackage', apiController.getSendedParcelPackage);
   router.get('/getPackageDetail', apiController.getPackageDetail);
   router.post('/sendPackage', apiController.sendPackage);
   router.post('/confirmCollecionPackage', apiController.confirmCollecionPackage);
   router.get('/getCollectionPackageDetail', apiController.getCollectionPackageDetail);
+  router.get('/getTransactionPackageDetail', apiController.getTransactionPackageDetail);
   router.post('/createCollectionPackage', apiController.createCollectionPackage);
+  router.post('/createTransactionPackage', apiController.createTransactionPackage);
   return app.use('/', router);
 };
 

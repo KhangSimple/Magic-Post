@@ -1,5 +1,15 @@
 import { useState, Fragment } from 'react';
 
+import DashboardLayout from 'src/layouts/dashboard';
+import navConfig from '../config-navigation';
+
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+
+import CreateUser from '~/components/Page/TransactionManager/CreateUser/CreateUser';
+
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
@@ -21,10 +31,14 @@ import UserTableHead from './user-table-head';
 import TableEmptyRows from './table-empty-rows';
 import UserTableToolbar from './user-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from './utils';
+import styles from './AccountTable.module.scss';
+import * as React from 'react';
+import classNames from 'classnames/bind';
 
+const cx = classNames.bind(styles);
 // ----------------------------------------------------------------------
 
-export default function UserPage() {
+export default function AccountManagementTable() {
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -36,6 +50,12 @@ export default function UserPage() {
   const [filterName, setFilterName] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const [open, setOpen] = React.useState(false);
+  
+  const handleCreateAccount = ()=>{
+    handleClose();
+  }
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -91,72 +111,86 @@ export default function UserPage() {
 
   const notFound = !dataFiltered.length && !!filterName;
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
-    <Container>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">ĐIỂM GIAO DỊCH THÁI NGUYÊN</Typography>
-        <Link to={'/transaction-manager/create-user'}>
-          <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
+    <DashboardLayout navConfig={navConfig}>
+      <Container>
+        <Stack direction='row' alignItems='center' justifyContent='space-between' mb={5}>
+          <Typography variant='h4'>ĐIỂM GIAO DỊCH THÁI NGUYÊN</Typography>
+          <Button variant='contained' color='inherit' startIcon={<Iconify icon='eva:plus-fill' />}
+                  onClick={() => setOpen(true)}>
             Tạo tài khoản
           </Button>
-        </Link>
-      </Stack>
+        </Stack>
 
-      <Card>
-        <UserTableToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+        <Card>
+          <UserTableToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
 
-        <TableContainer sx={{ overflow: 'set' }}>
-          <Table sx={{ minWidth: 800 }}>
-            <UserTableHead
-              order={order}
-              orderBy={orderBy}
-              rowCount={users.length}
-              numSelected={selected.length}
-              onRequestSort={handleSort}
-              onSelectAllClick={handleSelectAllClick}
-              headLabel={[
-                { id: 'name', label: 'Tên' },
-                { id: 'email', label: 'Email' },
-                { id: 'role', label: 'Chức vụ' },
-                { id: 'phoneNumber', label: 'Số điện thoại', align: 'center' },
-                { id: 'status', label: 'Trạng thái' },
-                { id: '' },
-              ]}
-            />
-            <TableBody>
-              {dataFiltered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                return (
-                  <UserTableRow
-                    key={row.id}
-                    name={row.name}
-                    role={row.role}
-                    status={row.status}
-                    email={row.email}
-                    avatarUrl={row.avatarUrl}
-                    phoneNumber={row.phoneNumber}
-                    selected={selected.indexOf(row.name) !== -1}
-                    handleClick={(event) => handleClick(event, row.name)}
-                  />
-                );
-              })}
+          <TableContainer sx={{ overflow: 'set' }}>
+            <Table sx={{ minWidth: 800 }}>
+              <UserTableHead
+                order={order}
+                orderBy={orderBy}
+                rowCount={users.length}
+                numSelected={selected.length}
+                onRequestSort={handleSort}
+                onSelectAllClick={handleSelectAllClick}
+                headLabel={[
+                  { id: 'name', label: 'Tên' },
+                  { id: 'email', label: 'Email' },
+                  { id: 'role', label: 'Chức vụ' },
+                  { id: 'phoneNumber', label: 'Số điện thoại', align: 'center' },
+                  { id: 'status', label: 'Trạng thái' },
+                  { id: '' },
+                ]}
+              />
+              <TableBody>
+                {dataFiltered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                  return (
+                    <UserTableRow
+                      key={row.id}
+                      name={row.name}
+                      role={row.role}
+                      status={row.status}
+                      email={row.email}
+                      avatarUrl={row.avatarUrl}
+                      phoneNumber={row.phoneNumber}
+                      selected={selected.indexOf(row.name) !== -1}
+                      handleClick={(event) => handleClick(event, row.name)}
+                    />
+                  );
+                })}
 
-              <TableEmptyRows height={77} emptyRows={emptyRows(page, rowsPerPage, users.length)} />
+                <TableEmptyRows height={77} emptyRows={emptyRows(page, rowsPerPage, users.length)} />
 
-              {notFound && <TableNoData query={filterName} />}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                {notFound && <TableNoData query={filterName} />}
+              </TableBody>
+            </Table>
+          </TableContainer>
 
-        <TablePagination
-          page={page}
-          component="div"
-          count={users.length}
-          rowsPerPage={rowsPerPage}
-          onPageChange={handleChangePage}
-          rowsPerPageOptions={[5, 10, 25]}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Card>
-    </Container>
+          <TablePagination
+            page={page}
+            component='div'
+            count={users.length}
+            rowsPerPage={rowsPerPage}
+            onPageChange={handleChangePage}
+            rowsPerPageOptions={[5, 10, 25]}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Card>
+        <Dialog className={cx(styles.dialog)} open={open} onClose={handleClose} fullWidth maxWidth='lg'>
+          <DialogTitle className={cx(styles.title)}>
+            Tạo tài khoản cho nhân viên
+          </DialogTitle>
+          <DialogContent >
+            <CreateUser handleCreateAccount={handleCreateAccount} ></CreateUser>
+          </DialogContent>
+        </Dialog>
+      </Container>
+    </DashboardLayout>
+
   );
 }

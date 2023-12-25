@@ -32,6 +32,9 @@ input,
   outline: none;
   border: none;
 }
+.p-dropdown-panel{
+  z-index: 2000 !important;
+}
 
 // a[href] {
 //   //color: var(--text-color);

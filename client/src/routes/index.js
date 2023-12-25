@@ -6,11 +6,8 @@ import RestorePassword from '~/components/Page/RestorePassword';
 import Test from '~/components/Page/Test';
 import HomePage from '~/components/Page/Home';
 import ParcelTracking from '~/components/Page/ParcelTracking';
-import TransactionManager from '~/components/Page/TransactionManager';
-import TransactionStatistics from '~/components/Page/TransactionManager/Statistics/Statistics';
 
-//test
-import CreateUser from '~/components/Page/TransactionManager/CreateUser/CreateUser';
+
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useAuth } from '../provider/authProvider';
 import { ProtectedRoute } from './ProtectedRoute';
@@ -28,6 +25,10 @@ import ParcelTransactionWaitAccept from '~/components/Page/Transaction/ParcelTra
 import ParcelTransactionStatistics from '~/components/Page/Transaction';
 import ParcelTransactionCreateInvoice from '~/components/Page/Transaction/CreateInvoice/CreateInvoice';
 import ParcelTransactionShipment from '~/components/Page/Transaction/ParcelShipment/ParcelShipment';
+
+//transaction manager
+import TransactionStatistics from '~/components/Page/TransactionManager';
+import AccountManagementTable from '~/components/Page/TransactionManager/AccountTable/AccountTable';
 
 // const publicRoutes = [
 //   { path: '', component: HomePage, name: 'Home Page' },
@@ -73,17 +74,14 @@ const Routes = () => {
       path: '',
       element: <HomePage />,
     },
+    //transaction manager
     {
-      path: '/transaction-manager',
-      element: <TransactionManager />,
-    },
-    {
-      path: '/transaction-manager/statistics',
+      path: '/transaction/manager/',
       element: <TransactionStatistics />,
     },
     {
-      path: '/transaction-manager/create-user',
-      element: <CreateUser />,
+      path: '/transaction/manager/account-management',
+      element: <AccountManagementTable />,
     },
 
     //transaction employee

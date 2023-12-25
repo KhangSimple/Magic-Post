@@ -101,6 +101,7 @@ function UserRegister() {
       })
       .then(function (response) {
         setProvinceData((prev) => [...response.data.data]);
+        console.log(1);
       })
       .catch(function (error) {
         console.log(error);
@@ -329,6 +330,8 @@ function UserRegister() {
         pauseOnHover
         theme="light"
       />
+      {console.log(provinceData)}
+      {console.log(2)}
     </React.Fragment>
   );
 }

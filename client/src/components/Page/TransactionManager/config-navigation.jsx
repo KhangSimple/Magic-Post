@@ -36,19 +36,14 @@ const navConfig = [
   //   icon: icon('ic_disabled'),
   // },
   {
-    title: 'Danh sách tài khoản',
-    path: '/transaction-manager',
-    icon: icon('ic_user'),
-  },
-  {
-    title: 'Danh sách đơn hàng',
-    path: '/transaction-manager',
-    icon: icon('ic_user'),
-  },
-  {
     title: 'Thống kê',
-    path: '/transaction-manager/statistics',
+    path: '/transaction/manager/',
     icon: icon('ic_analytics'),
+  },
+  {
+    title: 'Danh sách tài khoản',
+    path: '/transaction/manager/account-management',
+    icon: icon('ic_user'),
   },
 ];
 

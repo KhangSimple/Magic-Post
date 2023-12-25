@@ -17,6 +17,7 @@ import axios from 'axios';
 import { dateFormat } from '..';
 
 const cx = classNames.bind(styles);
+const collection_id = 201;
 
 const ParcelCollectionHistory = () => {
   const [open, setOpen] = React.useState(false);
@@ -29,7 +30,7 @@ const ParcelCollectionHistory = () => {
       axios
         .get(`http://localhost:1510/getArrivalParcelPackage`, {
           params: {
-            id: '202',
+            id: collection_id,
             type: 'collection',
           },
         })
@@ -77,7 +78,7 @@ const ParcelCollectionHistory = () => {
         .get(`http://localhost:1510/getCollectionPackageDetail`, {
           params: {
             package_id: packageData.parcel_package_id,
-            collection_id: '202',
+            collection_id: collection_id,
           },
         })
         .then(function (response) {
@@ -123,7 +124,7 @@ const ParcelCollectionHistory = () => {
       .post(`http://localhost:1510/confirmCollecionPackage`, {
         data: {
           package_id: selectedPackage,
-          zip_code: '202',
+          zip_code: collection_id,
         },
       })
       .then(function (response) {

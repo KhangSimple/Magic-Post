@@ -18,6 +18,7 @@ import { dateFormat } from '..';
 import axios from 'axios';
 
 const cx = classNames.bind(styles);
+const zip_code = 202;
 
 const ParcelCollectionHistory = () => {
   const [open, setOpen] = React.useState(false);
@@ -31,7 +32,7 @@ const ParcelCollectionHistory = () => {
       axios
         .get(`http://localhost:1510/getSendedParcelPackage`, {
           params: {
-            id: '202', // transaction_zip_code
+            id: zip_code,
             type: 'collection',
           },
         })
@@ -76,7 +77,7 @@ const ParcelCollectionHistory = () => {
         .get(`http://localhost:1510/getCollectionPackageDetail`, {
           params: {
             package_id: packageData.parcel_package_id,
-            transaction_id: '202',
+            collection_id: zip_code,
           },
         })
         .then(function (response) {
@@ -120,7 +121,7 @@ const ParcelCollectionHistory = () => {
                 <TableCell>ID</TableCell>
                 <TableCell>Loại</TableCell>
                 <TableCell>Tên</TableCell>
-                <TableCell>Ngày tháng gửi</TableCell>
+                <TableCell>Ngày tháng nhận</TableCell>
                 <TableCell>Status</TableCell>
                 <TableCell>Xem chi tiết</TableCell>
               </TableRow>

@@ -26,6 +26,7 @@ import navConfig from '../config-navigation';
 import axios from 'axios';
 
 const cx = classNames.bind(styles);
+const zip_code = 201;
 
 const ParcelCollectionInStock = () => {
   const [open, setOpen] = React.useState(false);
@@ -40,7 +41,7 @@ const ParcelCollectionInStock = () => {
     axios
       .get(`http://localhost:1510/getCollectionList`, {
         params: {
-          id: '202',
+          id: zip_code,
           type: 'in',
           status: 'Chờ gửi',
         },
@@ -75,7 +76,7 @@ const ParcelCollectionInStock = () => {
     axios
       .post(`http://localhost:1510/sendParcel`, {
         data: {
-          kind_point: 'transaction',
+          kind_point: 'collection',
           parcel_id: parcel_id,
           package_id: package_id,
         },
@@ -92,9 +93,8 @@ const ParcelCollectionInStock = () => {
       .post(`http://localhost:1510/createCollectionPackage`, {
         data: {
           parcel_id: selectedRows,
-          sender_id: 201,
-          sender_name: 'Hà Nội',
-          receiver_id: 202,
+          sender_id: zip_code,
+          sender_name: 'Hồ Chí Minh',
           type: 'Điểm tập kết',
         },
       })

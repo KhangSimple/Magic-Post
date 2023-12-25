@@ -23,6 +23,7 @@ import Typography from '@mui/material/Typography';
 import Iconify from 'src/components/iconify';
 import DashboardLayout from 'src/layouts/dashboard';
 import navConfig from '../config-navigation';
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
@@ -34,6 +35,34 @@ const ParcelCollectionInStock = () => {
   const [isFilterActive, setIsFilterActive] = React.useState(false);
   const [rows, setRows] = React.useState([]);
 
+  React.useEffect(() => {
+    console.log('Use Effect');
+    axios
+      .get(`http://localhost:1510/getCollectionList`, {
+        params: {
+          id: '201',
+          type: 'in',
+          status: 'Chờ gửi',
+        },
+      })
+      .then(function (response) {
+        setRows(
+          response.data.map((row) => ({
+            id: row.parcel_id,
+            senderName: row.sender_name,
+            senderPhone: row.sender_phone,
+            senderAddress: row.sender_address,
+            receiverName: row.receiver_name,
+            receiverPhone: row.receiver_phone,
+            receiverAddress: row.receiver_address,
+            cost: row.cod_amount,
+          })),
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
   const handleCreateInvoiceClick = () => {
     setOpen(true);
   };

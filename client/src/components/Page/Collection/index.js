@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import AppAllStatistics from './Statistics/components/AllStatistics';
 import AppWidgetSummary from './Statistics/components/WidgetSummary';
 import AppConversionRates from './Statistics/components/ConversionRates';
+
 export function dateFormat(date) {
   if (date) {
     const d = new Date(date);
@@ -22,6 +23,7 @@ export function dateFormat(date) {
     return day + '/' + month + '/' + year + ' ' + hours + ':' + minutes + ':' + second;
   }
 }
+
 const Statistics = () => {
   return (
     <DashboardLayout navConfig={navConfig}>

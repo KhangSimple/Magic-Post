@@ -73,13 +73,25 @@ let getTransactionList = async (req, res) => {
 // Lấy dang sách hàng đến và đi của collection
 // Dữ liệu đầu vào là collection id
 let getCollectionList = async (req, res) => {
-  let { id } = req.query;
-  let [rows, field] = await pool.execute(
-    'SELECT parcels.id,sender_name,receiver_name,sender_zip_code,receiver_zip_code,cur_pos,cs.sender_transaction_zip_code,cs.sender_col_zip_code,cs.status,cs.type,cs.is_confirm from parcels join collection_stock as cs on parcels.id = cs.parcel_id where cs.collection_zip_code = ?',
-    [id],
-  );
-  return res.json(rows);
+  try {
+    let { id, type, status } = req.query || req.body || req.params || '';
+    let [rows, field] = await pool.execute(
+      'SELECT *,ts.sender_col_zip_code,ts.status,ts.type from parcels join collection_stock as ts on parcels.id = ts.parcel_id where ts.collection_zip_code = ? and ts.type = ? and ts.status = ?',
+      [id, type, status],
+    );
+    return res.json(rows);
+  } catch (err) {
+    console.log('Vllll');
+  }
 };
+// let getCollectionList = async (req, res) => {
+//   let { id } = req.query;
+//   let [rows, field] = await pool.execute(
+//     'SELECT parcels.id,sender_name,receiver_name,sender_zip_code,receiver_zip_code,cur_pos,cs.sender_transaction_zip_code,cs.sender_col_zip_code,cs.status,cs.type,cs.is_confirm from parcels join collection_stock as cs on parcels.id = cs.parcel_id where cs.collection_zip_code = ?',
+//     [id],
+//   );
+//   return res.json(rows);
+// };
 
 // Tạo đơn hàng
 // Đầu vào là các thông tin cần thiết để tạo đợi hàng
@@ -210,10 +222,16 @@ let confirmParcel = async (req, res) => {
     let cur_pos = c[0].cur_pos;
     console.log('Cur-pos: ', cur_pos);
     if (kind_point == 'transaction') {
-      // let cur_pos = data.cur_pos;
       if (cur_pos == 3) {
-        let sender = data.sender_zip_code;
-        let trans_id = data.trans_id;
+        // let sender = data.sender_zip_code;
+        // let trans_id = data.trans_id;
+        let [receiver_, __] = await pool.execute(
+          'select collection_zip_code from transaction where zip_code = (select receiver_zip_code from parcels where id = ?);',
+          [parcel_id],
+        );
+        let sender = receiver_[0].collection_zip_code;
+        let [trans_id_, _] = await pool.execute('select receiver_zip_code from parcels where id = ?', [parcel_id]);
+        let trans_id = trans_id_[0].receiver_zip_code;
         await pool.execute(
           "update collection_stock set status = 'Đã gửi thành công',is_confirm = 1 where parcel_id = ? and collection_zip_code = ?",
           [parcel_id, sender],
@@ -391,7 +409,7 @@ let sendPackage = async (req, res) => {
 let confirmCollecionPackage = async (req, res) => {
   try {
     let { package_id, zip_code } = req.body.data;
-    // await pool.execute('update parcel_package set status = "Đã xác nhận" where parcel_package_id = ?', [package_id]);
+    await pool.execute('update parcel_package set status = "Đã xác nhận" where parcel_package_id = ?', [package_id]);
     let [parcel_ids, field] = await pool.execute(
       'select parcel_id from collection_stock where parcel_package_id = ? and collection_zip_code = ?',
       [package_id, zip_code],

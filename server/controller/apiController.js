@@ -396,6 +396,19 @@ let getArrivalParcelPackage = async (req, res) => {
     console.log(err);
   }
 };
+let getSendedParcelPackage = async (req, res) => {
+  try {
+    const id = req.body.id || req.query.id || req.params.id || '';
+    const [rows, field] = await pool.execute(
+      'select * from parcel_package where sender_id = ? and package_kind = "in" ',
+      [id],
+    );
+    return res.status(200).json({ data: rows });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 let getPackageDetail = async (req, res) => {
   try {
     const package_id = req.body.package_id || req.query.package_id || '';
@@ -426,9 +439,17 @@ let sendPackage = async (req, res) => {
   return res.status(200);
 };
 let confirmCollecionPackage = async (req, res) => {
+  var today = new Date();
+  var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+  var time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
+  var dateTime = date + ' ' + time;
+
   try {
     let { package_id, zip_code } = req.body.data;
-    await pool.execute('update parcel_package set status = "Đã xác nhận" where parcel_package_id = ?', [package_id]);
+    await pool.execute(
+      'update parcel_package set status = "Đã xác nhận",receive_date = ? where parcel_package_id = ?',
+      [package_id, dateTime],
+    );
     let [parcel_ids, field] = await pool.execute(
       'select parcel_id from collection_stock where parcel_package_id = ? and collection_zip_code = ?',
       [package_id, zip_code],
@@ -466,9 +487,11 @@ let createTransactionPackage = async (req, res) => {
         [parcel_id[0]],
       );
       let nextPoint = nextPoint_[0].collection_zip_code;
+      let [n, _] = await pool.execute('select name from collection where zip_code = ?', [nextPoint]);
+      let nextPoint_name = n[0].name;
       // await pool.execute(
-      //   'insert into parcel_package(parcel_package_id, sender_id, sender_name, receiver_id, type, send_date, status, package_kind) values(?, ?, ?, ?, ?, ?, "Chờ xác nhận","in")',
-      //   [package_id, sender_id, sender_name, nextPoint, type, dateTime],
+      //   'insert into parcel_package(parcel_package_id, sender_id, sender_name, receiver_id,receiver_name, type, send_date, status, package_kind) values(?, ?, ?, ?, ?, ?, ?, "Chờ xác nhận","in")',
+      //   [package_id, sender_id, sender_name, nextPoint, nextPoint_name,type, dateTime],
       // );
     }
     return res.status(200).json({ package_id: package_id });
@@ -494,4 +517,5 @@ export default {
   getCollectionPackageDetail,
   createCollectionPackage,
   createTransactionPackage,
+  getSendedParcelPackage,
 };

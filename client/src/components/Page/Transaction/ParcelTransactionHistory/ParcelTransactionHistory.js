@@ -14,78 +14,37 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Label from 'src/components/label';
+import axios from 'axios';
+import { dateFormat } from '..';
 
 const cx = classNames.bind(styles);
 
 const ParcelTransactionHistory = () => {
   const [open, setOpen] = React.useState(false);
   const [selectedRows, setSelectedRows] = React.useState([]);
-  const packages = [
-    { id: 1, type: 'Điểm tập kết', name: 'ThaiNguyen - DiemTapKet', status: 'Đang gửi', sendDate: '30/12/2023 3h50p' },
-    { id: 2, type: 'Điểm dao dịch', name: 'HaNoi - DiemDaoDich', status: 'Đang gửi', sendDate: '29/12/2023 3h25p' },
-    {
-      id: 3,
-      type: 'Điểm tập kết',
-      name: 'ThanhHoa - DiemTapKet',
-      status: 'Gửi thành công',
-      sendDate: '2/8/2023 14h43p',
-    },
-    { id: 4, type: 'Điểm tập kết', name: 'LangSon - DiemTapKet', status: 'Đang gửi', sendDate: '3/5/2023 8h25p' },
-    { id: 5, type: 'Điểm dao dịch', name: 'HaiPhong - DiemDaoDich', status: 'Đang gửi', sendDate: '2/2/2023 13h5p' },
-    { id: 6, type: 'Điểm dao dịch', name: 'HaNoi - DiemDaoDich', status: 'Đang gửi', sendDate: '20/1/2023 3h35p' },
-  ];
-  const invoiceDetail = [
-    {
-      id: 1,
-      senderName: 'Nhut Le',
-      senderPhone: '0123456789',
-      senderAddress: 'Ha Noi',
-      receiverName: 'Jon',
-      receiverPhone: '9876543210',
-      receiverAddress: 'Khum bic',
-      cost: 35,
-    },
-    {
-      id: 2,
-      senderName: 'Duy Khanh',
-      senderPhone: '0123456789',
-      senderAddress: 'Hai Phong',
-      receiverName: 'Cersei',
-      receiverPhone: '9876543210',
-      receiverAddress: 'Khum bic',
-      cost: 42,
-    },
-    {
-      id: 3,
-      senderName: 'Phuc Khang',
-      senderPhone: '0123456789',
-      senderAddress: 'Ha Noi',
-      receiverName: 'Jaime',
-      receiverPhone: '9876543210',
-      receiverAddress: 'Khum bic',
-      cost: 45,
-    },
-    {
-      id: 4,
-      senderName: 'Duy Nong',
-      senderPhone: '0123456789',
-      senderAddress: 'Thai Nguyn',
-      receiverName: 'Arya',
-      receiverPhone: '9876543210',
-      receiverAddress: 'Khum bic',
-      cost: 16,
-    },
-    {
-      id: 5,
-      senderName: 'Hai Nam',
-      senderPhone: '0123456789',
-      senderAddress: 'Thanh Hoa',
-      receiverName: 'Daenerys',
-      receiverPhone: '9876543210',
-      receiverAddress: 'Khum bic',
-      cost: null,
-    },
-  ];
+  const [packages, setPackages] = React.useState([]);
+  const [invoiceDetail, setInvoiceDetail] = React.useState([]);
+
+  React.useEffect(() => {
+    try {
+      console.log('Call');
+      axios
+        .get(`http://localhost:1510/getSendedParcelPackage`, {
+          params: {
+            id: '1442', // transaction_zip_code
+            type: 'collection',
+          },
+        })
+        .then(function (response) {
+          let data = response.data.data;
+          console.log(data);
+          setPackages(data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } catch (err) {}
+  }, []);
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
@@ -134,7 +93,7 @@ const ParcelTransactionHistory = () => {
                 <TableCell>ID</TableCell>
                 <TableCell>Loại</TableCell>
                 <TableCell>Tên</TableCell>
-                <TableCell>Ngày tháng gửi</TableCell>
+                <TableCell>Ngày tháng nhận</TableCell>
                 <TableCell>Status</TableCell>
                 <TableCell>Xem chi tiết</TableCell>
               </TableRow>
@@ -142,13 +101,13 @@ const ParcelTransactionHistory = () => {
             <TableBody>
               {packages.map((packageData) => (
                 <TableRow key={packageData.id}>
-                  <TableCell>{packageData.id}</TableCell>
-                  <TableCell>{packageData.type}</TableCell>
-                  <TableCell>{packageData.name}</TableCell>
-                  <TableCell>{packageData.sendDate}</TableCell>
+                  <TableCell>{packageData.parcel_package_id}</TableCell>
+                  <TableCell>{packageData.receiver_type}</TableCell>
+                  <TableCell>{packageData.receiver_name}</TableCell>
+                  <TableCell>{dateFormat(packageData.receive_date)}</TableCell>
                   <TableCell>
-                    <Label color={(packageData.status === 'Gửi thành công' && 'success') || 'primary'}>
-                      {packageData.status}
+                    <Label color={(packageData.status === 'Đã xác nhận' && 'success') || 'primary'}>
+                      {packageData.status === 'Đã xác nhận' ? packageData.status : 'Đang gửi'}
                     </Label>
                   </TableCell>
                   <TableCell>

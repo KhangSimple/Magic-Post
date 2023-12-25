@@ -7,54 +7,69 @@ import Typography from '@mui/material/Typography';
 import AppAllStatistics from './Statistics/components/AllStatistics';
 import AppWidgetSummary from './Statistics/components/WidgetSummary';
 import AppConversionRates from './Statistics/components/ConversionRates';
+export function dateFormat(date) {
+  if (date) {
+    const d = new Date(date);
+    var year = d.getFullYear();
+    var month = d.getMonth() + 1;
+    var day = d.getDate();
+    var hours = d.getHours();
+    var minutes = d.getMinutes();
+    var second = d.getSeconds();
+    hours = hours > 9 ? hours : '0' + hours.toString();
+    minutes = minutes > 9 ? minutes : '0' + minutes.toString();
+    second = second > 9 ? second : '0' + second.toString();
+    return day + '/' + month + '/' + year + ' ' + hours + ':' + minutes + ':' + second;
+  }
+}
 
 const Statistics = () => {
   return (
     <DashboardLayout navConfig={navConfig}>
-      <Container maxWidth='xl'>
-        <Typography variant='h4' sx={{ mb: 5 }}>
+      <Container maxWidth="xl">
+        <Typography variant="h4" sx={{ mb: 5 }}>
           THỐNG KÊ ĐIỂM GIAO DỊCH THÁI NGUYÊN
         </Typography>
 
         <Grid container spacing={3}>
           <Grid xs={12} sm={6} md={3}>
             <AppWidgetSummary
-              title='Chờ nhập kho'
+              title="Chờ nhập kho"
               total={1223}
-              color='success'
-              icon={<img alt='icon' src='/assets/icons/glass/ic_glass_bag.png' />}
+              color="success"
+              icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
             />
           </Grid>
           <Grid xs={12} sm={6} md={3}>
             <AppWidgetSummary
-              title='Đơn hàng đi'
+              title="Đơn hàng đi"
               total={1352831}
-              color='info'
-              icon={<img alt='icon' src='/assets/icons/glass/ic_glass_users.png' />}
+              color="info"
+              icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
             />
           </Grid>
 
           <Grid xs={12} sm={6} md={3}>
             <AppWidgetSummary
-              title='Đơn hàng đến'
+              title="Đơn hàng đến"
               total={1723315}
-              color='warning'
-              icon={<img alt='icon' src='/assets/icons/glass/ic_glass_buy.png' />}
+              color="warning"
+              icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
             />
           </Grid>
 
           <Grid xs={12} sm={6} md={3}>
             <AppWidgetSummary
-              title='Bug Reports'
+              title="Bug Reports"
               total={234}
-              color='error'
-              icon={<img alt='icon' src='/assets/icons/glass/ic_glass_message.png' />}
+              color="error"
+              icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
             />
           </Grid>
 
           <Grid xs={12} md={6} lg={4}>
             <AppAllStatistics
-              title='Current Visits'
+              title="Current Visits"
               chart={{
                 series: [
                   { label: 'America', value: 4344 },
@@ -68,8 +83,8 @@ const Statistics = () => {
 
           <Grid xs={12} md={6} lg={8}>
             <AppConversionRates
-              title='Conversion Rates'
-              subheader='(+43%) than last year'
+              title="Conversion Rates"
+              subheader="(+43%) than last year"
               chart={{
                 series: [
                   { label: 'Italy', value: 400 },

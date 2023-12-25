@@ -22,7 +22,6 @@ const ParcelCollectionHistory = () => {
   const [open, setOpen] = React.useState(false);
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [packages, setPackages] = React.useState([]);
-  // const [invoiceDetail, setInvoiceDetail] = useState([]);
   React.useEffect(() => {
     try {
       console.log('Call');
@@ -43,26 +42,6 @@ const ParcelCollectionHistory = () => {
     } catch (err) {}
   }, []);
 
-  // const packages = [
-  //   { id: 1, type: 'Điểm tập kết', name: 'ThaiNguyen - DiemTapKet', sendDate: '30/12/2023 3h50p' },
-  //   { id: 2, type: 'Điểm dao dịch', name: 'HaNoi - DiemDaoDich', sendDate: '29/12/2023 3h25p' },
-  //   { id: 3, type: 'Điểm tập kết', name: 'ThanhHoa - DiemTapKet', sendDate: '2/8/2023 14h43p' },
-  //   { id: 4, type: 'Điểm tập kết', name: 'LangSon - DiemTapKet', sendDate: '3/5/2023 8h25p' },
-  //   { id: 5, type: 'Điểm dao dịch', name: 'HaiPhong - DiemDaoDich', sendDate: '2/2/2023 13h5p' },
-  //   { id: 6, type: 'Điểm dao dịch', name: 'HaNoi - DiemDaoDich', sendDate: '20/1/2023 3h35p' },
-  // ];
-  // const invoiceDetail = [
-  //   {
-  //     id: 1,
-  //     senderName: 'Nhut Le',
-  //     senderPhone: '0123456789',
-  //     senderAddress: 'Ha Noi',
-  //     receiverName: 'Jon',
-  //     receiverPhone: '9876543210',
-  //     receiverAddress: 'Khum bic',
-  //     cost: 35,
-  //   },
-  // ];
   const [invoiceDetail, setInvoiceDetail] = React.useState([]);
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },

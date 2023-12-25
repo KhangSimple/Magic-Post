@@ -14,6 +14,7 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Label from 'src/components/label';
+import Scrollbar from '~/components/scrollbar';
 
 const cx = classNames.bind(styles);
 
@@ -127,8 +128,9 @@ const ParcelTransactionHistory = () => {
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4">ĐƠN HÀNG CHỜ XÁC NHẬN</Typography>
         </Stack>
+        {/*<Scrollbar></Scrollbar>*/}
         <TableContainer component={Paper}>
-          <Table className={cx(styles.packageTableTransaction)} aria-label="simple table">
+          <Table className={cx(styles.packageTableTransaction)} aria-label="simple table" >
             <TableHead>
               <TableRow>
                 <TableCell>ID</TableCell>

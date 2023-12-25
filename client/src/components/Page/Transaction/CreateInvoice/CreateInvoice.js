@@ -9,8 +9,6 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Unstable_Grid2';
-import Button from '~/components/Button';
-
 
 import { Container, Divider } from '@mui/material';
 import AddMoreProduct from './AddMoreProduct/AddMoreProduct';
@@ -21,7 +19,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 import DashboardLayout from 'src/layouts/dashboard';
 import navConfig from '../config-navigation';
-import CardActions from '@mui/material/CardActions';
+import AppWidgetSummary from '~/components/Page/Transaction/Statistics/components/WidgetSummary';
+import axios from 'axios';
 
 const defaultPackageInfo = {
   sumOfCOD: '',
@@ -45,13 +44,6 @@ const cx = classNames.bind(styles);
 const defaultProduct = { name: '', code: '', weight: '200', quantity: '1' };
 
 const CreateInvoice = () => {
-  function handleCreateInvoice(){
-    console.log(productList);
-    console.log(packageProductInfo);
-    console.log(senderInfo);
-    console.log(receiverInfo);
-    console.log(note);
-  }
   function handleAddMoreProduct() {
     setProductList([...productList, { ...defaultProduct, uuid: uuidv4() }]);
   }
@@ -71,7 +63,8 @@ const CreateInvoice = () => {
     setProductList(productList);
 
     setPackageProductInfo({
-      ...packageProductInfo, weight: productList.reduce((accumulator, currentValue, currentIndex, array) => {
+      ...packageProductInfo,
+      weight: productList.reduce((accumulator, currentValue, currentIndex, array) => {
         console.log(parseInt(currentValue.weight) * parseInt(currentValue.quantity));
         let newWeight = parseInt(currentValue.weight) * parseInt(currentValue.quantity);
         return accumulator + newWeight;
@@ -100,11 +93,29 @@ const CreateInvoice = () => {
 
   const [productList, setProductList] = useState([{ ...defaultProduct, uuid: uuidv4() }]);
 
+  const createParcel = () => {
+    axios
+      .post(`http://localhost:1510/createParcel`, {
+        data: {
+          senderInfo: senderInfo,
+          receiverInfo: receiverInfo,
+          productList: productList,
+          packageProductInfo: packageProductInfo,
+          note: note,
+        },
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
   return (
     <DashboardLayout navConfig={navConfig}>
       <Container>
-        <Stack direction='row' alignItems='center' justifyContent='space-between' mb={5}>
-          <Typography variant='h4'>TẠO ĐƠN HÀNG ĐIỂM GIAO DỊCH</Typography>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+          <Typography variant="h4">TẠO ĐƠN HÀNG ĐIỂM GIAO DỊCH</Typography>
 
           {/* <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
           Tạo tài khoản
@@ -121,7 +132,6 @@ const CreateInvoice = () => {
             <InfoTitle>Bên gửi</InfoTitle>
             <Grid container columnSpacing={10}>
               <Grid xs={12} sm={6} md={6}>
-
                 <label>Số điện thoại</label>
                 <Input
                   placeHolder={'Nhập số điện thoại'}
@@ -190,7 +200,6 @@ const CreateInvoice = () => {
                     setReceiverInfo({ ...receiverInfo, name: value });
                   }}
                 ></Input>
-
               </Grid>
               <Grid xs={12} sm={6} md={6}>
                 <label>Tỉnh - thành phố</label>
@@ -247,35 +256,37 @@ const CreateInvoice = () => {
             <Divider />
             <InfoTitle>Lưu ý - Ghi chú</InfoTitle>
             <Grid container spacing={3}>
-              <Grid xs={12} sm={6} md={6}><Box>
-                <label>Lưu ý giao hàng</label>
-                <Input
-                  select
-                  data={Object.keys(requiredNoteState)}
-                  onChange={(value) => {
-                    setNote({ ...note, requiredNote: requiredNoteState[value] });
-                  }}
-                  value={note.requiredNote}
-                ></Input>
-              </Box></Grid>
-              <Grid xs={12} sm={6} md={6}><Box>
-                <label>Ghi chú </label>
-                <MinHeightTextarea
-                  value={note.note}
-                  onChange={(value) => {
-                    setNote({ ...note, note: value.target.value });
-                  }}
-                />
-              </Box></Grid>
+              <Grid xs={12} sm={6} md={6}>
+                <Box>
+                  <label>Lưu ý giao hàng</label>
+                  <Input
+                    select
+                    data={Object.keys(requiredNoteState)}
+                    onChange={(value) => {
+                      setNote({ ...note, requiredNote: requiredNoteState[value] });
+                    }}
+                    value={note.requiredNote}
+                  ></Input>
+                </Box>
+              </Grid>
+              <Grid xs={12} sm={6} md={6}>
+                <Box>
+                  <label>Ghi chú </label>
+                  <MinHeightTextarea
+                    value={note.note}
+                    onChange={(value) => {
+                      setNote({ ...note, note: value.target.value });
+                    }}
+                  />
+                </Box>
+              </Grid>
             </Grid>
           </div>
-          <CardActions>
-            <Button onClick={handleCreateInvoice}>
-              Tạo đơn
-            </Button>
-          </CardActions>
         </Card>
       </Container>
+      <button style={{ height: 200 }} onClick={() => createParcel()}>
+        Tạo đơn hàng
+      </button>
     </DashboardLayout>
   );
 };

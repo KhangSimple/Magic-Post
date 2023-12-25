@@ -26,6 +26,7 @@ import navConfig from '../config-navigation';
 import axios from 'axios';
 
 const cx = classNames.bind(styles);
+const zip_code = 1485;
 
 const ParcelTransactionInStock = () => {
   const [open, setOpen] = React.useState(false);
@@ -40,7 +41,7 @@ const ParcelTransactionInStock = () => {
     axios
       .get(`http://localhost:1510/getTransactionList`, {
         params: {
-          id: '1442', // Transaction_zip_code
+          id: zip_code, // Transaction_zip_code
           type: 'in',
           status: 'Chờ gửi',
         },
@@ -92,7 +93,7 @@ const ParcelTransactionInStock = () => {
       .post(`http://localhost:1510/createTransactionPackage`, {
         data: {
           parcel_id: selectedRows,
-          sender_id: '1442', // zip_code nơi gửi
+          sender_id: zip_code, // zip_code nơi gửi
           sender_name: 'Quận 1- Hồ Chí Minh', // Địa chỉ nơi gửi
           type: 'Điểm giao dịch',
         },

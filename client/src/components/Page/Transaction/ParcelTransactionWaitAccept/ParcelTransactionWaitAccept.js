@@ -14,21 +14,24 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
+import { dateFormat } from '..';
 
 const cx = classNames.bind(styles);
+const zip_code = 1485;
 
 const ParcelTransactionWaitAccept = () => {
   const [open, setOpen] = React.useState(false);
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [packages, setPackages] = React.useState([]);
   const [invoiceDetail, setInvoiceDetail] = React.useState([]);
+  const [selectedPackage, setSelectedPackage] = React.useState('');
   React.useEffect(() => {
     try {
       console.log('Call');
       axios
         .get(`http://localhost:1510/getArrivalParcelPackage`, {
           params: {
-            id: '201',
+            id: zip_code,
             type: 'transaction',
           },
         })
@@ -67,13 +70,14 @@ const ParcelTransactionWaitAccept = () => {
 
   const handleDetailsClick = (packageData) => {
     setOpen(true);
+    setSelectedPackage(packageData.parcel_package_id);
     try {
       console.log('Call get detail');
       axios
-        .get(`http://localhost:1510/getCollectionPackageDetail`, {
+        .get(`http://localhost:1510/getTransactionPackageDetail`, {
           params: {
             package_id: packageData.parcel_package_id,
-            collection_id: '201',
+            transaction_id: zip_code,
           },
         })
         .then(function (response) {
@@ -99,10 +103,8 @@ const ParcelTransactionWaitAccept = () => {
     axios
       .post(`http://localhost:1510/confirmParcel`, {
         data: {
-          kind_point: 'collection',
+          kind_point: 'transaction',
           parcel_id: parcel_id,
-          coll_id: '201',
-          sender_zip_code: '12345',
         },
       })
       .then(function (response) {
@@ -118,10 +120,10 @@ const ParcelTransactionWaitAccept = () => {
     console.log('hehe');
     handleClose();
     axios
-      .post(`http://localhost:1510/confirmCollecionPackage`, {
+      .post(`http://localhost:1510/confirmTransactionPackage`, {
         data: {
-          package_id: 'a',
-          zip_code: '201',
+          package_id: selectedPackage,
+          zip_code: zip_code,
         },
       })
       .then(function (response) {
@@ -157,11 +159,11 @@ const ParcelTransactionWaitAccept = () => {
             </TableHead>
             <TableBody>
               {packages.map((packageData) => (
-                <TableRow key={packageData.id}>
-                  <TableCell>{packageData.id}</TableCell>
-                  <TableCell>{packageData.type}</TableCell>
-                  <TableCell>{packageData.name}</TableCell>
-                  <TableCell>{packageData.sendDate}</TableCell>
+                <TableRow key={packageData.parcel_package_id}>
+                  <TableCell>{packageData.parcel_package_id}</TableCell>
+                  <TableCell>{packageData.sender_type}</TableCell>
+                  <TableCell>{packageData.sender_name}</TableCell>
+                  <TableCell>{dateFormat(packageData.send_date)}</TableCell>
                   <TableCell>
                     <Button variant="contained" onClick={() => handleDetailsClick(packageData)}>
                       Xem chi tiết

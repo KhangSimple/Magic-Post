@@ -18,7 +18,7 @@ import { dateFormat } from '..';
 import axios from 'axios';
 
 const cx = classNames.bind(styles);
-const zip_code = 202;
+const zip_code = 201;
 
 const ParcelCollectionHistory = () => {
   const [open, setOpen] = React.useState(false);

@@ -63,12 +63,50 @@ const ParcelCollectionInStock = () => {
         console.log(error);
       });
   }, []);
+  console.log(rows);
   const handleCreateInvoiceClick = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+  };
+  const sendParcel = (parcel_id, package_id) => {
+    axios
+      .post(`http://localhost:1510/sendParcel`, {
+        data: {
+          kind_point: 'transaction',
+          parcel_id: parcel_id,
+          package_id: package_id,
+        },
+      })
+      .then(function (response) {})
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  const sendParcelPackage = () => {
+    setOpen(false);
+    axios
+      .post(`http://localhost:1510/createCollectionPackage`, {
+        data: {
+          parcel_id: selectedRows,
+          sender_id: 201,
+          sender_name: 'Hà Nội',
+          receiver_id: 202,
+          type: 'Điểm tập kết',
+        },
+      })
+      .then(function (response) {
+        let package_id = response.data.package_id;
+        selectedRows.map((id) => {
+          sendParcel(id, package_id);
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   const handleSelectionModelChange = (selectionModel) => {
@@ -215,7 +253,7 @@ const ParcelCollectionInStock = () => {
             <Button onClick={handleClose} color="primary">
               Cancel
             </Button>
-            <Button onClick={handleClose} color="primary">
+            <Button onClick={sendParcelPackage} color="primary">
               Submit
             </Button>
           </DialogActions>

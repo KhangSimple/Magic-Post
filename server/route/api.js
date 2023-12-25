@@ -21,6 +21,7 @@ const initAPIRoute = (app) => {
   router.post('/sendPackage', apiController.sendPackage);
   router.post('/confirmCollecionPackage', apiController.confirmCollecionPackage);
   router.get('/getCollectionPackageDetail', apiController.getCollectionPackageDetail);
+  router.post('/createCollectionPackage', apiController.createCollectionPackage);
   return app.use('/', router);
 };
 

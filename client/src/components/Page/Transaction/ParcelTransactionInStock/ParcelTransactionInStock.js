@@ -23,6 +23,7 @@ import Typography from '@mui/material/Typography';
 import Iconify from 'src/components/iconify';
 import DashboardLayout from 'src/layouts/dashboard';
 import navConfig from '../config-navigation';
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
@@ -32,6 +33,36 @@ const ParcelTransactionInStock = () => {
   const [selectedSenderAddress, setSelectedSenderAddress] = React.useState('');
   const [filteredRows, setFilteredRows] = React.useState([]);
   const [isFilterActive, setIsFilterActive] = React.useState(false);
+  const [rows, setRows] = React.useState([]);
+
+  React.useEffect(() => {
+    console.log('Use Effect');
+    axios
+      .get(`http://localhost:1510/getTransactionList`, {
+        params: {
+          id: '1442', // Transaction_zip_code
+          type: 'in',
+          status: 'Chờ gửi',
+        },
+      })
+      .then(function (response) {
+        setRows(
+          response.data.map((row) => ({
+            id: row.parcel_id,
+            senderName: row.sender_name,
+            senderPhone: row.sender_phone,
+            senderAddress: row.sender_address,
+            receiverName: row.receiver_name,
+            receiverPhone: row.receiver_phone,
+            receiverAddress: row.receiver_address,
+            cost: row.cod_amount,
+          })),
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
 
   const handleCreateInvoiceClick = () => {
     setOpen(true);
@@ -39,6 +70,43 @@ const ParcelTransactionInStock = () => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+  const sendParcel = (parcel_id, package_id) => {
+    axios
+      .post(`http://localhost:1510/sendParcel`, {
+        data: {
+          kind_point: 'transaction',
+          parcel_id: parcel_id,
+          package_id: 'R0MFCZ',
+        },
+      })
+      .then(function (response) {})
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  const sendParcelPackage = () => {
+    setOpen(false);
+    axios
+      .post(`http://localhost:1510/createTransactionPackage`, {
+        data: {
+          parcel_id: selectedRows,
+          sender_id: '1442', // zip_code nơi gửi
+          sender_name: 'Quận 1- Hồ Chí Minh', // Địa chỉ nơi gửi
+          type: 'Điểm giao dịch',
+        },
+      })
+      .then(function (response) {
+        let package_id = response.data.package_id;
+        // console.log(package_id);
+        selectedRows.map((id) => {
+          sendParcel(id, package_id);
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   const handleSelectionModelChange = (selectionModel) => {
@@ -185,7 +253,7 @@ const ParcelTransactionInStock = () => {
             <Button onClick={handleClose} color="primary">
               Cancel
             </Button>
-            <Button onClick={handleClose} color="primary">
+            <Button onClick={sendParcelPackage} color="primary">
               Submit
             </Button>
           </DialogActions>

@@ -1,57 +1,45 @@
 export const columns = [
-  { field: 'parcel_id', headerClassName: 'super-app-theme--header', headerName: 'ID', width: 90 },
+  { field: 'id', headerClassName: 'super-app-theme--header', headerName: 'ID', width: 90 },
   {
-    field: 'sender_name',
+    field: 'senderName',
     headerClassName: 'super-app-theme--header',
     headerName: 'Sender Name',
     width: 160,
   },
   {
-    field: 'sender_phone',
+    field: 'senderPhone',
     headerClassName: 'super-app-theme--header',
     headerName: 'Sender Phone',
     width: 160,
   },
 
   {
-    field: 'sender_address',
+    field: 'senderAddress',
     headerClassName: 'super-app-theme--header',
     headerName: 'Sender Address',
     width: 160,
   },
   {
-    field: 'receiver_name',
+    field: 'receiverName',
     headerClassName: 'super-app-theme--header',
     headerName: 'Receiver Name',
     width: 160,
   },
   {
-    field: 'receiver_phone',
+    field: 'receiverPhone',
     headerClassName: 'super-app-theme--header',
     headerName: 'Receive Phone',
     width: 160,
   },
 
   {
-    field: 'receiver_address',
+    field: 'receiverAddress',
     headerClassName: 'super-app-theme--header',
     headerName: 'Receiver Address',
     width: 160,
   },
   {
-    field: 'from',
-    headerClassName: 'super-app-theme--header',
-    headerName: 'From',
-    width: 100,
-  },
-  {
-    field: 'to',
-    headerClassName: 'super-app-theme--header',
-    headerName: 'To',
-    width: 100,
-  },
-  {
-    field: 'cod_amount',
+    field: 'cost',
     headerClassName: 'super-app-theme--header',
     headerName: 'Cost ($)',
     width: 130,

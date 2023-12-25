@@ -4,7 +4,6 @@ import EmployeeLogin from '~/components/Page/EmployeeLogin';
 import UserRegister from '~/components/Page/UserRegister';
 import RestorePassword from '~/components/Page/RestorePassword';
 import Test from '~/components/Page/Test';
-import TransactionEmployee from '~/components/Page/TransactionEmployee';
 import HomePage from '~/components/Page/Home';
 import ParcelTracking from '~/components/Page/ParcelTracking';
 import TransactionManager from '~/components/Page/TransactionManager';
@@ -21,6 +20,13 @@ import ParcelCollectionInStock from '~/components/Page/Collection/ParcelCollecti
 import ParcelCollectionWaitAccept from '~/components/Page/Collection/ParcelCollectionWaitAccept/ParcelCollectionWaitAccept';
 import ParcelCollectionHistory from '~/components/Page/Collection/ParcelCollectionHistory/ParcelCollectionHistory';
 import ParcelCollectionStatistics from '~/components/Page/Collection';
+
+//transaction
+import ParcelTransactionHistory from '~/components/Page/Transaction/ParcelTransactionHistory/ParcelTransactionHistory';
+import ParcelTransactionInStock from '~/components/Page/Transaction/ParcelTransactionInStock/ParcelTransactionInStock';
+import ParcelTransactionWaitAccept from '~/components/Page/Transaction/ParcelTransactionWaitAccept/ParcelTransactionWaitAccept';
+import ParcelTransactionStatistics from '~/components/Page/Transaction';
+import ParcelTransactionCreateInvoice from '~/components/Page/Transaction/CreateInvoice/CreateInvoice';
 
 // const publicRoutes = [
 //   { path: '', component: HomePage, name: 'Home Page' },
@@ -78,12 +84,31 @@ const Routes = () => {
       path: '/transaction-manager/create-user',
       element: <CreateUser />,
     },
+
+    //transaction employee
     {
-      path: '/transaction-employee',
-      element: <TransactionEmployee />,
+      path: '/transaction/employee/',
+      element: <ParcelTransactionStatistics />,
     },
     {
-      path: '/collection/employee/statistics',
+      path: '/transaction/employee/create-invoice',
+      element: <ParcelTransactionCreateInvoice />,
+    },
+    {
+      path: '/transaction/employee/parcel-in-stock',
+      element: <ParcelTransactionInStock />,
+    },
+    {
+      path: '/transaction/employee/parcel-wait-accept',
+      element: <ParcelTransactionWaitAccept />,
+    },
+    {
+      path: '/transaction/employee/parcel-history',
+      element: <ParcelTransactionHistory />,
+    },
+    //collection employee
+    {
+      path: '/collection/employee/',
       element: <ParcelCollectionStatistics />,
     },
     {

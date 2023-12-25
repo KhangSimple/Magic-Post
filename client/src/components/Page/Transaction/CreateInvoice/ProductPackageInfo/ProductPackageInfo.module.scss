@@ -11,11 +11,14 @@
   .row {
     display: flex;
     margin-bottom: 5px;
+
     .blockCenter {
       display: flex;
+      flex-direction: row;
       justify-content: center;
       align-items: center;
     }
+
     .left {
       flex: 1;
       max-width: 80%;
@@ -23,6 +26,7 @@
       flex-direction: column;
       margin-right: 30px;
     }
+
     .right {
       flex: 1;
       max-width: 80%;

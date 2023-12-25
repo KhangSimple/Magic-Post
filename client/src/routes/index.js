@@ -27,6 +27,7 @@ import ParcelTransactionInStock from '~/components/Page/Transaction/ParcelTransa
 import ParcelTransactionWaitAccept from '~/components/Page/Transaction/ParcelTransactionWaitAccept/ParcelTransactionWaitAccept';
 import ParcelTransactionStatistics from '~/components/Page/Transaction';
 import ParcelTransactionCreateInvoice from '~/components/Page/Transaction/CreateInvoice/CreateInvoice';
+import ParcelTransactionShipment from '~/components/Page/Transaction/ParcelShipment/ParcelShipment';
 
 // const publicRoutes = [
 //   { path: '', component: HomePage, name: 'Home Page' },
@@ -106,6 +107,11 @@ const Routes = () => {
       path: '/transaction/employee/parcel-history',
       element: <ParcelTransactionHistory />,
     },
+    {
+      path: '/transaction/employee/parcel-shipment',
+      element: <ParcelTransactionShipment />,
+    },
+
     //collection employee
     {
       path: '/collection/employee/',

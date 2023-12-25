@@ -9,6 +9,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Unstable_Grid2';
+import Button from '~/components/Button';
 
 
 import { Container, Divider } from '@mui/material';
@@ -20,7 +21,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import DashboardLayout from 'src/layouts/dashboard';
 import navConfig from '../config-navigation';
-import AppWidgetSummary from '~/components/Page/Transaction/Statistics/components/WidgetSummary';
+import CardActions from '@mui/material/CardActions';
 
 const defaultPackageInfo = {
   sumOfCOD: '',
@@ -44,6 +45,13 @@ const cx = classNames.bind(styles);
 const defaultProduct = { name: '', code: '', weight: '200', quantity: '1' };
 
 const CreateInvoice = () => {
+  function handleCreateInvoice(){
+    console.log(productList);
+    console.log(packageProductInfo);
+    console.log(senderInfo);
+    console.log(receiverInfo);
+    console.log(note);
+  }
   function handleAddMoreProduct() {
     setProductList([...productList, { ...defaultProduct, uuid: uuidv4() }]);
   }
@@ -261,6 +269,11 @@ const CreateInvoice = () => {
               </Box></Grid>
             </Grid>
           </div>
+          <CardActions>
+            <Button onClick={handleCreateInvoice}>
+              Tạo đơn
+            </Button>
+          </CardActions>
         </Card>
       </Container>
     </DashboardLayout>

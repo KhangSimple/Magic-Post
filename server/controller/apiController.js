@@ -122,11 +122,11 @@ let createParcel = async (req, res) => {
     let column_list = keys.join(',');
     const mark = '?,'.repeat(keys.length - 1) + '?';
     const values = keys.map((key) => parcel[key]);
-    // await pool.execute(`insert into parcels(${column_list}) values(` + `${mark}` + `)`, values);
-    // await pool.execute(
-    //   `insert into transaction_stock(transaction_zip_code,parcel_id, sender_col_zip_code, status, type, is_confirm) values(?,?,?,?,?,?)`,
-    //   [parcel.sender_zip_code, parcel.id, null, 'Chờ gửi', 'in', 1],
-    // );
+    await pool.execute(`insert into parcels(${column_list}) values(` + `${mark}` + `)`, values);
+    await pool.execute(
+      `insert into transaction_stock(transaction_zip_code,parcel_id, sender_col_zip_code, status, type, is_confirm) values(?,?,?,?,?,?)`,
+      [parcel.sender_zip_code, parcel.id, null, 'Chờ gửi', 'in', 1],
+    );
     return res.status(200).json({ status: 'Success' });
   } catch (err) {
     console.log(err);
@@ -460,14 +460,16 @@ let confirmCollecionPackage = async (req, res) => {
     let { package_id, zip_code } = req.body.data;
     await pool.execute(
       'update parcel_package set status = "Đã xác nhận",receive_date = ? where parcel_package_id = ?',
-      [package_id, dateTime],
+      [dateTime, package_id],
     );
     let [parcel_ids, field] = await pool.execute(
       'select parcel_id from collection_stock where parcel_package_id = ? and collection_zip_code = ?',
       [package_id, zip_code],
     );
     return res.status(200).json({ parcel_ids: parcel_ids });
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
 };
 let createCollectionPackage = async (req, res) => {
   let { parcel_id, sender_id, sender_name, receiver_id, type } = req.body.data;
@@ -476,10 +478,10 @@ let createCollectionPackage = async (req, res) => {
   var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
   var time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
   var dateTime = date + ' ' + time;
-  // await pool.execute(
-  //   'insert into parcel_package(parcel_package_id, sender_id, sender_name, receiver_id, type, send_date, status, package_kind) values(?, ?, ?, ?, ?, ?, "Chờ xác nhận","in")',
-  //   [package_id, sender_id, sender_name, receiver_id, type, dateTime],
-  // );
+  await pool.execute(
+    'insert into parcel_package(parcel_package_id, sender_id, sender_name, receiver_id, type, send_date, status, package_kind) values(?, ?, ?, ?, ?, ?, "Chờ xác nhận","in")',
+    [package_id, sender_id, sender_name, receiver_id, type, dateTime],
+  );
   return res.status(200).json({ package_id: 'ljFSj' });
 };
 
@@ -501,13 +503,15 @@ let createTransactionPackage = async (req, res) => {
       let nextPoint = nextPoint_[0].collection_zip_code;
       let [n, _] = await pool.execute('select name from collection where zip_code = ?', [nextPoint]);
       let nextPoint_name = n[0].name;
-      // await pool.execute(
-      //   'insert into parcel_package(parcel_package_id, sender_id, sender_name, receiver_id,receiver_name, type, send_date, status, package_kind) values(?, ?, ?, ?, ?, ?, ?, "Chờ xác nhận","in")',
-      //   [package_id, sender_id, sender_name, nextPoint, nextPoint_name,type, dateTime],
-      // );
+      await pool.execute(
+        'insert into parcel_package(parcel_package_id, sender_id, sender_name, receiver_id,receiver_name, sender_type, receiver_type,send_date, status, package_kind) values(?, ?, ?, ?, ?, ?, ?, ?, "Chờ xác nhận","in")',
+        [package_id, sender_id, sender_name, nextPoint, nextPoint_name, type, 'Điểm tập kết', dateTime],
+      );
     }
     return res.status(200).json({ package_id: package_id });
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
 };
 export default {
   createStaffTransAccount,

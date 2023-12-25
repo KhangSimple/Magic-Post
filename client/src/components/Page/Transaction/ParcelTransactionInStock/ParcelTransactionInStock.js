@@ -77,7 +77,7 @@ const ParcelTransactionInStock = () => {
         data: {
           kind_point: 'transaction',
           parcel_id: parcel_id,
-          package_id: 'R0MFCZ',
+          package_id: package_id,
         },
       })
       .then(function (response) {})
@@ -99,7 +99,6 @@ const ParcelTransactionInStock = () => {
       })
       .then(function (response) {
         let package_id = response.data.package_id;
-        // console.log(package_id);
         selectedRows.map((id) => {
           sendParcel(id, package_id);
         });

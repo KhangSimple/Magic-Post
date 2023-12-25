@@ -161,7 +161,7 @@ const ParcelCollectionHistory = () => {
               {packages.map((packageData) => (
                 <TableRow key={packageData.parcel_package_id}>
                   <TableCell>{packageData.parcel_package_id}</TableCell>
-                  <TableCell>{packageData.type}</TableCell>
+                  <TableCell>{packageData.sender_type}</TableCell>
                   <TableCell>{packageData.sender_name}</TableCell>
                   <TableCell>{dateFormat(packageData.send_date)}</TableCell>
                   <TableCell>

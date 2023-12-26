@@ -24,6 +24,7 @@ import axios from 'axios';
 import Address from '~/Object/Address';
 import { LocalFireDepartmentOutlined } from '@mui/icons-material';
 import { zip_code } from '..';
+import { useNavigate } from 'react-router-dom';
 
 const defaultPackageInfo = {
   fee: {},
@@ -56,6 +57,7 @@ const CreateInvoice = () => {
   let [receiverWardData, setReceiverWardData] = useState([]);
   const [packageProductInfo, setPackageProductInfo] = useState(defaultPackageInfo);
   const [note, setNote] = useState(defaultNote);
+  const navigate = useNavigate();
 
   const [senderInfo, setSenderInfo] = useState({
     name: '',
@@ -209,6 +211,9 @@ const CreateInvoice = () => {
       })
       .then(function (response) {
         console.log(response);
+        if (response.status === 200) {
+          navigate('/employee/parcel-in-stock');
+        }
       })
       .catch(function (error) {
         console.log(error);

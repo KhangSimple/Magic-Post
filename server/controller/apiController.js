@@ -107,6 +107,7 @@ let createParcel = async (req, res) => {
 
     let data = req.body.data;
     let parcel = new Parcel();
+
     parcel.setParcel(
       generateString(5),
       dateTime,
@@ -117,6 +118,7 @@ let createParcel = async (req, res) => {
       data.packageProductInfo,
       data.note,
     );
+    console.log(parcel);
     let keys = Object.keys(parcel);
     let column_list = keys.join(',');
     const mark = '?,'.repeat(keys.length - 1) + '?';
@@ -168,6 +170,13 @@ let sendParcel = async (req, res) => {
       await pool.execute('update parcels set cur_pos = cur_pos + 1 where id = ?', [parcel_id]);
       console.log('Send Parcel Success');
     }
+    if (cur_pos == 3) {
+      await pool.execute(
+        'update transaction_stock set status = "Đang gửi",type = "out",send_time = ?,parcel_package_id = ?  where parcel_id = ?',
+        [dateTime, package_id, parcel_id],
+      );
+      await pool.execute('update parcels set cur_pos = cur_pos + 1 where id = ?', [parcel_id]);
+    }
   } else {
     if (cur_pos == 1) {
       let [sender, _] = await pool.execute(
@@ -198,7 +207,7 @@ let sendParcel = async (req, res) => {
       let coll_id = receiver[0].collection_zip_code;
       let [row, field] = await pool.execute('select receiver_zip_code from parcels where id = ?', [parcel_id]);
       await pool.execute(
-        'update collection_stock set status = "Đang gửi",type = "out",,parcel_package_id = ? ,send_time = ? where parcel_id = ? and collection_zip_code = ?',
+        'update collection_stock set status = "Đang gửi",type = "out",parcel_package_id = ? ,send_time = ? where parcel_id = ? and collection_zip_code = ?',
         [package_id, dateTime, parcel_id, coll_id],
       );
       await pool.execute(
@@ -233,6 +242,7 @@ let confirmParcel = async (req, res) => {
     let [c, field] = await pool.execute('select cur_pos from parcels where id = ?', [parcel_id]);
     let cur_pos = c[0].cur_pos;
     console.log('Cur-pos: ', cur_pos);
+
     if (kind_point == 'transaction') {
       if (cur_pos == 3) {
         let [receiver_, __] = await pool.execute(
@@ -253,7 +263,7 @@ let confirmParcel = async (req, res) => {
         return res.status(200);
       }
       return res.send('Fail');
-    } else {
+    } else if (kind_point == 'collection') {
       if (cur_pos == 1) {
         let [sender_, _] = await pool.execute('select sender_zip_code from parcels where id = ?', [parcel_id]);
         let sender = sender_[0].sender_zip_code;
@@ -285,6 +295,29 @@ let confirmParcel = async (req, res) => {
           'update collection_stock set is_confirm = 1,status="Chờ gửi",receive_time = ? where parcel_id = ? and collection_zip_code = ?',
           [dateTime, parcel_id, coll_id],
         );
+      }
+    } else {
+      if (cur_pos == 4) {
+        let zip_code = data.transaction_zip_code;
+        if (data.kind == 'success') {
+          await pool.execute(
+            'update parcel_package set status = "Đã xác nhận",receive_date = ? where receiver_name = "Người nhận" and parcel_package_id in (select parcel_package_id from transaction_stock where parcel_id = ?)',
+            [dateTime, parcel_id],
+          );
+          await pool.execute(
+            "update transaction_stock set status = 'Đã gửi thành công',is_confirm = 1 where parcel_id = ? and transaction_zip_code = ?",
+            [parcel_id, zip_code],
+          );
+        } else if (data.kind == 'fail') {
+          await pool.execute(
+            'update parcel_package set status = "Không gửi thành công đến người nhận" where receiver_name = "Người nhận" and parcel_package_id in (select parcel_package_id from transaction_stock where parcel_id = ?)',
+            [parcel_id],
+          );
+          await pool.execute(
+            "update transaction_stock set status = 'Không gửi thành công đến người nhận',is_confirm = -1 where parcel_id = ? and transaction_zip_code = ?",
+            [parcel_id, zip_code],
+          );
+        }
       }
     }
   } catch (err) {}
@@ -335,9 +368,29 @@ let searchParcel = async (req, res) => {
     }
     if (cur_pos > 2) {
       info.push({ status: 'Đã rời', time: coll_info[1].send_time, address: l_colls_address[0][0].address });
-      console.log(trans_info);
-      if (trans_info[1].is_confirm == 1) {
+      if (coll_info[1].is_confirm == 1) {
         info.push({ status: 'Nhận tại', time: trans_info[1].receive_time, address: l_trans_address[0][0].address });
+      }
+    }
+
+    if (cur_pos > 3) {
+      info.push({
+        status: 'Đã rời',
+        time: trans_info[1].send_time,
+        address: l_trans_address[0][0].address + ' | Đang gửi đến cho bạn',
+      });
+      if (trans_info[1].is_confirm == 1) {
+        info.push({
+          status: 'Nhận hàng thành công',
+          time: trans_info[1].receive_time,
+          detail: 'Người nhận đã nhận được hàng',
+        });
+      } else if (trans_info[1].is_confirm == -1) {
+        info.push({
+          status: 'Gửi hàng không thành công',
+          time: trans_info[1].receive_time,
+          detail: 'Người nhận không nhận được hàng',
+        });
       }
     }
     return res.json({ data: parcel_info, info: info });
@@ -540,6 +593,12 @@ let createTransactionPackage = async (req, res) => {
       await pool.execute(
         'insert into parcel_package(parcel_package_id, sender_id, sender_name, receiver_id,receiver_name, sender_type, receiver_type,send_date, status, package_kind) values(?, ?, ?, ?, ?, ?, ?, ?, "Chờ xác nhận","in")',
         [package_id, sender_id, sender_name, nextPoint, nextPoint_name, type, 'Điểm tập kết', dateTime],
+      );
+    }
+    if (cur_pos == 3) {
+      await pool.execute(
+        'insert into parcel_package(parcel_package_id, sender_id, sender_name, receiver_id,receiver_name, sender_type, receiver_type,send_date, status, package_kind) values(?, ?, ?, ?, ?, ?, ?, ?, "Chờ xác nhận","in")',
+        [package_id, sender_id, sender_name, null, 'Người nhận', type, 'Người nhận', dateTime],
       );
     }
     return res.status(200).json({ package_id: package_id });

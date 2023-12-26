@@ -94,7 +94,7 @@ const ParcelTransactionInStock = () => {
         data: {
           parcel_id: selectedRows,
           sender_id: zip_code, // zip_code nơi gửi
-          sender_name: 'Quận 1- Hồ Chí Minh', // Địa chỉ nơi gửi
+          sender_name: 'Phú Nghĩa - Hà Nội', // Địa chỉ nơi gửi
           type: 'Điểm giao dịch',
         },
       })

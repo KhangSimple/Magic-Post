@@ -133,8 +133,19 @@ const ParcelTransactionHistory = () => {
                   <TableCell>{packageData.receiver_name}</TableCell>
                   <TableCell>{dateFormat(packageData.receive_date)}</TableCell>
                   <TableCell>
-                    <Label color={(packageData.status === 'Đã xác nhận' && 'success') || 'primary'}>
-                      {packageData.status === 'Đã xác nhận' ? packageData.status : 'Đang gửi'}
+                    <Label
+                      color={
+                        packageData.status === 'Đã xác nhận'
+                          ? 'success'
+                          : packageData.status === 'Không gửi thành công đến người nhận'
+                          ? 'secondary'
+                          : 'primary'
+                      }
+                    >
+                      {packageData.status === 'Đã xác nhận' ||
+                      packageData.status === 'Không gửi thành công đến người nhận'
+                        ? packageData.status
+                        : 'Đang gửi'}
                     </Label>
                   </TableCell>
                   <TableCell>

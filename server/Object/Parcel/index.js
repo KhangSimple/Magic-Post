@@ -42,17 +42,7 @@ class Parcel {
     this.items = items;
     this.cur_pos = cur_pos;
   }
-  setParcel(
-    parcel_id,
-    createdTime,
-    sender_zip_code,
-    receiver_zip_code,
-    senderInfo,
-    receiverInfo,
-    productList,
-    packageProductInfo,
-    note,
-  ) {
+  setParcel(parcel_id, createdTime, sender_zip_code, senderInfo, receiverInfo, productList, packageProductInfo, note) {
     this.id = parcel_id;
     this.createdTime = createdTime;
     this.weight = packageProductInfo.weight;

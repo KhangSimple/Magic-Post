@@ -8,7 +8,7 @@ import AppAllStatistics from './Statistics/components/AllStatistics';
 import AppWidgetSummary from './Statistics/components/WidgetSummary';
 import AppConversionRates from './Statistics/components/ConversionRates';
 
-export const zip_code = 202;
+export const zip_code = 201;
 export function dateFormat(date) {
   if (date) {
     const d = new Date(date);

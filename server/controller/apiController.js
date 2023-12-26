@@ -321,9 +321,6 @@ let searchParcel = async (req, res) => {
       if (trans_info[0].type == 'in') {
         info.push({ status: 'Đang xử lí', time: trans_info.receive_time, address: f_trans_address[0][0].address });
       }
-      // } else {
-      //   info.push({ status: 'Đang chuyển hàng', time: trans_info.send_time, address: trans_address[0][0].address });
-      // }
     }
     if (cur_pos > 0) {
       info.push({ status: 'Đã rời', time: trans_info[0].send_time, address: f_trans_address[0][0].address });

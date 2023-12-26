@@ -21,6 +21,8 @@ import DashboardLayout from 'src/layouts/dashboard';
 import navConfig from '../config-navigation';
 import AppWidgetSummary from '~/components/Page/Transaction/Statistics/components/WidgetSummary';
 import axios from 'axios';
+import Address from '~/Object/Address';
+import { LocalFireDepartmentOutlined } from '@mui/icons-material';
 
 const defaultPackageInfo = {
   sumOfCOD: '',
@@ -44,10 +46,130 @@ const cx = classNames.bind(styles);
 const defaultProduct = { name: '', code: '', weight: '200', quantity: '1' };
 
 const CreateInvoice = () => {
+  let [senderProvinceData, setSenderProvinceData] = useState([]);
+  let [senderDistrictData, setSenderDistrictData] = useState([]);
+  let [senderWardData, setSenderWardData] = useState([]);
+  let [receiverProvinceData, setReceiverProvinceData] = useState([]);
+  let [receiverDistrictData, setReceiverDistrictData] = useState([]);
+  let [receiverWardData, setReceiverWardData] = useState([]);
+  const [packageProductInfo, setPackageProductInfo] = useState(defaultPackageInfo);
+  const [note, setNote] = useState(defaultNote);
+
+  const [senderInfo, setSenderInfo] = useState({
+    name: '',
+    phoneNumber: '',
+    province: { name: '', id: '' },
+    district: { name: '', id: '' },
+    ward: { name: '', id: '' },
+  });
+
+  const [receiverInfo, setReceiverInfo] = useState({
+    name: '',
+    phoneNumber: '',
+    province: { name: '', id: '' },
+    district: { name: '', id: '' },
+    ward: { name: '', id: '' },
+  });
+
+  const [productList, setProductList] = useState([{ ...defaultProduct, uuid: uuidv4() }]);
+
+  React.useEffect(() => {
+    axios
+      .get(`https://online-gateway.ghn.vn/shiip/public-api/master-data/province`, {
+        headers: { token: '1b869b93-97de-11ee-a59f-a260851ba65c' },
+      })
+      .then(function (response) {
+        setSenderProvinceData((prev) => [...response.data.data]);
+        setReceiverProvinceData((prev) => [...response.data.data]);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
+
+  React.useEffect(() => {
+    if (senderInfo.province.id !== '') {
+      senderInfo.district.id = '';
+      senderInfo.ward.id = '';
+      setSenderWardData([]);
+      axios
+        .get(`https://online-gateway.ghn.vn/shiip/public-api/master-data/district`, {
+          headers: { token: '7dbb1c13-7e11-11ee-96dc-de6f804954c9' },
+          params: {
+            province_id: +senderInfo.province.id,
+          },
+        })
+        .then(function (response) {
+          setSenderDistrictData((prev) => [...response.data.data]);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  }, [senderInfo.province.id]);
+
+  React.useEffect(() => {
+    if (receiverInfo.province.id !== '') {
+      receiverInfo.district.id = '';
+      receiverInfo.ward.id = '';
+      setReceiverWardData([]);
+      axios
+        .get(`https://online-gateway.ghn.vn/shiip/public-api/master-data/district`, {
+          headers: { token: '7dbb1c13-7e11-11ee-96dc-de6f804954c9' },
+          params: {
+            province_id: +receiverInfo.province.id,
+          },
+        })
+        .then(function (response) {
+          setReceiverDistrictData((prev) => [...response.data.data]);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  }, [receiverInfo.province.id]);
+
+  React.useEffect(() => {
+    if (senderInfo.district.id !== '') {
+      setSenderWardData([]);
+      axios
+        .get(`https://online-gateway.ghn.vn/shiip/public-api/master-data/ward`, {
+          headers: { token: '7dbb1c13-7e11-11ee-96dc-de6f804954c9' },
+          params: {
+            district_id: +senderInfo.district.id,
+          },
+        })
+        .then(function (response) {
+          setSenderWardData((prev) => [...response.data.data]);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  }, [senderInfo.district.id]);
+
+  React.useEffect(() => {
+    if (receiverInfo.district.id !== '') {
+      setReceiverWardData([]);
+      axios
+        .get(`https://online-gateway.ghn.vn/shiip/public-api/master-data/ward`, {
+          headers: { token: '7dbb1c13-7e11-11ee-96dc-de6f804954c9' },
+          params: {
+            district_id: +receiverInfo.district.id,
+          },
+        })
+        .then(function (response) {
+          setReceiverWardData((prev) => [...response.data.data]);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  }, [receiverInfo.district.id]);
+
   function handleAddMoreProduct() {
     setProductList([...productList, { ...defaultProduct, uuid: uuidv4() }]);
   }
-
   function handleDeleteProduct(index) {
     // console.log(productList[index]);
     var productListClone = [];
@@ -72,27 +194,6 @@ const CreateInvoice = () => {
     });
   }
 
-  const [packageProductInfo, setPackageProductInfo] = useState(defaultPackageInfo);
-  const [note, setNote] = useState(defaultNote);
-
-  const [senderInfo, setSenderInfo] = useState({
-    name: '',
-    phoneNumber: '',
-    province: '',
-    district: '',
-    ward: '',
-  });
-
-  const [receiverInfo, setReceiverInfo] = useState({
-    name: '',
-    phoneNumber: '',
-    province: '',
-    district: '',
-    ward: '',
-  });
-
-  const [productList, setProductList] = useState([{ ...defaultProduct, uuid: uuidv4() }]);
-
   const createParcel = () => {
     axios
       .post(`http://localhost:1510/createParcel`, {
@@ -111,6 +212,8 @@ const CreateInvoice = () => {
         console.log(error);
       });
   };
+
+  console.log(receiverInfo);
   return (
     <DashboardLayout navConfig={navConfig}>
       <Container>
@@ -153,28 +256,37 @@ const CreateInvoice = () => {
                 <label>Tỉnh - thành phố </label>
                 <Input
                   select
-                  data={['Thái Nguyên', 'Hà Nội', 'Hải Phòng']}
-                  value={senderInfo.province}
+                  data={senderProvinceData}
+                  value={senderInfo.province.id}
+                  optionLabel="ProvinceName"
+                  optionValue="ProvinceID"
                   onChange={(value) => {
-                    setSenderInfo({ ...senderInfo, province: value });
+                    let row = senderProvinceData.filter((row) => row.ProvinceID === value);
+                    setSenderInfo({ ...senderInfo, province: { name: row[0].ProvinceName, id: row[0].ProvinceID } });
                   }}
                 ></Input>
                 <label>Quận - huyện</label>
                 <Input
                   select
-                  data={['Thái Nguyên', 'Hà Nội', 'Hải Phòng']}
-                  value={senderInfo.district}
+                  data={senderDistrictData}
+                  value={senderInfo.district.id}
+                  optionLabel="DistrictName"
+                  optionValue="DistrictID"
                   onChange={(value) => {
-                    setSenderInfo({ ...senderInfo, district: value });
+                    let row = senderDistrictData.filter((row) => row.DistrictID === value);
+                    setSenderInfo({ ...senderInfo, district: { name: row[0].DistrictName, id: row[0].DistrictID } });
                   }}
                 ></Input>
                 <label>Phường - xã</label>
                 <Input
                   select
-                  data={['Thái Nguyên', 'Hà Nội', 'Hải Phòng']}
-                  value={senderInfo.ward}
+                  data={senderWardData}
+                  value={senderInfo.ward.id}
+                  optionLabel="WardName"
+                  optionValue="WardCode"
                   onChange={(value) => {
-                    setSenderInfo({ ...senderInfo, ward: value });
+                    let row = senderWardData.filter((row) => row.WardCode === value);
+                    setSenderInfo({ ...senderInfo, ward: { name: row[0].WardName, id: row[0].WardCode } });
                   }}
                 ></Input>
               </Grid>
@@ -205,28 +317,43 @@ const CreateInvoice = () => {
                 <label>Tỉnh - thành phố</label>
                 <Input
                   select
-                  data={['Thái Nguyên', 'Hà Nội', 'Hải Phòng']}
-                  value={receiverInfo.province}
+                  data={receiverProvinceData}
+                  value={receiverInfo.province.id}
+                  optionLabel="ProvinceName"
+                  optionValue="ProvinceID"
                   onChange={(value) => {
-                    setReceiverInfo({ ...receiverInfo, province: value });
+                    let row = receiverProvinceData.filter((row) => row.ProvinceID === value);
+                    setReceiverInfo({
+                      ...receiverInfo,
+                      province: { name: row[0].ProvinceName, id: row[0].ProvinceID },
+                    });
                   }}
                 ></Input>
                 <label>Quận - huyện</label>
                 <Input
                   select
-                  data={['Thái Nguyên', 'Hà Nội', 'Hải Phòng']}
-                  value={receiverInfo.district}
+                  data={receiverDistrictData}
+                  value={receiverInfo.district.id}
+                  optionLabel="DistrictName"
+                  optionValue="DistrictID"
                   onChange={(value) => {
-                    setReceiverInfo({ ...receiverInfo, district: value });
+                    let row = receiverDistrictData.filter((row) => row.DistrictID === value);
+                    setReceiverInfo({
+                      ...receiverInfo,
+                      district: { name: row[0].DistrictName, id: row[0].DistrictID },
+                    });
                   }}
                 ></Input>
                 <label>Phường - xã</label>
                 <Input
                   select
-                  data={['Thái Nguyên', 'Hà Nội', 'Hải Phòng']}
-                  value={receiverInfo.ward}
+                  data={receiverWardData}
+                  value={receiverInfo.ward.id}
+                  optionLabel="WardName"
+                  optionValue="WardCode"
                   onChange={(value) => {
-                    setReceiverInfo({ ...receiverInfo, ward: value });
+                    let row = receiverWardData.filter((row) => row.WardCode === value);
+                    setReceiverInfo({ ...receiverInfo, ward: { name: row[0].WardName, id: row[0].WardCode } });
                   }}
                 ></Input>
               </Grid>

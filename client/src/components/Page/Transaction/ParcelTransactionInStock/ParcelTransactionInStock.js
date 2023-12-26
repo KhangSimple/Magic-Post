@@ -25,8 +25,8 @@ import DashboardLayout from 'src/layouts/dashboard';
 import navConfig from '../config-navigation';
 import axios from 'axios';
 
+import { zip_code } from '..';
 const cx = classNames.bind(styles);
-const zip_code = 1485;
 
 const ParcelTransactionInStock = () => {
   const [open, setOpen] = React.useState(false);

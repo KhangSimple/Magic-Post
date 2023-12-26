@@ -7,7 +7,6 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
-import { rows } from './row';
 import { columns } from './columns';
 import classNames from 'classnames/bind';
 import styles from './parcelCollectionsInStock.module.scss';
@@ -24,9 +23,9 @@ import Iconify from 'src/components/iconify';
 import DashboardLayout from 'src/layouts/dashboard';
 import navConfig from '../config-navigation';
 import axios from 'axios';
+import { zip_code } from '..';
 
 const cx = classNames.bind(styles);
-const zip_code = 201;
 
 const ParcelCollectionInStock = () => {
   const [open, setOpen] = React.useState(false);

@@ -16,9 +16,9 @@ import Typography from '@mui/material/Typography';
 import Label from 'src/components/label';
 import axios from 'axios';
 import { dateFormat } from '..';
+import { zip_code } from '..';
 
 const cx = classNames.bind(styles);
-const zip_code = 1485;
 
 const ParcelTransactionHistory = () => {
   const [open, setOpen] = React.useState(false);

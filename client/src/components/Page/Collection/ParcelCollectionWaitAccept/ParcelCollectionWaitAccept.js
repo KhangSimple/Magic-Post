@@ -15,9 +15,9 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { dateFormat } from '..';
+import { zip_code } from '..';
 
 const cx = classNames.bind(styles);
-const collection_id = 201;
 
 const ParcelCollectionHistory = () => {
   const [open, setOpen] = React.useState(false);
@@ -30,7 +30,7 @@ const ParcelCollectionHistory = () => {
       axios
         .get(`http://localhost:1510/getArrivalParcelPackage`, {
           params: {
-            id: collection_id,
+            id: zip_code,
             type: 'collection',
           },
         })
@@ -78,7 +78,7 @@ const ParcelCollectionHistory = () => {
         .get(`http://localhost:1510/getCollectionPackageDetail`, {
           params: {
             package_id: packageData.parcel_package_id,
-            collection_id: collection_id,
+            collection_id: zip_code,
           },
         })
         .then(function (response) {
@@ -124,7 +124,7 @@ const ParcelCollectionHistory = () => {
       .post(`http://localhost:1510/confirmCollecionPackage`, {
         data: {
           package_id: selectedPackage,
-          zip_code: collection_id,
+          zip_code: zip_code,
         },
       })
       .then(function (response) {

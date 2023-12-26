@@ -15,9 +15,9 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { dateFormat } from '..';
+import { zip_code } from '..';
 
 const cx = classNames.bind(styles);
-const zip_code = 1485;
 
 const ParcelTransactionWaitAccept = () => {
   const [open, setOpen] = React.useState(false);

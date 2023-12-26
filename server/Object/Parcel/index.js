@@ -61,14 +61,15 @@ class Parcel {
     this.height = packageProductInfo.height;
     this.sender_name = senderInfo.name;
     this.sender_phone = senderInfo.phoneNumber;
-    this.sender_address = senderInfo.ward + '/' + senderInfo.district + '/' + senderInfo.province;
+    this.sender_address = senderInfo.ward.name + '/' + senderInfo.district.name + '/' + senderInfo.province.name;
     this.receiver_name = receiverInfo.name;
     this.receiver_phone = receiverInfo.phoneNumber;
-    this.receiver_address = receiverInfo.ward + '/' + receiverInfo.district + '/' + receiverInfo.province;
+    this.receiver_address =
+      receiverInfo.ward.name + '/' + receiverInfo.district.name + '/' + receiverInfo.province.name;
     this.sender_zip_code = sender_zip_code;
-    this.receiver_zip_code = receiver_zip_code;
+    this.receiver_zip_code = receiverInfo.district.id;
     this.cod_amount = packageProductInfo.sumOfCOD;
-    this.cost = '200000';
+    this.cost = packageProductInfo.fee.total;
     this.note = note.note;
     this.required_note = note.requiredNote;
     this.items = JSON.stringify(productList);

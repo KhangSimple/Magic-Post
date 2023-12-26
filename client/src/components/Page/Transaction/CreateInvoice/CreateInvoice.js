@@ -23,8 +23,10 @@ import AppWidgetSummary from '~/components/Page/Transaction/Statistics/component
 import axios from 'axios';
 import Address from '~/Object/Address';
 import { LocalFireDepartmentOutlined } from '@mui/icons-material';
+import { zip_code } from '..';
 
 const defaultPackageInfo = {
+  fee: {},
   sumOfCOD: '',
   totalPackageValue: '',
   weight: '0',
@@ -89,9 +91,9 @@ const CreateInvoice = () => {
 
   React.useEffect(() => {
     if (senderInfo.province.id !== '') {
-      senderInfo.district.id = '';
-      senderInfo.ward.id = '';
-      setSenderWardData([]);
+      // senderInfo.district.id = '';
+      // senderInfo.ward.id = '';
+      // setSenderWardData([]);
       axios
         .get(`https://online-gateway.ghn.vn/shiip/public-api/master-data/district`, {
           headers: { token: '7dbb1c13-7e11-11ee-96dc-de6f804954c9' },
@@ -106,12 +108,12 @@ const CreateInvoice = () => {
           console.log(error);
         });
     }
-  }, [senderInfo.province.id]);
+  }, [senderInfo.province]);
 
   React.useEffect(() => {
     if (receiverInfo.province.id !== '') {
-      receiverInfo.district.id = '';
-      receiverInfo.ward.id = '';
+      // receiverInfo.district.id = '';
+      // receiverInfo.ward.id = '';
       setReceiverWardData([]);
       axios
         .get(`https://online-gateway.ghn.vn/shiip/public-api/master-data/district`, {
@@ -127,11 +129,10 @@ const CreateInvoice = () => {
           console.log(error);
         });
     }
-  }, [receiverInfo.province.id]);
+  }, [receiverInfo.province]);
 
   React.useEffect(() => {
     if (senderInfo.district.id !== '') {
-      setSenderWardData([]);
       axios
         .get(`https://online-gateway.ghn.vn/shiip/public-api/master-data/ward`, {
           headers: { token: '7dbb1c13-7e11-11ee-96dc-de6f804954c9' },
@@ -146,11 +147,10 @@ const CreateInvoice = () => {
           console.log(error);
         });
     }
-  }, [senderInfo.district.id]);
+  }, [senderInfo.district]);
 
   React.useEffect(() => {
     if (receiverInfo.district.id !== '') {
-      setReceiverWardData([]);
       axios
         .get(`https://online-gateway.ghn.vn/shiip/public-api/master-data/ward`, {
           headers: { token: '7dbb1c13-7e11-11ee-96dc-de6f804954c9' },
@@ -165,7 +165,7 @@ const CreateInvoice = () => {
           console.log(error);
         });
     }
-  }, [receiverInfo.district.id]);
+  }, [receiverInfo.district]);
 
   function handleAddMoreProduct() {
     setProductList([...productList, { ...defaultProduct, uuid: uuidv4() }]);
@@ -198,6 +198,8 @@ const CreateInvoice = () => {
     axios
       .post(`http://localhost:1510/createParcel`, {
         data: {
+          zip_code: zip_code,
+          receiver_zip_code: receiverInfo.district.id,
           senderInfo: senderInfo,
           receiverInfo: receiverInfo,
           productList: productList,
@@ -212,8 +214,42 @@ const CreateInvoice = () => {
         console.log(error);
       });
   };
-
-  console.log(receiverInfo);
+  React.useEffect(() => {
+    axios
+      .get(`https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee`, {
+        headers: { token: '1b869b93-97de-11ee-a59f-a260851ba65c', shop_id: '4758658' },
+        params: {
+          service_type_id: 2,
+          from_district_id: zip_code,
+          to_district_id: receiverInfo.district.id,
+          to_ward_code: receiverInfo.ward.id,
+          height: packageProductInfo.height,
+          length: packageProductInfo.length,
+          weight: packageProductInfo.weight,
+          width: packageProductInfo.width,
+          insurance_value: packageProductInfo.totalPackageValue,
+          coupon: null,
+        },
+      })
+      .then(function (response) {
+        if (response.status == 200) {
+          setPackageProductInfo({ ...packageProductInfo, fee: response.data.data });
+        }
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, [
+    receiverInfo.district.id,
+    receiverInfo.ward.id,
+    packageProductInfo.weight,
+    packageProductInfo.length,
+    packageProductInfo.height,
+    packageProductInfo.width,
+    packageProductInfo.sumOfCOD,
+    packageProductInfo.totalPackageValue,
+  ]);
   return (
     <DashboardLayout navConfig={navConfig}>
       <Container>

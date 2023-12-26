@@ -110,8 +110,7 @@ let createParcel = async (req, res) => {
     parcel.setParcel(
       generateString(5),
       dateTime,
-      '1442',
-      '1485',
+      data.zip_code,
       data.senderInfo,
       data.receiverInfo,
       data.productList,

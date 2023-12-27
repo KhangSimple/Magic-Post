@@ -16,36 +16,65 @@ let getTransactionPage = async (req, res) => {
 
 // Đăng nhập vào trang nhân viên
 let getEmployeePage = async (req, res) => {
-  let { username, password } = req.body;
-  let checkUsername = await pool.execute('select count(username) as ct from staff_transaction where username=?', [
-    username,
-  ]);
-  let checkPassword = await pool.execute(
-    'select count(username) as ct from staff_transaction where username=? and password=?',
-    [username, password],
-  );
-  checkUsername = checkUsername[0][0].ct;
-  checkPassword = checkPassword[0][0].ct;
-  if ((checkUsername != 0) & (checkPassword != 0)) {
-    let [rows, field] = await pool.execute('select * from staff_transaction where username=? and password = ?', [
-      username,
-      password,
-    ]);
-    let info = rows[0];
-    var encryptedPassword = await bcrypt.hash(password, 10);
-    info.password = encryptedPassword;
-    var token = jwt.sign(
-      { id: info.id, role: 'trans-employee', zip_code: info.transaction_zip_code },
-      process.env.TOKEN_KEY,
-      {
-        expiresIn: '3h',
-      },
-    );
-    return res.status(200).json({ flag: 1, token: token });
-  } else {
-    return res.json({ flag: 0, checkUsername: checkUsername, checkPassword: checkPassword });
-  }
-  // return res.json({ data: jsonData });
+  try {
+    let { username, password, kindPoint } = req.body;
+    if (kindPoint == 'transaction') {
+      let checkUsername = await pool.execute('select count(username) as ct from staff_transaction where username=?', [
+        username,
+      ]);
+      let checkPassword = await pool.execute(
+        'select count(username) as ct from staff_transaction where username=? and password=?',
+        [username, password],
+      );
+      checkUsername = checkUsername[0][0].ct;
+      checkPassword = checkPassword[0][0].ct;
+      if ((checkUsername != 0) & (checkPassword != 0)) {
+        let [rows, field] = await pool.execute('select * from staff_transaction where username=? and password = ?', [
+          username,
+          password,
+        ]);
+        let info = rows[0];
+        var encryptedPassword = await bcrypt.hash(password, 10);
+        info.password = encryptedPassword;
+        let [c, _] = await pool.execute('select * from transaction where zip_code = ?', [info.transaction_zip_code]);
+        var token = jwt.sign({ id: info.id, role: 'trans-employee', trans_info: c[0] }, process.env.TOKEN_KEY, {
+          expiresIn: '3h',
+        });
+        return res.status(200).json({ flag: 1, token: token });
+      } else {
+        return res.json({ flag: 0, checkUsername: checkUsername, checkPassword: checkPassword });
+      }
+    } else {
+      let checkUsername = await pool.execute('select count(username) as ct from staff_collection where username=?', [
+        username,
+      ]);
+      let checkPassword = await pool.execute(
+        'select count(username) as ct from staff_collection where username=? and password=?',
+        [username, password],
+      );
+      checkUsername = checkUsername[0][0].ct;
+      checkPassword = checkPassword[0][0].ct;
+      if ((checkUsername != 0) & (checkPassword != 0)) {
+        let [rows, field] = await pool.execute('select * from staff_collection where username=? and password = ?', [
+          username,
+          password,
+        ]);
+        let info = rows[0];
+        var encryptedPassword = await bcrypt.hash(password, 10);
+        info.password = encryptedPassword;
+        var token = jwt.sign(
+          { id: info.id, role: 'coll-employee', zip_code: info.transaction_zip_code },
+          process.env.TOKEN_KEY,
+          {
+            expiresIn: '3h',
+          },
+        );
+        return res.status(200).json({ flag: 1, token: token });
+      } else {
+        return res.json({ flag: 0, checkUsername: checkUsername, checkPassword: checkPassword });
+      }
+    }
+  } catch (err) {}
 };
 
 let register = async (req, res) => {

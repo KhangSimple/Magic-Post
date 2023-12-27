@@ -25,7 +25,9 @@ import DashboardLayout from 'src/layouts/dashboard';
 import navConfig from '../config-navigation';
 import axios from 'axios';
 
-import { zip_code } from '..';
+const ZIP_CODE = localStorage.getItem('zip_code');
+const NAME = localStorage.getItem('name');
+
 const cx = classNames.bind(styles);
 
 const ParcelTransactionInStock = () => {
@@ -40,8 +42,11 @@ const ParcelTransactionInStock = () => {
     console.log('Use Effect');
     axios
       .get(`http://localhost:1510/getTransactionList`, {
+        headers: {
+          token: localStorage.getItem('token'),
+        },
         params: {
-          id: zip_code, // Transaction_zip_code
+          id: ZIP_CODE, // Transaction_zip_code
           type: 'in',
           status: 'Chờ gửi',
         },
@@ -76,6 +81,7 @@ const ParcelTransactionInStock = () => {
     axios
       .post(`http://localhost:1510/sendParcel`, {
         data: {
+          token: localStorage.getItem('token'),
           kind_point: 'transaction',
           parcel_id: parcel_id,
           package_id: package_id,
@@ -92,9 +98,10 @@ const ParcelTransactionInStock = () => {
     axios
       .post(`http://localhost:1510/createTransactionPackage`, {
         data: {
+          token: localStorage.getItem('token'),
           parcel_id: selectedRows,
-          sender_id: zip_code, // zip_code nơi gửi
-          sender_name: 'Phú Nghĩa - Hà Nội', // Địa chỉ nơi gửi
+          sender_id: ZIP_CODE, // zip_code nơi gửi
+          sender_name: NAME, // Địa chỉ nơi gửi
           type: 'Điểm giao dịch',
         },
       })

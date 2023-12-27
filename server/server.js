@@ -45,7 +45,7 @@ app.get('/get_session', (req, res) => {
 app.get('/verify-token', (req, res) => {
   //check session
   try {
-    var token = req.body.token || req.query.token;
+    var token = req.query.token || req.body.token || '';
     var decode = jwt.verify(token, process.env.TOKEN_KEY);
     return res.status(200).json({ status: 'success', decodeData: decode });
   } catch (err) {

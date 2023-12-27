@@ -23,7 +23,6 @@ import AppWidgetSummary from '~/components/Page/Transaction/Statistics/component
 import axios from 'axios';
 import Address from '~/Object/Address';
 import { LocalFireDepartmentOutlined } from '@mui/icons-material';
-import { zip_code } from '..';
 import { useNavigate } from 'react-router-dom';
 
 const defaultPackageInfo = {
@@ -45,6 +44,8 @@ const requiredNoteState = {
   'Cho thử hàng': 'CHOTHUHANG',
 };
 
+const ZIP_CODE = localStorage.getItem('zip_code');
+const NAME = localStorage.getItem('name');
 const cx = classNames.bind(styles);
 const defaultProduct = { name: '', code: '', weight: '200', quantity: '1' };
 
@@ -200,7 +201,8 @@ const CreateInvoice = () => {
     axios
       .post(`http://localhost:1510/createParcel`, {
         data: {
-          zip_code: zip_code,
+          token: localStorage.getItem('token'),
+          zip_code: ZIP_CODE,
           receiver_zip_code: receiverInfo.district.id,
           senderInfo: senderInfo,
           receiverInfo: receiverInfo,
@@ -212,7 +214,7 @@ const CreateInvoice = () => {
       .then(function (response) {
         console.log(response);
         if (response.status === 200) {
-          navigate('/employee/parcel-in-stock');
+          navigate('/transaction/employee/parcel-in-stock');
         }
       })
       .catch(function (error) {
@@ -225,7 +227,7 @@ const CreateInvoice = () => {
         headers: { token: '1b869b93-97de-11ee-a59f-a260851ba65c', shop_id: '4758658' },
         params: {
           service_type_id: 2,
-          from_district_id: zip_code,
+          from_district_id: ZIP_CODE,
           to_district_id: receiverInfo.district.id,
           to_ward_code: receiverInfo.ward.id,
           height: packageProductInfo.height,

@@ -86,26 +86,6 @@ const Routes = () => {
     },
 
     //transaction employee
-    {
-      path: '/transaction/employee/',
-      element: <ParcelTransactionStatistics />,
-    },
-    {
-      path: '/transaction/employee/create-invoice',
-      element: <ParcelTransactionCreateInvoice />,
-    },
-    {
-      path: '/transaction/employee/parcel-in-stock',
-      element: <ParcelTransactionInStock />,
-    },
-    {
-      path: '/transaction/employee/parcel-wait-accept',
-      element: <ParcelTransactionWaitAccept />,
-    },
-    {
-      path: '/transaction/employee/parcel-history',
-      element: <ParcelTransactionHistory />,
-    },
     //collection employee
     {
       path: '/collection/employee/',
@@ -142,6 +122,26 @@ const Routes = () => {
         {
           path: '/logout',
           element: <Test />,
+        },
+        {
+          path: '/transaction/employee/',
+          element: <ParcelTransactionStatistics />,
+        },
+        {
+          path: '/transaction/employee/create-invoice',
+          element: <ParcelTransactionCreateInvoice />,
+        },
+        {
+          path: '/transaction/employee/parcel-in-stock',
+          element: <ParcelTransactionInStock />,
+        },
+        {
+          path: '/transaction/employee/parcel-wait-accept',
+          element: <ParcelTransactionWaitAccept />,
+        },
+        {
+          path: '/transaction/employee/parcel-history',
+          element: <ParcelTransactionHistory />,
         },
       ],
     },

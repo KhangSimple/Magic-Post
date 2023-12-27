@@ -16,8 +16,9 @@ import Typography from '@mui/material/Typography';
 import Label from 'src/components/label';
 import axios from 'axios';
 import { dateFormat } from '..';
-import { zip_code } from '..';
 
+const ZIP_CODE = localStorage.getItem('zip_code');
+const NAME = localStorage.getItem('name');
 const cx = classNames.bind(styles);
 
 const ParcelTransactionHistory = () => {
@@ -31,8 +32,11 @@ const ParcelTransactionHistory = () => {
       console.log('Call');
       axios
         .get(`http://localhost:1510/getSendedParcelPackage`, {
+          headers: {
+            token: localStorage.getItem('token'),
+          },
           params: {
-            id: zip_code, // transaction_zip_code
+            id: ZIP_CODE, // transaction_zip_code
             type: 'transaction',
           },
         })
@@ -74,9 +78,12 @@ const ParcelTransactionHistory = () => {
       console.log('Call get detail');
       axios
         .get(`http://localhost:1510/getTransactionPackageDetail`, {
+          headers: {
+            token: localStorage.getItem('token'),
+          },
           params: {
             package_id: packageData.parcel_package_id,
-            transaction_id: zip_code,
+            transaction_id: ZIP_CODE,
           },
         })
         .then(function (response) {

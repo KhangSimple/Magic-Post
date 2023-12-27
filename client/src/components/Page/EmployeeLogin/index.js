@@ -18,13 +18,24 @@ import { faEye, faEyeSlash, faLock, faUser } from '@fortawesome/free-solid-svg-i
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 const cx = classNames.bind(styles);
+const data = [
+  {
+    id: 'transaction',
+    name: 'Transaction',
+  },
+  {
+    id: 'collection',
+    name: 'Collection',
+  },
+];
 
 function EmployeeLogin() {
   const [eyeIcon, setEyeIcon] = useState(0);
   const [passType, setPassType] = useState('password');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const nagivate = useNavigate();
+  const [kindPoint, setKindPoint] = useState('transaction');
+  const navigate = useNavigate();
   const usernameRef = useRef();
   const passwordRef = useRef();
   const authContext = useContext(AuthContext);
@@ -32,10 +43,11 @@ function EmployeeLogin() {
     setEyeIcon(1 - eyeIcon);
     setPassType(passType === 'text' ? 'password' : 'text');
   };
+  console.log(kindPoint);
   const handleLogin = () => {
     usernameRef.current.focus();
     const cookies = new Cookies();
-    cookies.set('name', 'khang', { path: '/employee/login' });
+    // cookies.set('name', 'khang', { path: '/employee/login' });
     // axios
     //   .get(`http://localhost:1510/verify-token`, {
     //     params: {
@@ -59,6 +71,7 @@ function EmployeeLogin() {
         .post(`http://localhost:1510/employeeLogin`, {
           username: username,
           password: password,
+          kindPoint: kindPoint,
         })
         .then(function (response) {
           let data = response.data;
@@ -73,7 +86,11 @@ function EmployeeLogin() {
             localStorage.setItem('token', data.token);
             authContext.setToken(data.token);
             console.log('Success');
-            nagivate('/employee');
+            if (kindPoint == 'transaction') {
+              navigate('/transaction/employee');
+            } else {
+              navigate('/collection/employee');
+            }
           }
         })
         .catch(function (error) {
@@ -116,6 +133,18 @@ function EmployeeLogin() {
             onChange={(value) => {
               setPassword(value);
             }}
+          />
+          <Input
+            value={kindPoint}
+            placeHolder="Loại điểm"
+            errorText="Trường này là bắt buộc!"
+            classes="register-input"
+            onChange={(value) => setKindPoint(value)}
+            data={data}
+            select={true}
+            optionLabel="name"
+            optionValue="id"
+            required
           />
           <div className={cx('signin-btn')}>
             <Button

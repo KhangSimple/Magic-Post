@@ -39,6 +39,9 @@ const ParcelCollectionInStock = () => {
     console.log('Use Effect');
     axios
       .get(`http://localhost:1510/getCollectionList`, {
+        headers: {
+          token: localStorage.getItem('token'),
+        },
         params: {
           id: zip_code,
           type: 'in',
@@ -75,6 +78,7 @@ const ParcelCollectionInStock = () => {
     axios
       .post(`http://localhost:1510/sendParcel`, {
         data: {
+          token: localStorage.getItem('token'),
           kind_point: 'collection',
           parcel_id: parcel_id,
           package_id: package_id,
@@ -91,6 +95,7 @@ const ParcelCollectionInStock = () => {
     axios
       .post(`http://localhost:1510/createCollectionPackage`, {
         data: {
+          token: localStorage.getItem('token'),
           parcel_id: selectedRows,
           sender_id: zip_code,
           sender_name: 'Hồ Chí Minh',

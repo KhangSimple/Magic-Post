@@ -15,8 +15,9 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { dateFormat } from '..';
-import { zip_code } from '..';
 
+const ZIP_CODE = localStorage.getItem('zip_code');
+const NAME = localStorage.getItem('name');
 const cx = classNames.bind(styles);
 
 const ParcelTransactionWaitAccept = () => {
@@ -30,8 +31,11 @@ const ParcelTransactionWaitAccept = () => {
       console.log('Call');
       axios
         .get(`http://localhost:1510/getArrivalParcelPackage`, {
+          headers: {
+            token: localStorage.getItem('token'),
+          },
           params: {
-            id: zip_code,
+            id: ZIP_CODE,
             type: 'transaction',
           },
         })
@@ -75,9 +79,12 @@ const ParcelTransactionWaitAccept = () => {
       console.log('Call get detail');
       axios
         .get(`http://localhost:1510/getTransactionPackageDetail`, {
+          headers: {
+            token: localStorage.getItem('token'),
+          },
           params: {
             package_id: packageData.parcel_package_id,
-            transaction_id: zip_code,
+            transaction_id: ZIP_CODE,
           },
         })
         .then(function (response) {
@@ -103,6 +110,7 @@ const ParcelTransactionWaitAccept = () => {
     axios
       .post(`http://localhost:1510/confirmParcel`, {
         data: {
+          token: localStorage.getItem('token'),
           kind_point: 'transaction',
           parcel_id: parcel_id,
         },
@@ -122,8 +130,9 @@ const ParcelTransactionWaitAccept = () => {
     axios
       .post(`http://localhost:1510/confirmTransactionPackage`, {
         data: {
+          token: localStorage.getItem('token'),
           package_id: selectedPackage,
-          zip_code: zip_code,
+          zip_code: ZIP_CODE,
         },
       })
       .then(function (response) {

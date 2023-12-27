@@ -150,7 +150,7 @@ let sendParcel = async (req, res) => {
   var dateTime = date + ' ' + time;
 
   let data = req.body.data;
-  let { kind_point, parcel_id, package_id } = data;
+  let { token, kind_point, parcel_id, package_id } = data;
   let [c, field] = await pool.execute('select cur_pos from parcels where id = ?', [parcel_id]);
   let cur_pos = c[0].cur_pos;
   console.log(cur_pos);
@@ -498,7 +498,7 @@ let confirmCollecionPackage = async (req, res) => {
   var dateTime = date + ' ' + time;
 
   try {
-    let { package_id, zip_code } = req.body.data;
+    let { token, package_id, zip_code } = req.body.data;
     await pool.execute(
       'update parcel_package set status = "Đã xác nhận",receive_date = ? where parcel_package_id = ?',
       [dateTime, package_id],
@@ -519,7 +519,7 @@ let confirmTransactionPackage = async (req, res) => {
   var dateTime = date + ' ' + time;
 
   try {
-    let { package_id, zip_code } = req.body.data;
+    let { token, package_id, zip_code } = req.body.data;
     await pool.execute(
       'update parcel_package set status = "Đã xác nhận",receive_date = ? where parcel_package_id = ?',
       [dateTime, package_id],
@@ -536,7 +536,7 @@ let confirmTransactionPackage = async (req, res) => {
 
 let createCollectionPackage = async (req, res) => {
   try {
-    let { parcel_id, sender_id, sender_name, receiver_id, type } = req.body.data;
+    let { token, parcel_id, sender_id, sender_name, receiver_id, type } = req.body.data;
     let package_id = generateString(6);
     var today = new Date();
     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -574,7 +574,7 @@ let createCollectionPackage = async (req, res) => {
 
 let createTransactionPackage = async (req, res) => {
   try {
-    let { parcel_id, sender_id, sender_name, type } = req.body.data;
+    let { token, parcel_id, sender_id, sender_name, type } = req.body.data;
     let package_id = generateString(6);
     var today = new Date();
     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();

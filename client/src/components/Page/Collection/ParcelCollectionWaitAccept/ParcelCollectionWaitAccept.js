@@ -29,6 +29,9 @@ const ParcelCollectionHistory = () => {
       console.log('Call');
       axios
         .get(`http://localhost:1510/getArrivalParcelPackage`, {
+          headers: {
+            token: localStorage.getItem('token'),
+          },
           params: {
             id: zip_code,
             type: 'collection',
@@ -76,6 +79,9 @@ const ParcelCollectionHistory = () => {
       console.log('Call get detail');
       axios
         .get(`http://localhost:1510/getCollectionPackageDetail`, {
+          headers: {
+            token: localStorage.getItem('token'),
+          },
           params: {
             package_id: packageData.parcel_package_id,
             collection_id: zip_code,
@@ -104,6 +110,7 @@ const ParcelCollectionHistory = () => {
     axios
       .post(`http://localhost:1510/confirmParcel`, {
         data: {
+          token: localStorage.getItem('token'),
           kind_point: 'collection',
           parcel_id: parcel_id,
         },
@@ -123,6 +130,7 @@ const ParcelCollectionHistory = () => {
     axios
       .post(`http://localhost:1510/confirmCollecionPackage`, {
         data: {
+          token: localStorage.getItem('token'),
           package_id: selectedPackage,
           zip_code: zip_code,
         },

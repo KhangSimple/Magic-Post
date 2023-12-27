@@ -24,8 +24,8 @@ import Iconify from 'src/components/iconify';
 import DashboardLayout from 'src/layouts/dashboard';
 import navConfig from '../config-navigation';
 import axios from 'axios';
-
-const ZIP_CODE = localStorage.getItem('zip_code');
+import { ZIP_CODE } from '..';
+// const ZIP_CODE = localStorage.getItem('zip_code');
 const NAME = localStorage.getItem('name');
 
 const cx = classNames.bind(styles);

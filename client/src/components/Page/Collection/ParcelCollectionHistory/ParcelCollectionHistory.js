@@ -89,7 +89,7 @@ const ParcelCollectionHistory = () => {
         .then(function (response) {
           setInvoiceDetail(
             response.data.data.map((row) => ({
-              id: row.id,
+              id: row.parcel_id,
               senderName: row.sender_name,
               senderPhone: row.sender_phone,
               senderAddress: row.sender_address,

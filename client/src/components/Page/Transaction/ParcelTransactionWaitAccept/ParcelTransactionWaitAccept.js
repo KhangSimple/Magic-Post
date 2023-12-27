@@ -15,8 +15,9 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { dateFormat } from '..';
+import { ZIP_CODE } from '..';
 
-const ZIP_CODE = localStorage.getItem('zip_code');
+// const ZIP_CODE = localStorage.getItem('zip_code');
 const NAME = localStorage.getItem('name');
 const cx = classNames.bind(styles);
 
@@ -90,7 +91,7 @@ const ParcelTransactionWaitAccept = () => {
         .then(function (response) {
           setInvoiceDetail(
             response.data.data.map((row) => ({
-              id: row.id,
+              id: row.parcel_id,
               senderName: row.sender_name,
               senderPhone: row.sender_phone,
               senderAddress: row.sender_address,

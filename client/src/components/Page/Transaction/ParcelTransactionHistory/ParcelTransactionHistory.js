@@ -17,7 +17,9 @@ import Label from 'src/components/label';
 import axios from 'axios';
 import { dateFormat } from '..';
 
-const ZIP_CODE = localStorage.getItem('zip_code');
+// const ZIP_CODE = localStorage.getItem('zip_code');
+import { ZIP_CODE } from '..';
+
 const NAME = localStorage.getItem('name');
 const cx = classNames.bind(styles);
 
@@ -87,9 +89,10 @@ const ParcelTransactionHistory = () => {
           },
         })
         .then(function (response) {
+          console.log(response);
           setInvoiceDetail(
             response.data.data.map((row) => ({
-              id: row.id,
+              id: row.parcel_id,
               senderName: row.sender_name,
               senderPhone: row.sender_phone,
               senderAddress: row.sender_address,

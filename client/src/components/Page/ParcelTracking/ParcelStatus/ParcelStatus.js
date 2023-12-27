@@ -15,6 +15,7 @@ const ParcelStatus = () => {
     axios
       .post(`http://localhost:1510/confirmParcel`, {
         data: {
+          token: localStorage.getItem('token'),
           kind_point: '...',
           kind: 'success',
           parcel_id: parcel.data[0].id,
@@ -33,6 +34,7 @@ const ParcelStatus = () => {
     axios
       .post(`http://localhost:1510/confirmParcel`, {
         data: {
+          token: localStorage.getItem('token'),
           kind_point: '...',
           kind: 'fail',
           parcel_id: parcel.data[0].id,

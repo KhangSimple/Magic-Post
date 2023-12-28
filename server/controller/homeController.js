@@ -92,6 +92,83 @@ let getEmployeePage = async (req, res) => {
   } catch (err) {}
 };
 
+let getManagerPage = async (req, res) => {
+  try {
+    let { username, password, kindPoint } = req.body;
+    if (kindPoint == 'transaction') {
+      let checkUsername = await pool.execute('select count(username) as ct from manager_transaction where username=?', [
+        username,
+      ]);
+      let checkPassword = await pool.execute(
+        'select count(username) as ct from manager_transaction where username=? and password=?',
+        [username, password],
+      );
+      checkUsername = checkUsername[0][0].ct;
+      checkPassword = checkPassword[0][0].ct;
+      if ((checkUsername != 0) & (checkPassword != 0)) {
+        let [rows, field] = await pool.execute('select * from manager_transaction where username=? and password = ?', [
+          username,
+          password,
+        ]);
+        let info = rows[0];
+        console.log(info);
+        var encryptedPassword = await bcrypt.hash(password, 10);
+        info.password = encryptedPassword;
+        let [c, _] = await pool.execute('select * from transaction where zip_code = ?', [info.transaction_zip_code]);
+        var token = jwt.sign(
+          {
+            info: { id: info.id, name: info.name, phone: info.phone, email: info.email, img_url: info.img_url },
+            role: 'trans-manager',
+            trans_info: c[0],
+          },
+          process.env.TOKEN_KEY,
+          {
+            expiresIn: '3h',
+          },
+        );
+        return res.status(200).json({ flag: 1, token: token });
+      } else {
+        return res.json({ flag: 0, checkUsername: checkUsername, checkPassword: checkPassword });
+      }
+    } else {
+      let checkUsername = await pool.execute('select count(username) as ct from manager_collection where username=?', [
+        username,
+      ]);
+      let checkPassword = await pool.execute(
+        'select count(username) as ct from manager_collection where username=? and password=?',
+        [username, password],
+      );
+      checkUsername = checkUsername[0][0].ct;
+      checkPassword = checkPassword[0][0].ct;
+      if ((checkUsername != 0) & (checkPassword != 0)) {
+        let [rows, field] = await pool.execute('select * from manager_collection where username=? and password = ?', [
+          username,
+          password,
+        ]);
+        let info = rows[0];
+        console.log(info);
+        var encryptedPassword = await bcrypt.hash(password, 10);
+        info.password = encryptedPassword;
+        let [c, _] = await pool.execute('select * from collection where zip_code = ?', [info.collection_zip_code]);
+        var token = jwt.sign(
+          {
+            info: { id: info.id, name: info.name, phone: info.phone, email: info.email, img_url: info.img_url },
+            role: 'coll-manager',
+            coll_info: c[0],
+          },
+          process.env.TOKEN_KEY,
+          {
+            expiresIn: '3h',
+          },
+        );
+        return res.status(200).json({ flag: 1, token: token });
+      } else {
+        return res.json({ flag: 0, checkUsername: checkUsername, checkPassword: checkPassword });
+      }
+    }
+  } catch (err) {}
+};
+
 let register = async (req, res) => {
   // console.log(req.body);
   const data = req.body.data;
@@ -111,4 +188,5 @@ export default {
   getTransactionPage,
   getEmployeePage,
   register,
+  getManagerPage,
 };

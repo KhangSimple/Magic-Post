@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Cookies } from 'react-cookie';
 
 import classNames from 'classnames/bind';
-import styles from './EmployeeLogin.module.scss';
+import styles from './ManagerLogin.module.scss';
 import images from '~/assets/images';
 import Input from '~/components/Input';
 import Button from '~/components/Button';
@@ -29,7 +29,7 @@ const data = [
   },
 ];
 
-function EmployeeLogin() {
+function ManagerLogin() {
   const [eyeIcon, setEyeIcon] = useState(0);
   const [passType, setPassType] = useState('password');
   const [username, setUsername] = useState('');
@@ -46,29 +46,12 @@ function EmployeeLogin() {
   console.log(kindPoint);
   const handleLogin = () => {
     usernameRef.current.focus();
-    const cookies = new Cookies();
-    // cookies.set('name', 'khang', { path: '/employee/login' });
-    // axios
-    //   .get(`http://localhost:1510/verify-token`, {
-    //     params: {
-    //       token: localStorage.getItem('token'),
-    //     },
-    //   })
-    //   .then(function (response) {
-    //     var status = response.data.status;
-    //     console.log(status);
-    //     // let data = response.data;
-    //     // localStorage.setItem('token', data.token);
-    //     // authContext.setToken(data.token);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
+
     if (username === '' || password === '') {
       toast.error('Vui lòng điền đầu đủ thông tin!');
     } else {
       axios
-        .post(`http://localhost:1510/employeeLogin`, {
+        .post(`http://localhost:1510/managerLogin`, {
           username: username,
           password: password,
           kindPoint: kindPoint,
@@ -87,10 +70,10 @@ function EmployeeLogin() {
             authContext.setToken(data.token);
             console.log('Success');
             if (kindPoint == 'transaction') {
-              navigate('/transaction/employee');
+              navigate('/transaction/manager');
               navigate(0);
             } else {
-              navigate('/collection/employee');
+              navigate('/collection/manager');
               navigate(0);
             }
           }
@@ -164,8 +147,8 @@ function EmployeeLogin() {
             <hr style={{ flex: 1 }} />
           </div>
           <div>
-            <Link to="/manager/login">
-              <Button outline>Tài khoản trưởng điểm</Button>
+            <Link to="/employee/login">
+              <Button outline>Tài khoản nhân viên</Button>
             </Link>
           </div>
         </div>
@@ -187,4 +170,4 @@ function EmployeeLogin() {
   );
 }
 
-export default EmployeeLogin;
+export default ManagerLogin;

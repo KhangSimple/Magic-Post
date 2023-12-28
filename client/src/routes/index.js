@@ -1,6 +1,7 @@
 // // Layouts
 import CustomerLogin from '~/components/Page/CustomerLogin';
 import EmployeeLogin from '~/components/Page/EmployeeLogin';
+import ManagerLogin from '~/components/Page/ManagerLogin';
 import UserRegister from '~/components/Page/UserRegister';
 import RestorePassword from '~/components/Page/RestorePassword';
 import Test from '~/components/Page/Test';
@@ -62,6 +63,10 @@ const Routes = () => {
       element: <EmployeeLogin />,
     },
     {
+      path: '/manager/login',
+      element: <ManagerLogin />,
+    },
+    {
       path: '/register',
       element: <UserRegister />,
     },
@@ -78,14 +83,7 @@ const Routes = () => {
       element: <HomePage />,
     },
     //transaction manager
-    {
-      path: '/transaction/manager',
-      element: <TransactionStatistics />,
-    },
-    {
-      path: '/transaction/manager/account-management',
-      element: <TransactionAccountManagementTable />,
-    },
+
     //collection manager
     {
       path: '/collection/manager',
@@ -153,6 +151,15 @@ const Routes = () => {
         {
           path: '/collection/employee/parcel-history',
           element: <ParcelCollectionHistory />,
+        },
+
+        {
+          path: '/transaction/manager',
+          element: <TransactionStatistics />,
+        },
+        {
+          path: '/transaction/manager/account-management',
+          element: <TransactionAccountManagementTable />,
         },
       ],
     },

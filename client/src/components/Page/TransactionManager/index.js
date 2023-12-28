@@ -11,7 +11,30 @@ import AppWidgetSummary from './Statistics/components/WidgetSummary';
 // import AppTrafficBySite from '../app-traffic-by-site';
 // import AppCurrentSubject from '../app-current-subject';
 import AppConversionRates from './Statistics/components/ConversionRates';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 const Statistics = () => {
+  const [decodedData, setDecodedData] = useState({});
+  useEffect(() => {
+    console.log('Use Effect main index');
+    axios
+      .get(`http://localhost:1510/verify-token`, {
+        params: {
+          token: localStorage.getItem('token'),
+        },
+      })
+      .then(function (response) {
+        let data = response.data.decodeData;
+        setDecodedData(response.data.decodeData);
+        localStorage.setItem('employee_info', JSON.stringify(data.info));
+        localStorage.setItem('role', data.role);
+        localStorage.setItem('zip_code', data.trans_info.zip_code);
+        localStorage.setItem('name', data.trans_info.name);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
   return (
     <DashboardLayout navConfig={navConfig}>
       <Container maxWidth="xl">

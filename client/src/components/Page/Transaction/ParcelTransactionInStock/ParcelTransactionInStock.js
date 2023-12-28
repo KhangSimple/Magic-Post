@@ -61,7 +61,7 @@ const ParcelTransactionInStock = () => {
             receiverName: row.receiver_name,
             receiverPhone: row.receiver_phone,
             receiverAddress: row.receiver_address,
-            cost: row.cod_amount,
+            cost: row.cost,
           })),
         );
       })

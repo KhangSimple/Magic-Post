@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -10,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
 import { account } from 'src/_mock/account';
+import axios from 'axios';
 
 // ----------------------------------------------------------------------
 
@@ -32,6 +34,7 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
+  const navigate = useNavigate();
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -40,7 +43,16 @@ export default function AccountPopover() {
   const handleClose = () => {
     setOpen(null);
   };
-
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('zip_code');
+    localStorage.removeItem('name');
+    localStorage.removeItem('role');
+    localStorage.removeItem('employee_id');
+    delete axios.defaults.headers.common['Authorization'];
+    navigate('/employee/login');
+    navigate(0);
+  };
   return (
     <>
       <IconButton
@@ -105,7 +117,7 @@ export default function AccountPopover() {
         <MenuItem
           disableRipple
           disableTouchRipple
-          onClick={handleClose}
+          onClick={handleLogout}
           sx={{ typography: 'body2', color: 'error.main', py: 1.5 }}
         >
           Logout

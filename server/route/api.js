@@ -26,6 +26,7 @@ const initAPIRoute = (app) => {
   router.get('/getTransactionPackageDetail', auth, apiController.getTransactionPackageDetail);
   router.post('/createCollectionPackage', auth, apiController.createCollectionPackage);
   router.post('/createTransactionPackage', auth, apiController.createTransactionPackage);
+  router.get('/getTransactionStaffList', auth, apiController.getTransactionStaffList);
   return app.use('/', router);
 };
 

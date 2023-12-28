@@ -1,4 +1,5 @@
 import { useState, Fragment } from 'react';
+import { sample } from 'lodash';
 
 import DashboardLayout from 'src/layouts/dashboard';
 import navConfig from '../config-navigation';
@@ -21,7 +22,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import { Link } from 'react-router-dom';
 
-import { users } from 'src/_mock/user';
+// import { users } from 'src/_mock/user';
 
 import Iconify from 'src/components/iconify';
 
@@ -34,11 +35,14 @@ import { emptyRows, applyFilter, getComparator } from './utils';
 import styles from './AccountTable.module.scss';
 import * as React from 'react';
 import classNames from 'classnames/bind';
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 // ----------------------------------------------------------------------
 
 export default function AccountManagementTable() {
+  const [users, setUsers] = useState([]);
+
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -52,10 +56,40 @@ export default function AccountManagementTable() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const [open, setOpen] = React.useState(false);
-  
-  const handleCreateAccount = ()=>{
+
+  React.useEffect(() => {
+    axios
+      .get(`http://localhost:1510/getTransactionStaffList`, {
+        headers: {
+          token: localStorage.getItem('token'),
+        },
+        params: {
+          zip_code: localStorage.getItem('zip_code'),
+        },
+      })
+      .then(function (response) {
+        setUsers(
+          response.data.map((row) => {
+            return {
+              id: row.id,
+              avatarUrl: row.img_url,
+              name: row.name,
+              email: row.email,
+              phoneNumber: row.phone,
+              status: sample(['Hoạt động']),
+              role: sample(['Nhân viên']),
+            };
+          }),
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
+
+  const handleCreateAccount = () => {
     handleClose();
-  }
+  };
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -118,10 +152,14 @@ export default function AccountManagementTable() {
   return (
     <DashboardLayout navConfig={navConfig}>
       <Container>
-        <Stack direction='row' alignItems='center' justifyContent='space-between' mb={5}>
-          <Typography variant='h4'>ĐIỂM GIAO DỊCH THÁI NGUYÊN</Typography>
-          <Button variant='contained' color='inherit' startIcon={<Iconify icon='eva:plus-fill' />}
-                  onClick={() => setOpen(true)}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+          <Typography variant="h4">ĐIỂM GIAO DỊCH THÁI NGUYÊN</Typography>
+          <Button
+            variant="contained"
+            color="inherit"
+            startIcon={<Iconify icon="eva:plus-fill" />}
+            onClick={() => setOpen(true)}
+          >
             Tạo tài khoản
           </Button>
         </Stack>
@@ -173,7 +211,7 @@ export default function AccountManagementTable() {
 
           <TablePagination
             page={page}
-            component='div'
+            component="div"
             count={users.length}
             rowsPerPage={rowsPerPage}
             onPageChange={handleChangePage}
@@ -181,16 +219,13 @@ export default function AccountManagementTable() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Card>
-        <Dialog className={cx(styles.dialog)} open={open} onClose={handleClose} fullWidth maxWidth='lg'>
-          <DialogTitle className={cx(styles.title)}>
-            Tạo tài khoản cho nhân viên
-          </DialogTitle>
-          <DialogContent >
-            <CreateUser handleCreateAccount={handleCreateAccount} ></CreateUser>
+        <Dialog className={cx(styles.dialog)} open={open} onClose={handleClose} fullWidth maxWidth="lg">
+          <DialogTitle className={cx(styles.title)}>Tạo tài khoản cho nhân viên</DialogTitle>
+          <DialogContent>
+            <CreateUser handleCreateAccount={handleCreateAccount}></CreateUser>
           </DialogContent>
         </Dialog>
       </Container>
     </DashboardLayout>
-
   );
 }

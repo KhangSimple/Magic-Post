@@ -613,6 +613,17 @@ let createTransactionPackage = async (req, res) => {
     console.log(err);
   }
 };
+
+let getTransactionStaffList = async (req, res) => {
+  try {
+    const { zip_code } = req.query || req.body || {};
+    const [rows, field] = await pool.execute(
+      'select id, name, phone,email, img_url from staff_transaction where transaction_zip_code = ?',
+      [zip_code],
+    );
+    return res.status(200).json(rows);
+  } catch (err) {}
+};
 export default {
   createStaffTransAccount,
   createStaffCollAccount,
@@ -636,4 +647,5 @@ export default {
   createCollectionPackage,
   createTransactionPackage,
   getSendedParcelPackage,
+  getTransactionStaffList,
 };

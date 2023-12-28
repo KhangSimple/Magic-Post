@@ -19,7 +19,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 import DashboardLayout from 'src/layouts/dashboard';
 import navConfig from '../config-navigation';
-import AppWidgetSummary from '~/components/Page/Transaction/Statistics/components/WidgetSummary';
 import axios from 'axios';
 import Address from '~/Object/Address';
 import { LocalFireDepartmentOutlined } from '@mui/icons-material';

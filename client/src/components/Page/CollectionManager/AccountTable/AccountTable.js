@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 
-import CreateUser from '~/components/Page/TransactionManager/CreateUser/CreateUser';
+import CreateUser from '~/components/Page/CollectionManager/CreateUser/CreateUser';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -119,7 +119,7 @@ export default function AccountManagementTable() {
     <DashboardLayout navConfig={navConfig}>
       <Container>
         <Stack direction='row' alignItems='center' justifyContent='space-between' mb={5}>
-          <Typography variant='h4'>ĐIỂM GIAO DỊCH THÁI NGUYÊN</Typography>
+          <Typography variant='h4'>ĐIỂM TẬP KẾT THÁI NGUYÊN</Typography>
           <Button variant='contained' color='inherit' startIcon={<Iconify icon='eva:plus-fill' />}
                   onClick={() => setOpen(true)}>
             Tạo tài khoản

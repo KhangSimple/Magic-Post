@@ -26,10 +26,10 @@ import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
 
 const CreateUser = ({ handleCreateAccount }) => {
-  const [profileImageURL, setProfileImageURL] = useState('');
   //Profile Image ref
   const profileImageRef = useRef();
   const stackProfileImageRef = useRef();
+  const [profileImageURL, setProfileImageURL] = useState('');
 
   const handleImageInputChange = (event) => {
     if (event.target.files.length) {
@@ -63,6 +63,7 @@ const CreateUser = ({ handleCreateAccount }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [address, setAddress] = useState('');
   const [repassword, setRepassword] = useState('');
+
 
   const allInfo = {
     username: username,
@@ -257,8 +258,6 @@ const CreateUser = ({ handleCreateAccount }) => {
                       onChange={(value) => setPhoneNumber(value)}
                       required
                     />
-
-
                   </Container>
                 </Grid>
                 <Grid item container xs={12} md={6}>
@@ -276,6 +275,7 @@ const CreateUser = ({ handleCreateAccount }) => {
                       onChange={(value) => setPassword(value)}
                       required
                     />
+
                     <Input
                       value={repassword}
                       valueCheck={password}

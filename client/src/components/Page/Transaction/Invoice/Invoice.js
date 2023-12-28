@@ -1,7 +1,13 @@
 import styles from './Invoice.module.scss';
 import classNames from 'classnames/bind';
 import generatePDF, { Resolution, Margin } from 'react-to-pdf';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import RowFlexTwoColumnWithFloat from '~/components/Page/Transaction/Invoice/components/RowFlexTwoColumnWithFloat';
+import Logo from 'src/components/logo';
+import CheckBoxCustom from '~/components/Page/Transaction/Invoice/components/CheckBoxCustom';
+import Button from '@mui/material/Button';
+import LinearProgress from '@mui/material/LinearProgress';
+
 const options = {
   // default is `save`
   method: 'open',
@@ -38,290 +44,267 @@ const options = {
   },
 };
 const cx = classNames.bind(styles);
+
 const Invoice = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const exportPDF = async () => {
+    setIsLoading(true);
+    await generatePDF(invoiceRef, options);
+    setIsLoading(false);
+  };
   const invoiceRef = useRef();
   return (
     <>
-      <button onClick={() => generatePDF(invoiceRef, options)}>Generate PDF</button>
+      <div style={{
+        height: 'fit-content',
+        marginLeft: '1rem',
+        marginRight: '1rem',
+      }}>
+        <Button style={{
+          marginBottom: '1rem'
+        }}  variant='contained' color='inherit' onClick={() => exportPDF()}
+        >
+          Xuất giấy biên nhận
+        </Button>
+        { isLoading&& <LinearProgress />}
+      </div>
+
       <div className={cx(styles.mainPage)} ref={invoiceRef}>
-        {console.log(styles)}
         <div className={cx(styles.subPage)}>
           <div className={cx(styles.invoiceHeader)}>
-            <div className={cx(styles.logo)}>
-              <img
-                src="https://images.careerbuilder.vn/employer_folders/lot9/237439/130655logo.jpg"
-                height={'65px'}
-              ></img>
-            </div>
+            <Logo className={cx(styles.logo)}></Logo>
             <div className={cx(styles.QRCode)}>
-              <img src="https://api.qrserver.com/v1/create-qr-code/?data=Khang!&size=65x65"></img>
-              <br></br>
-              <span>MAVANDONDNDB</span>
+              <div className={cx(styles.box)}>
+                <img src='https://api.qrserver.com/v1/create-qr-code/?data=Khang!&size=65x65' alt={''} style={{
+                  width: '65px',
+                  height: '65px',
+                }}></img>
+                <span>MAVANDONDNDB</span>
+              </div>
             </div>
           </div>
           <div className={cx(styles.invoiceBody)}>
             <table className={cx(styles.table)}>
               <tbody>
-                <tr>
-                  <td
-                    className={cx(styles.td)}
+              <tr>
+                <td
+                  className={cx(styles.td)}
+                  style={{
+                    width: '50%',
+                    height: '25%',
+                  }}
+                >
+                  <div
                     style={{
-                      width: '50%',
-                      height: '25%',
+                      width: '100%',
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
                     }}
                   >
                     <div
                       style={{
-                        width: '100%',
-                        height: '100%',
-                        display: 'flex',
-                        flexDirection: 'column',
+                        flex: '3',
                       }}
                     >
-                      <div
-                        style={{
-                          flex: '3',
-                        }}
-                      >
-                        <p
-                          style={{
-                            fontWeight: 'bold',
-                          }}
-                        >
-                          1. Họ tên địa chỉ người gửi
-                        </p>
-                        <p>Dịch Vọng Hậu - Cầu Giấy - TP Hà Nội Dịch Vọng Hậu - Cầu Giấy - TP Hà Nội</p>
-                      </div>
-                      <div
-                        style={{
-                          flex: '1',
-                        }}
-                      >
-                        <p>Điện thoại: 0914508451</p>
-                      </div>
-                      <div
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          flex: '1',
-                        }}
-                      >
-                        <p
-                          style={{
-                            flex: 1,
-                          }}
-                        >
-                          Mã khách hàng: 0914508451
-                        </p>
-                        <p
-                          style={{
-                            flex: 1,
-                          }}
-                        >
-                          Mã bưu chính: 0914508451
-                        </p>
-                      </div>
+                      <div className={cx(styles.title)}>1. Họ tên địa chỉ người gửi</div>
+                      <p>Dịch Vọng Hậu - Cầu Giấy - TP Hà Nội Dịch Vọng Hậu - Cầu Giấy - TP Hà Nội</p>
                     </div>
-                  </td>
-                  <td
-                    className={cx(styles.td)}
+                    <div
+                      style={{
+                        flex: '1',
+                      }}
+                    >
+                      <p><span className={cx(styles.bold)}>Điện thoại: </span> 0914508451</p>
+                    </div>
+                    <div
+                      style={{
+                        flex: '1',
+                      }} className={cx(styles.flexTwoColumn)}
+                    >
+                      <p className={cx(styles.left)}>
+                        <span className={cx(styles.bold)}>Mã khách hàng: </span>0914508451
+                      </p>
+                      <p className={cx(styles.right)}>
+                        <span className={cx(styles.bold)}>Mã bưu chính: </span>0914508451
+                      </p>
+                    </div>
+                  </div>
+                </td>
+                <td
+                  className={cx(styles.td)}
+                  style={{
+                    width: '50%',
+                    height: '25%',
+                  }}
+                  colspan='2'
+                >
+                  <div
                     style={{
-                      width: '50%',
-                      height: '25%',
+                      width: '100%',
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
                     }}
-                    colspan="2"
                   >
                     <div
                       style={{
-                        width: '100%',
-                        height: '100%',
-                        display: 'flex',
-                        flexDirection: 'column',
+                        flex: '3',
                       }}
                     >
-                      <div
-                        style={{
-                          flex: '3',
-                        }}
-                      >
-                        <p
-                          style={{
-                            fontWeight: 'bold',
-                          }}
-                        >
-                          2. Họ tên địa chỉ người nhận
-                        </p>
-                        <p>Dịch Vọng Hậu - Cầu Giấy - TP Hà Nội Dịch Vọng Hậu - Cầu Giấy - TP Hà Nội</p>
-                      </div>
-                      <div
-                        style={{
-                          flex: '1',
-                        }}
-                      >
-                        <p>Mã ĐH:</p>
-                      </div>
-                      <div
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          flex: '1',
-                        }}
-                      >
-                        <p
-                          style={{
-                            flex: 1,
-                          }}
-                        >
-                          Mã khách hàng: 0914508451
-                        </p>
-                        <p
-                          style={{
-                            flex: 1,
-                          }}
-                        >
-                          Điện thoại: 0914508451{' '}
-                        </p>
-                      </div>
+                      <div className={cx(styles.title)}>2. Họ tên địa chỉ người nhận</div>
+                      <p>Dịch Vọng Hậu - Cầu Giấy - TP Hà Nội Dịch Vọng Hậu - Cầu Giấy - TP Hà Nội</p>
                     </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td className={cx(styles.td)} rowSpan={'2'}>
                     <div
                       style={{
-                        width: '100%',
-                        height: '100%',
+                        flex: '1',
                       }}
                     >
-                      <div
-                        style={{
-                          width: '100%',
-                        }}
-                      >
-                        <p
-                          style={{
-                            fontWeight: 'bold',
-                          }}
-                        >
-                          3. Loại hàng gửi
-                        </p>
-                        <div
-                          style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            flex: '1',
-                          }}
-                        >
-                          <p
-                            style={{
-                              flex: 1,
-                            }}
-                          >
-                            Tài liệu
-                          </p>
-                          <p
-                            style={{
-                              flex: 1,
-                            }}
-                          >
-                            Hàng hoá
-                          </p>
-                        </div>
-                      </div>
-                      <div
-                        style={{
-                          width: '100%',
-                        }}
-                      >
-                        <p
-                          style={{
-                            fontWeight: 'bold',
-                          }}
-                        >
-                          4. Nội dung giá trị bưu gửi
-                        </p>
-                        <table
-                          className={cx(styles.table)}
-                          style={{
-                            height: '70%',
-                          }}
-                        >
-                          <tbody>
-                            <tr>
-                              <td className={cx(styles.td)}>Nội dung</td>
-                              <td className={cx(styles.td)}>Số lượng</td>
-                              <td className={cx(styles.td)}>Trị giá</td>
-                              <td className={cx(styles.td)}>Giấy tờ đính kèm</td>
-                            </tr>
-                            <tr>
-                              <td className={cx(styles.td)}>a </td>
-                              <td className={cx(styles.td)}>a </td>
-                              <td className={cx(styles.td)}>a</td>
-                              <td className={cx(styles.td)}>a </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <p
-                          style={{
-                            fontWeight: 'bold',
-                          }}
-                        >
-                          5. Dịch vụ đặc biệt/ Cộng thêm
-                        </p>
-                        <p>
-                          Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print,
-                          graphic or web designs.
-                        </p>
-                      </div>
+                      <p className={cx(styles.bold)}>Mã ĐH:</p>
                     </div>
-                  </td>
-                  <td className={cx(styles.td)} rowspan="2"></td>
-                  <td className={cx(styles.td)}>ABC1</td>
-                </tr>
-                <tr>
-                  {/* <td className={cx(styles.td)}>ABC2</td> */}
-                  <td className={cx(styles.td)} rowspan="2">
-                    ABC3
-                  </td>
-                </tr>
-                <tr>
-                  <td className={cx(styles.td)}>
-                    <p
+                    <div
                       style={{
-                        fontWeight: 'bold',
+                        display: 'flex',
                       }}
+                      className={cx(styles.flexTwoColumn)}
                     >
-                      6. Chỉ dẫn của người gửi khi không phát được bưu gửi
-                    </p>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua.
-                    </p>
-                  </td>
-                  <td className={cx(styles.td)}>ABC5</td>
-                </tr>
-                <tr>
-                  <td className={cx(styles.td)}>
+                      <p className={cx(styles.left)}>
+                        <span className={cx(styles.bold)}>Mã khách hàng: </span>0914508451
+                      </p>
+                      <p className={cx(styles.right)}>
+                        <span className={cx(styles.bold)}>Điện thoại: </span> 0914508451
+                      </p>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td className={cx(styles.td)} rowSpan={'2'}>
+                  <div
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                    }}
+                  >
                     <div>
-                      <p
+                      <div className={cx(styles.title)}> 3. Loại hàng gửi</div>
+                      <div
                         style={{
-                          fontWeight: 'bold',
+                          flex: '1',
+                        }}
+
+                      >
+                        <CheckBoxCustom label={'Tài liệu'} checked={true}></CheckBoxCustom>
+                        <CheckBoxCustom label={'Hàng hoá'} checked={true}></CheckBoxCustom>
+                      </div>
+                    </div>
+                    <div>
+                      <div className={cx(styles.title)}>4. Nội dung giá trị bưu gửi</div>
+                      <table
+                        className={cx(styles.table)}
+                        style={{
+                          height: '70%',
                         }}
                       >
-                        7. Cam kết của người gửi
-                      </p>
+                        <thead>
+                        <tr className={cx(styles.bold)}>
+                          <td className={cx(styles.td)}>Nội dung</td>
+                          <td className={cx(styles.td)}>Số lượng</td>
+                          <td className={cx(styles.td)}>Trị giá</td>
+                          <td className={cx(styles.td)}>Giấy tờ đính kèm</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                          <td className={cx(styles.td)}>a</td>
+                          <td className={cx(styles.td)}>a</td>
+                          <td className={cx(styles.td)}>a</td>
+                          <td className={cx(styles.td)}>a</td>
+                        </tr>
+
+                        </tbody>
+                      </table>
+                    </div>
+                    <div>
+                      <div className={cx(styles.title)}>5. Dịch vụ đặc biệt/ Cộng thêm</div>
                       <p>
-                        Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic
-                        or web designs. The passage is attributed to an unknown typesetter in the 15th century who is
-                        thought to have scrambled parts of Cicero's De Finibus Bonorum
+
                       </p>
                     </div>
-                  </td>
-                  <td className={cx(styles.td)}>ABC7</td>
-                  <td className={cx(styles.td)}>ABC8</td>
-                </tr>
+                  </div>
+                </td>
+                <td className={cx(styles.td)} rowspan='2'>
+                  <div className={cx(styles.title)}>9. Cước</div>
+                  <RowFlexTwoColumnWithFloat label={'a. Cước chính'} amount={9500}></RowFlexTwoColumnWithFloat>
+                  <RowFlexTwoColumnWithFloat label={'b. Phụ phí'} amount={9500}></RowFlexTwoColumnWithFloat>
+                  <RowFlexTwoColumnWithFloat label={'c. Cước GTGT'} amount={9500}></RowFlexTwoColumnWithFloat>
+                  <RowFlexTwoColumnWithFloat label={'d. Tổng cước (gồm VAT)'} amount={9500}></RowFlexTwoColumnWithFloat>
+                  <RowFlexTwoColumnWithFloat label={'e. Thu khác'} amount={9500}></RowFlexTwoColumnWithFloat>
+                  <div className={cx(styles.bold)}>
+                    <RowFlexTwoColumnWithFloat label={'f. Tổng thu'} amount={9500}></RowFlexTwoColumnWithFloat>
+                  </div>
+
+                </td>
+                <td className={cx(styles.td)}>
+                  <div className={cx(styles.title)}>10. Khối lượng(kg)</div>
+
+                  <RowFlexTwoColumnWithFloat label={'Khối lượng thực tế'} amount={9500}></RowFlexTwoColumnWithFloat>
+                  <RowFlexTwoColumnWithFloat label={'Khối lượng quy đổi'} amount={9500}></RowFlexTwoColumnWithFloat>
+                </td>
+              </tr>
+              <tr>
+                {/* <td className={cx(styles.td)}>ABC2</td> */}
+                <td className={cx(styles.td)} rowspan='2'>
+                  <div className={cx(styles.title)}>12. Chú dẫn nghiệp vụ</div>
+                </td>
+              </tr>
+              <tr>
+                <td className={cx(styles.td)}>
+                  <div className={cx(styles.title)}>6. Chỉ dẫn của người gửi khi không phát được bưu gửi</div>
+                  <p>
+                    <CheckBoxCustom label={'Chuyển hoàn ngay'} checked={true}></CheckBoxCustom>
+                    <CheckBoxCustom label={'Gọi điện cho người gửi'} checked={true}></CheckBoxCustom>
+                    <CheckBoxCustom label={'Huỷ'} checked={true}></CheckBoxCustom>
+                  </p>
+                </td>
+                <td className={cx(styles.td)}>
+                  <div className={cx(styles.title)}> 11. Thu của người nhận</div>
+                  <RowFlexTwoColumnWithFloat label={'COD'} amount={9500}></RowFlexTwoColumnWithFloat>
+                  <RowFlexTwoColumnWithFloat label={'Thu khác'} amount={9500}></RowFlexTwoColumnWithFloat>
+                  <RowFlexTwoColumnWithFloat label={'Tổng thu'} amount={9500}></RowFlexTwoColumnWithFloat>
+                </td>
+              </tr>
+              <tr>
+                <td className={cx(styles.td)}>
+                  <div>
+                    <div className={cx(styles.title)}>7. Cam kết của người gửi</div>
+                    <p style={{
+                      fontSize: '0.875rem'
+                    }}>
+                      Tôi chấp nhận các điều khoản tại mặt sau phiếu gửi và cam đoan bưu gửi này không chứa những mặt
+                      hàng nguy hiểm, cầm gửi. Trường hợp không phát được hãy thực hiện chỉ dẫn tại mục 6, tôi sẽ trả
+                      cước chuyển hoàn
+                    </p>
+                    <div className={cx(styles.title)}>8. Ngày giờ gửi Chữ ký người gửi</div>
+                    <p>
+                      abc
+                    </p>
+                  </div>
+                </td>
+                <td className={cx(styles.td, styles.textCenter)}>
+                  <div className={cx(styles.title)}>13. Bưu cục chấp nhận</div>
+                  <div>Chữ ký GDV nhận</div>
+                </td>
+
+                <td className={cx(styles.td)}>
+                  <div className={cx(styles.title)}>14. Ngày giờ nhận</div>
+                  <p className={cx(styles.bold)}>29/05/2003 20h35p</p>
+                  <div className={cx(styles.textCenter)}>
+                    <p>Người nhận/ Người được uỷ quyền</p>
+                    <p>(Ký, ghi rõ họ tên)</p>
+                  </div>
+                </td>
+              </tr>
               </tbody>
             </table>
           </div>

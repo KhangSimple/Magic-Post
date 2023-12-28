@@ -60,6 +60,11 @@ const navConfig = [
     path: '/transaction/employee/parcel-history',
     icon: icon('ic_analytics'),
   },
+  {
+    title: 'Giao hàng',
+    path: '/transaction/employee/parcel-shipment',
+    icon: icon('ic_analytics'),
+  },
 ];
 
 export default navConfig;

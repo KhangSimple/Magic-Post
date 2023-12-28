@@ -1,4 +1,5 @@
 .p-dropdown-items-wrapper {
+  z-index: 2000;
   display: flex;
   position: absolute;
   left: -10px;

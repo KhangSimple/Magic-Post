@@ -6,11 +6,7 @@ import RestorePassword from '~/components/Page/RestorePassword';
 import Test from '~/components/Page/Test';
 import HomePage from '~/components/Page/Home';
 import ParcelTracking from '~/components/Page/ParcelTracking';
-import TransactionManager from '~/components/Page/TransactionManager';
-import TransactionStatistics from '~/components/Page/TransactionManager/Statistics/Statistics';
 
-//test
-import CreateUser from '~/components/Page/TransactionManager/CreateUser/CreateUser';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useAuth } from '../provider/authProvider';
 import { ProtectedRoute } from './ProtectedRoute';
@@ -27,6 +23,15 @@ import ParcelTransactionInStock from '~/components/Page/Transaction/ParcelTransa
 import ParcelTransactionWaitAccept from '~/components/Page/Transaction/ParcelTransactionWaitAccept/ParcelTransactionWaitAccept';
 import ParcelTransactionStatistics from '~/components/Page/Transaction';
 import ParcelTransactionCreateInvoice from '~/components/Page/Transaction/CreateInvoice/CreateInvoice';
+import ParcelTransactionShipment from '~/components/Page/Transaction/ParcelShipment/ParcelShipment';
+
+//transaction manager
+import TransactionStatistics from '~/components/Page/TransactionManager';
+import TransactionAccountManagementTable from '~/components/Page/TransactionManager/AccountTable/AccountTable';
+
+//collection manager
+import CollectionStatistics from '~/components/Page/CollectionManager';
+import CollectionAccountManagementTable from '~/components/Page/CollectionManager/AccountTable/AccountTable';
 
 // const publicRoutes = [
 //   { path: '', component: HomePage, name: 'Home Page' },
@@ -72,17 +77,23 @@ const Routes = () => {
       path: '',
       element: <HomePage />,
     },
+    //transaction manager
     {
-      path: '/transaction-manager',
-      element: <TransactionManager />,
-    },
-    {
-      path: '/transaction-manager/statistics',
+      path: '/transaction/manager',
       element: <TransactionStatistics />,
     },
     {
-      path: '/transaction-manager/create-user',
-      element: <CreateUser />,
+      path: '/transaction/manager/account-management',
+      element: <TransactionAccountManagementTable />,
+    },
+    //collection manager
+    {
+      path: '/collection/manager',
+      element: <CollectionStatistics />,
+    },
+    {
+      path: '/collection/manager/account-management',
+      element: <CollectionAccountManagementTable />,
     },
 
     //transaction employee

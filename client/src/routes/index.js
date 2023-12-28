@@ -28,7 +28,12 @@ import ParcelTransactionShipment from '~/components/Page/Transaction/ParcelShipm
 
 //transaction manager
 import TransactionStatistics from '~/components/Page/TransactionManager';
-import AccountManagementTable from '~/components/Page/TransactionManager/AccountTable/AccountTable';
+import TransactionAccountManagementTable from '~/components/Page/TransactionManager/AccountTable/AccountTable';
+
+//collection manager
+import CollectionStatistics from '~/components/Page/CollectionManager';
+import CollectionAccountManagementTable from '~/components/Page/CollectionManager/AccountTable/AccountTable';
+
 
 // const publicRoutes = [
 //   { path: '', component: HomePage, name: 'Home Page' },
@@ -76,12 +81,21 @@ const Routes = () => {
     },
     //transaction manager
     {
-      path: '/transaction/manager/',
+      path: '/transaction/manager',
       element: <TransactionStatistics />,
     },
     {
       path: '/transaction/manager/account-management',
-      element: <AccountManagementTable />,
+      element: <TransactionAccountManagementTable />,
+    },
+    //collection manager
+    {
+      path: '/collection/manager',
+      element: <CollectionStatistics />,
+    },
+    {
+      path: '/collection/manager/account-management',
+      element: <CollectionAccountManagementTable />,
     },
 
     //transaction employee

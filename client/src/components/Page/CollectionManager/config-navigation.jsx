@@ -37,12 +37,12 @@ const navConfig = [
   // },
   {
     title: 'Thống kê',
-    path: '/transaction/manager',
+    path: '/collection/manager',
     icon: icon('ic_analytics'),
   },
   {
     title: 'Danh sách tài khoản',
-    path: '/transaction/manager/account-management',
+    path: '/collection/manager/account-management',
     icon: icon('ic_user'),
   },
 ];

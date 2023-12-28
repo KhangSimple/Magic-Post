@@ -1,0 +1,450 @@
+//image upload
+import { imageDB } from '~/utils/firebase-image-upload';
+import  {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
+
+import { v4 as uuidv4 } from 'uuid';
+import Card from '@mui/material/Card';
+import Grid from '@mui/material/Unstable_Grid2';
+import Container from '@mui/material/Container';
+import { Paper, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import Input from '~/components/Input';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faBuilding,
+    faEarthAmerica,
+    faEnvelope, faEye, faEyeSlash, faHouse,
+    faLocationDot, faLock,
+    faPhone, faRoad,
+    faUser,
+} from '@fortawesome/free-solid-svg-icons';
+import React, { useEffect, useState, useRef } from 'react';
+import { faCompass } from '@fortawesome/free-regular-svg-icons';
+import { toast, ToastContainer } from 'react-toastify';
+import axios from 'axios';
+
+const CreateUser = ({ handleCreateAccount }) => {
+    //Profile Image ref
+    const profileImageRef = useRef();
+    const stackProfileImageRef = useRef();
+
+    const handleImageInputChange = (event)=>{
+        if (event.target.files.length) {
+            let src = URL.createObjectURL(event.target.files[0]);
+
+            const imgRefDB = uuidv4();
+
+            //upload to firebase
+            const imgRef = ref(imageDB,`images/${imgRefDB}`);
+            uploadBytes(imgRef, event.target.files[0]).then(({ref})=>{
+                getDownloadURL(ref).then((img)=>{
+                    // //Dom update
+                    profileImageRef.current.style.backgroundImage= `url(${img})`;
+                    profileImageRef.current.style.backgroundRepeat= `no-repeat`;
+                    profileImageRef.current.style.backgroundSize= `cover`;
+                    stackProfileImageRef.current.style.display='none';
+                });
+            });
+
+
+
+        }
+    }
+
+    const [eyeIcon, setEyeIcon] = useState(0);
+    const [passType, setPassType] = useState('password');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [address, setAddress] = useState('');
+    const [tinh, setTinh] = useState('');
+    const [huyen, setHuyen] = useState('');
+    const [xa, setXa] = useState('');
+    const [repassword, setRepassword] = useState('');
+    const [provinceData, setProvinceData] = useState([]);
+    const [districtData, setDistrictData] = useState([]);
+    const [wardData, setWardData] = useState([]);
+
+    const allInfo = {
+        username: username,
+        password: password,
+        email: email,
+        phoneNumber: phoneNumber,
+        address: address,
+        tinh: tinh,
+        huyen: huyen,
+        xa: xa,
+        repassword: repassword,
+    };
+    const handleEye = () => {
+        setEyeIcon(1 - eyeIcon);
+        setPassType(passType === 'text' ? 'password' : 'text');
+    };
+    const handleRegister = () => {
+        let check = false;
+        Object.keys(allInfo).forEach((item) => {
+            check = check || allInfo[item] === '';
+            // if (allInfo[item] === '') {
+            //   console.log(item);
+            // }
+        });
+        if (check) {
+            toast.error('Vui lòng điền đầy đủ thông tin!');
+        } else {
+            axios
+                .post(`http://localhost:1510/register`, {
+                    data: allInfo,
+                })
+                .then(function(response) {
+                    let data = response.data;
+                    if (data.flag === 0) {
+                    } else {
+                        // Do something ...
+                        console.log('Success');
+                    }
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        }
+    };
+
+    // Get ProvinceData from API
+    useEffect(() => {
+        axios
+            .get(`https://online-gateway.ghn.vn/shiip/public-api/master-data/province`, {
+                headers: { token: '1b869b93-97de-11ee-a59f-a260851ba65c' },
+            })
+            .then(function(response) {
+                setProvinceData((prev) => [...response.data.data]);
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+
+    }, []);
+    useEffect(() => {
+        if (tinh !== '') {
+            setHuyen('');
+            setXa('');
+            setWardData([]);
+            axios
+                .get(`https://online-gateway.ghn.vn/shiip/public-api/master-data/district`, {
+                    headers: { token: '7dbb1c13-7e11-11ee-96dc-de6f804954c9' },
+                    params: {
+                        province_id: +tinh,
+                    },
+                })
+                .then(function(response) {
+                    setDistrictData((prev) => [...response.data.data]);
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        }
+    }, [tinh]);
+    useEffect(() => {
+        if (districtData.length !== 0) {
+            console.log(districtData);
+            axios.post('http://localhost:1510/addTransaction', {
+                data: districtData,
+            });
+        }
+    }, [districtData]);
+    useEffect(() => {
+        if (huyen !== '') {
+            setXa('');
+            axios
+                .get(`https://online-gateway.ghn.vn/shiip/public-api/master-data/ward`, {
+                    headers: { token: '7dbb1c13-7e11-11ee-96dc-de6f804954c9' },
+                    params: {
+                        district_id: +huyen,
+                    },
+                })
+                .then(function(response) {
+                    setWardData((prev) => [...response.data.data]);
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        }
+    }, [huyen]);
+
+    return (
+        <Container>
+            <Grid container spacing={3} alignContent={'center'} justifyContent={'center'}>
+                <Grid xs={12} md={4}>
+                    <Card>
+                        <Paper
+                            sx={{
+                                backgroundColor: 'rgb(255, 255, 255)',
+                                color: 'rgb(33, 43, 54)',
+                                transition: 'box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                                backgroundImage: 'none',
+                                overflow: 'hidden',
+                                position: 'relative',
+                                boxShadow: 'rgba(145, 158, 171, 0.16) 0px 1px 2px 0px',
+                                borderRadius: '16px',
+                                zIndex: 0,
+                                padding: '80px 24px 40px',
+                            }}
+                        >
+                            <label htmlFor={'createImageProfile'}>
+                                <Box
+                                    sx={{
+                                        padding: '8px',
+                                        margin: 'auto',
+                                        width: '144px',
+                                        height: '144px',
+                                        cursor: 'pointer',
+                                        overflow: 'hidden',
+                                        borderRadius: '50%',
+                                        border: '1px dashed rgba(145, 158, 171, 0.2)',
+                                    }}
+                                >
+                                    <input accept='image/*' type='file' tabIndex='-1' style={{ display: 'none' }}
+                                           id={'createImageProfile'} onChange={handleImageInputChange}></input>
+                                    <Box
+                                        ref={profileImageRef}
+                                        sx={{
+                                            width: '100%',
+                                            height: '100%',
+                                            overflow: 'hidden',
+                                            borderRadius: '50%',
+                                            position: 'relative',
+                                        }}
+                                    >
+                                        <Stack ref={stackProfileImageRef}
+                                            sx={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                gap: '8px',
+                                                WebkitBoxAlign: 'center',
+                                                alignItems: 'center',
+                                                WebkitBoxPack: 'center',
+                                                justifyContent: 'center',
+                                                top: '0px',
+                                                left: '0px',
+                                                width: '100%',
+                                                height: '100%',
+                                                zIndex: 9,
+                                                borderRadius: '50%',
+                                                position: 'absolute',
+                                                color: 'rgb(145, 158, 171)',
+                                                backgroundColor: 'rgba(145, 158, 171, 0.08)',
+                                                transition: 'opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                                            }}
+                                        >
+
+                                            <svg
+                                                aria-hidden='true'
+                                                role='img'
+                                                className='component-iconify MuiBox-root css-x3wokz iconify iconify--solar'
+                                                width='1em'
+                                                height='1em'
+                                                viewBox='0 0 24 24'
+                                            >
+                                                <g fill='currentColor' fill-rule='evenodd' clip-rule='evenodd'>
+                                                    <path
+                                                        d='M12 10.25a.75.75 0 0 1 .75.75v1.25H14a.75.75 0 0 1 0 1.5h-1.25V15a.75.75 0 0 1-1.5 0v-1.25H10a.75.75 0 0 1 0-1.5h1.25V11a.75.75 0 0 1 .75-.75'></path>
+                                                    <path
+                                                        d='M9.778 21h4.444c3.121 0 4.682 0 5.803-.735a4.408 4.408 0 0 0 1.226-1.204c.749-1.1.749-2.633.749-5.697c0-3.065 0-4.597-.749-5.697a4.407 4.407 0 0 0-1.226-1.204c-.72-.473-1.622-.642-3.003-.702c-.659 0-1.226-.49-1.355-1.125A2.064 2.064 0 0 0 13.634 3h-3.268c-.988 0-1.839.685-2.033 1.636c-.129.635-.696 1.125-1.355 1.125c-1.38.06-2.282.23-3.003.702A4.405 4.405 0 0 0 2.75 7.667C2 8.767 2 10.299 2 13.364c0 3.064 0 4.596.749 5.697c.324.476.74.885 1.226 1.204C5.096 21 6.657 21 9.778 21M16 13a4 4 0 1 1-8 0a4 4 0 0 1 8 0m2-3.75a.75.75 0 0 0 0 1.5h1a.75.75 0 0 0 0-1.5z'></path>
+                                                </g>
+                                            </svg>
+                                            <span className='MuiTypography-root MuiTypography-caption css-176slt'>Upload photo</span>
+                                        </Stack>
+                                    </Box>
+                                </Box>
+                            </label>
+
+                            <Typography
+                                sx={{
+                                    margin: '24px auto 0px',
+                                    lineHeight: '1.5',
+                                    fontSize: '0.75rem',
+                                    fontFamily: '"Public Sans", sans-serif',
+                                    fontWeight: '400',
+                                    color: 'rgb(145, 158, 171)',
+                                    display: 'block',
+                                    textAlign: 'center',
+                                }}
+                            >
+                                Allowed *.jpeg, *.jpg, *.png, *.gif<br></br> max size of 3 Mb
+                            </Typography>
+                        </Paper>
+                    </Card>
+                </Grid>
+
+                <Grid xs={12} md={8}>
+                    <Card>
+                        <Paper
+                            sx={{
+                                backgroundColor: 'rgb(255, 255, 255)',
+                                color: 'rgb(33, 43, 54)',
+                                transition: 'box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                                backgroundImage: 'none',
+                                overflow: 'hidden',
+                                position: 'relative',
+                                boxShadow: 'rgba(145, 158, 171, 0.16) 0px 1px 2px 0px',
+                                borderRadius: '16px',
+                                zIndex: 0,
+                                padding: '24px',
+                            }}
+                        >
+                            <Grid container>
+                                <Grid item container xs={12} md={6}>
+                                    <Container>
+                                        <Input
+                                            value={username}
+                                            leftIcon={<FontAwesomeIcon icon={faUser} />}
+                                            placeHolder='Họ và tên'
+                                            errorText='Họ và tên là bắt buộc!'
+                                            classes='register-input'
+                                            onChange={(value) => setUsername(value)}
+                                            required
+                                        />
+                                        <Input
+                                            value={email}
+                                            leftIcon={<FontAwesomeIcon icon={faEnvelope} />}
+                                            placeHolder='E-mail'
+                                            errorText='E-mail là bắt buộc!'
+                                            classes='register-input'
+                                            type='email'
+                                            onChange={(value) => setEmail(value)}
+                                            required
+                                        />
+                                        <Input
+                                            value={phoneNumber}
+                                            leftIcon={<FontAwesomeIcon icon={faPhone} />}
+                                            placeHolder='Điện thoại'
+                                            errorText='Điện thoại là bắt buộc!'
+                                            classes='register-input'
+                                            onChange={(value) => setPhoneNumber(value)}
+                                            required
+                                        />
+                                        <Input
+                                            value={password}
+                                            leftIcon={<FontAwesomeIcon icon={faLock} />}
+                                            rightIcon={eyeIcon === 0 ? <FontAwesomeIcon icon={faEyeSlash} /> :
+                                                <FontAwesomeIcon icon={faEye} />}
+                                            placeHolder='Mật khẩu'
+                                            errorText='Mật khẩu là bắt buộc!'
+                                            classes='register-input'
+                                            type={passType}
+                                            onClick={() => handleEye()}
+                                            onChange={(value) => setPassword(value)}
+                                            required
+                                        />
+
+                                        <Input
+                                            value={repassword}
+                                            valueCheck={password}
+                                            leftIcon={<FontAwesomeIcon icon={faEyeSlash} />}
+                                            rightIcon={eyeIcon === 0 ? <FontAwesomeIcon icon={faEyeSlash} /> :
+                                                <FontAwesomeIcon icon={faEye} />}
+                                            placeHolder='Xác nhận mật khẩu'
+                                            errorText={password !== repassword ? 'Mật khẩu không khớp!' : ''}
+                                            classes='register-input'
+                                            type={passType}
+                                            onClick={() => handleEye()}
+                                            onChange={(value) => setRepassword(value)}
+                                            required
+                                        />
+
+                                    </Container>
+                                </Grid>
+                                <Grid item container xs={12} md={6}>
+                                    <Container>
+                                        <Input
+                                            value={tinh}
+                                            leftIcon={<FontAwesomeIcon icon={faBuilding} />}
+                                            rightIcon={<FontAwesomeIcon icon={faCompass} />}
+                                            placeHolder='Tỉnh/TP'
+                                            errorText='Tỉnh/TP là bắt buộc!'
+                                            classes='register-input'
+                                            onChange={(value) => setTinh(value)}
+                                            data={provinceData}
+                                            select={true}
+                                            optionLabel='ProvinceName'
+                                            optionValue='ProvinceID'
+                                            required
+                                        />
+                                        <Input
+                                            value={huyen}
+                                            leftIcon={<FontAwesomeIcon icon={faRoad} />}
+                                            rightIcon={<FontAwesomeIcon icon={faCompass} />}
+                                            placeHolder='Quận/Huyện'
+                                            errorText='Quận/Huyện là bắt buộc!'
+                                            classes='register-input'
+                                            onChange={(value) => setHuyen(value)}
+                                            data={districtData}
+                                            select={true}
+                                            optionLabel='DistrictName'
+                                            optionValue='DistrictID'
+                                            required
+                                        />
+                                        <Input
+                                            value={xa}
+                                            leftIcon={<FontAwesomeIcon icon={faHouse} />}
+                                            rightIcon={<FontAwesomeIcon icon={faCompass} />}
+                                            placeHolder='Phường/Xã'
+                                            errorText='Phường/Xã là bắt buộc!'
+                                            classes='register-input'
+                                            onChange={(value) => setXa(value)}
+                                            data={wardData}
+                                            select={true}
+                                            optionLabel='WardName'
+                                            optionValue='WardCode'
+                                            required
+                                        />
+                                        <Input
+                                            value={address}
+                                            leftIcon={<FontAwesomeIcon icon={faEarthAmerica} />}
+                                            rightIcon={<FontAwesomeIcon icon={faLocationDot} />}
+                                            placeHolder='Địa chỉ'
+                                            errorText='Địa chỉ là bắt buộc!'
+                                            classes='register-input'
+                                            onChange={(value) => setAddress(value)}
+                                            required
+                                        />
+
+
+                                    </Container>
+                                </Grid>
+                            </Grid>
+                            <Stack sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'flex-end',
+                                marginTop: '24px',
+                            }}>
+                                <Button variant='contained' color='inherit' onClick={() => {
+                                    handleCreateAccount();
+                                    handleRegister();
+                                }}>
+                                    Tạo tài khoản
+                                </Button>
+                            </Stack>
+                        </Paper>
+                    </Card>
+                </Grid>
+            </Grid>
+            <ToastContainer
+                position='top-right'
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme='light'
+            />
+        </Container>
+    );
+};
+export default CreateUser;

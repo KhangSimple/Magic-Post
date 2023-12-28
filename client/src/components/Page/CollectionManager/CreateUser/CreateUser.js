@@ -45,6 +45,7 @@ const CreateUser = ({ handleCreateAccount }) => {
           profileImageRef.current.style.backgroundRepeat = `no-repeat`;
           profileImageRef.current.style.backgroundSize = `cover`;
           stackProfileImageRef.current.style.display = 'none';
+
         });
       });
 

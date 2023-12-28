@@ -7,8 +7,10 @@ import Typography from '@mui/material/Typography';
 import AppAllStatistics from './Statistics/components/AllStatistics';
 import AppWidgetSummary from './Statistics/components/WidgetSummary';
 import AppConversionRates from './Statistics/components/ConversionRates';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
-export const zip_code = 201;
+// export const zip_code = 201;
 export function dateFormat(date) {
   if (date) {
     const d = new Date(date);
@@ -26,6 +28,28 @@ export function dateFormat(date) {
 }
 
 const Statistics = () => {
+  const [decodedData, setDecodedData] = useState({});
+  useEffect(() => {
+    console.log('Use Effect main index');
+    axios
+      .get(`http://localhost:1510/verify-token`, {
+        params: {
+          token: localStorage.getItem('token'),
+        },
+      })
+      .then(function (response) {
+        let data = response.data.decodeData;
+        setDecodedData(response.data.decodeData);
+        localStorage.setItem('employee_id', data.id);
+        localStorage.setItem('role', data.role);
+        localStorage.setItem('zip_code', data.coll_info.zip_code);
+        localStorage.setItem('name', data.coll_info.name);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
+
   return (
     <DashboardLayout navConfig={navConfig}>
       <Container maxWidth="xl">

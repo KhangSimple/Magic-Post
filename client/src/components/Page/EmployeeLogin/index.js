@@ -88,8 +88,10 @@ function EmployeeLogin() {
             console.log('Success');
             if (kindPoint == 'transaction') {
               navigate('/transaction/employee');
+              navigate(0);
             } else {
               navigate('/collection/employee');
+              navigate(0);
             }
           }
         })

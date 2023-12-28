@@ -15,9 +15,9 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { dateFormat } from '..';
-import { ZIP_CODE } from '..';
+// import { ZIP_CODE } from '..';
 
-// const ZIP_CODE = localStorage.getItem('zip_code');
+const ZIP_CODE = localStorage.getItem('zip_code');
 const NAME = localStorage.getItem('name');
 const cx = classNames.bind(styles);
 

@@ -17,8 +17,8 @@ import Label from 'src/components/label';
 import axios from 'axios';
 import { dateFormat } from '..';
 
-// const ZIP_CODE = localStorage.getItem('zip_code');
-import { ZIP_CODE } from '..';
+const ZIP_CODE = localStorage.getItem('zip_code');
+// import { ZIP_CODE } from '..';
 
 const NAME = localStorage.getItem('name');
 const cx = classNames.bind(styles);

@@ -15,9 +15,10 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { dateFormat } from '..';
-import { zip_code } from '..';
-
+// import { zip_code } from '..';
 const cx = classNames.bind(styles);
+const ZIP_CODE = localStorage.getItem('zip_code');
+const NAME = localStorage.getItem('name');
 
 const ParcelCollectionHistory = () => {
   const [open, setOpen] = React.useState(false);
@@ -33,7 +34,7 @@ const ParcelCollectionHistory = () => {
             token: localStorage.getItem('token'),
           },
           params: {
-            id: zip_code,
+            id: ZIP_CODE,
             type: 'collection',
           },
         })
@@ -84,7 +85,7 @@ const ParcelCollectionHistory = () => {
           },
           params: {
             package_id: packageData.parcel_package_id,
-            collection_id: zip_code,
+            collection_id: ZIP_CODE,
           },
         })
         .then(function (response) {
@@ -132,7 +133,7 @@ const ParcelCollectionHistory = () => {
         data: {
           token: localStorage.getItem('token'),
           package_id: selectedPackage,
-          zip_code: zip_code,
+          zip_code: ZIP_CODE,
         },
       })
       .then(function (response) {

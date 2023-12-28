@@ -87,22 +87,6 @@ const Routes = () => {
 
     //transaction employee
     //collection employee
-    {
-      path: '/collection/employee/',
-      element: <ParcelCollectionStatistics />,
-    },
-    {
-      path: '/collection/employee/parcel-in-stock',
-      element: <ParcelCollectionInStock />,
-    },
-    {
-      path: '/collection/employee/parcel-wait-accept',
-      element: <ParcelCollectionWaitAccept />,
-    },
-    {
-      path: '/collection/employee/parcel-history',
-      element: <ParcelCollectionHistory />,
-    },
   ];
 
   // Define routes accessible only to authenticated users
@@ -142,6 +126,22 @@ const Routes = () => {
         {
           path: '/transaction/employee/parcel-history',
           element: <ParcelTransactionHistory />,
+        },
+        {
+          path: '/collection/employee/',
+          element: <ParcelCollectionStatistics />,
+        },
+        {
+          path: '/collection/employee/parcel-in-stock',
+          element: <ParcelCollectionInStock />,
+        },
+        {
+          path: '/collection/employee/parcel-wait-accept',
+          element: <ParcelCollectionWaitAccept />,
+        },
+        {
+          path: '/collection/employee/parcel-history',
+          element: <ParcelCollectionHistory />,
         },
       ],
     },

@@ -62,13 +62,10 @@ let getEmployeePage = async (req, res) => {
         let info = rows[0];
         var encryptedPassword = await bcrypt.hash(password, 10);
         info.password = encryptedPassword;
-        var token = jwt.sign(
-          { id: info.id, role: 'coll-employee', zip_code: info.transaction_zip_code },
-          process.env.TOKEN_KEY,
-          {
-            expiresIn: '3h',
-          },
-        );
+        let [c, _] = await pool.execute('select * from collection where zip_code = ?', [info.collection_zip_code]);
+        var token = jwt.sign({ id: info.id, role: 'coll-employee', coll_info: c[0] }, process.env.TOKEN_KEY, {
+          expiresIn: '3h',
+        });
         return res.status(200).json({ flag: 1, token: token });
       } else {
         return res.json({ flag: 0, checkUsername: checkUsername, checkPassword: checkPassword });

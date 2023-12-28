@@ -23,7 +23,10 @@ import Iconify from 'src/components/iconify';
 import DashboardLayout from 'src/layouts/dashboard';
 import navConfig from '../config-navigation';
 import axios from 'axios';
-import { zip_code } from '..';
+// import { zip_code } from '..';
+
+const ZIP_CODE = localStorage.getItem('zip_code');
+const NAME = localStorage.getItem('name');
 
 const cx = classNames.bind(styles);
 
@@ -43,7 +46,7 @@ const ParcelCollectionInStock = () => {
           token: localStorage.getItem('token'),
         },
         params: {
-          id: zip_code,
+          id: ZIP_CODE,
           type: 'in',
           status: 'Chờ gửi',
         },
@@ -97,7 +100,7 @@ const ParcelCollectionInStock = () => {
         data: {
           token: localStorage.getItem('token'),
           parcel_id: selectedRows,
-          sender_id: zip_code,
+          sender_id: ZIP_CODE,
           sender_name: 'Hồ Chí Minh',
           type: 'Điểm tập kết',
         },

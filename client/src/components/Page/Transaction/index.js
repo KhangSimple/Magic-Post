@@ -13,7 +13,7 @@ import { createContext, useEffect, useState } from 'react';
 
 export const TransactionContext = createContext();
 
-export const ZIP_CODE = 1915;
+// export const ZIP_CODE = 1442;
 export function dateFormat(date) {
   if (date) {
     const d = new Date(date);

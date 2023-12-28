@@ -21,6 +21,7 @@ import DashboardLayout from 'src/layouts/dashboard';
 import navConfig from '../config-navigation';
 import AppWidgetSummary from '~/components/Page/Transaction/Statistics/components/WidgetSummary';
 import axios from 'axios';
+import Invoice from '~/components/Page/Transaction/Invoice/Invoice';
 
 const defaultPackageInfo = {
   sumOfCOD: '',
@@ -113,180 +114,181 @@ const CreateInvoice = () => {
   };
   return (
     <DashboardLayout navConfig={navConfig}>
-      <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4">TẠO ĐƠN HÀNG ĐIỂM GIAO DỊCH</Typography>
+      <Invoice></Invoice>
+      {/*<Container>*/}
+      {/*  <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>*/}
+      {/*    <Typography variant="h4">TẠO ĐƠN HÀNG ĐIỂM GIAO DỊCH</Typography>*/}
 
-          {/* <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
-          Tạo tài khoản
-        </Button> */}
-        </Stack>
-        <Card>
-          <div
-            style={{
-              // width: '50%',
-              // margin: 'auto',
-              padding: '2rem',
-            }}
-          >
-            <InfoTitle>Bên gửi</InfoTitle>
-            <Grid container columnSpacing={10}>
-              <Grid xs={12} sm={6} md={6}>
-                <label>Số điện thoại</label>
-                <Input
-                  placeHolder={'Nhập số điện thoại'}
-                  value={senderInfo.phoneNumber}
-                  onChange={(value) => {
-                    setSenderInfo({ ...senderInfo, phoneNumber: value });
-                  }}
-                ></Input>
-                <label>Họ tên</label>
-                <Input
-                  placeHolder={'Nhập họ tên'}
-                  value={senderInfo.name}
-                  onChange={(value) => {
-                    setSenderInfo({ ...senderInfo, name: value });
-                  }}
-                ></Input>
-              </Grid>
-              <Grid xs={12} sm={6} md={6}>
-                <label>Tỉnh - thành phố </label>
-                <Input
-                  select
-                  data={['Thái Nguyên', 'Hà Nội', 'Hải Phòng']}
-                  value={senderInfo.province}
-                  onChange={(value) => {
-                    setSenderInfo({ ...senderInfo, province: value });
-                  }}
-                ></Input>
-                <label>Quận - huyện</label>
-                <Input
-                  select
-                  data={['Thái Nguyên', 'Hà Nội', 'Hải Phòng']}
-                  value={senderInfo.district}
-                  onChange={(value) => {
-                    setSenderInfo({ ...senderInfo, district: value });
-                  }}
-                ></Input>
-                <label>Phường - xã</label>
-                <Input
-                  select
-                  data={['Thái Nguyên', 'Hà Nội', 'Hải Phòng']}
-                  value={senderInfo.ward}
-                  onChange={(value) => {
-                    setSenderInfo({ ...senderInfo, ward: value });
-                  }}
-                ></Input>
-              </Grid>
-            </Grid>
-            <Divider />
+      {/*    /!* <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>*/}
+      {/*    Tạo tài khoản*/}
+      {/*  </Button> *!/*/}
+      {/*  </Stack>*/}
+      {/*  <Card>*/}
+      {/*    <div*/}
+      {/*      style={{*/}
+      {/*        // width: '50%',*/}
+      {/*        // margin: 'auto',*/}
+      {/*        padding: '2rem',*/}
+      {/*      }}*/}
+      {/*    >*/}
+      {/*      <InfoTitle>Bên gửi</InfoTitle>*/}
+      {/*      <Grid container columnSpacing={10}>*/}
+      {/*        <Grid xs={12} sm={6} md={6}>*/}
+      {/*          <label>Số điện thoại</label>*/}
+      {/*          <Input*/}
+      {/*            placeHolder={'Nhập số điện thoại'}*/}
+      {/*            value={senderInfo.phoneNumber}*/}
+      {/*            onChange={(value) => {*/}
+      {/*              setSenderInfo({ ...senderInfo, phoneNumber: value });*/}
+      {/*            }}*/}
+      {/*          ></Input>*/}
+      {/*          <label>Họ tên</label>*/}
+      {/*          <Input*/}
+      {/*            placeHolder={'Nhập họ tên'}*/}
+      {/*            value={senderInfo.name}*/}
+      {/*            onChange={(value) => {*/}
+      {/*              setSenderInfo({ ...senderInfo, name: value });*/}
+      {/*            }}*/}
+      {/*          ></Input>*/}
+      {/*        </Grid>*/}
+      {/*        <Grid xs={12} sm={6} md={6}>*/}
+      {/*          <label>Tỉnh - thành phố </label>*/}
+      {/*          <Input*/}
+      {/*            select*/}
+      {/*            data={['Thái Nguyên', 'Hà Nội', 'Hải Phòng']}*/}
+      {/*            value={senderInfo.province}*/}
+      {/*            onChange={(value) => {*/}
+      {/*              setSenderInfo({ ...senderInfo, province: value });*/}
+      {/*            }}*/}
+      {/*          ></Input>*/}
+      {/*          <label>Quận - huyện</label>*/}
+      {/*          <Input*/}
+      {/*            select*/}
+      {/*            data={['Thái Nguyên', 'Hà Nội', 'Hải Phòng']}*/}
+      {/*            value={senderInfo.district}*/}
+      {/*            onChange={(value) => {*/}
+      {/*              setSenderInfo({ ...senderInfo, district: value });*/}
+      {/*            }}*/}
+      {/*          ></Input>*/}
+      {/*          <label>Phường - xã</label>*/}
+      {/*          <Input*/}
+      {/*            select*/}
+      {/*            data={['Thái Nguyên', 'Hà Nội', 'Hải Phòng']}*/}
+      {/*            value={senderInfo.ward}*/}
+      {/*            onChange={(value) => {*/}
+      {/*              setSenderInfo({ ...senderInfo, ward: value });*/}
+      {/*            }}*/}
+      {/*          ></Input>*/}
+      {/*        </Grid>*/}
+      {/*      </Grid>*/}
+      {/*      <Divider />*/}
 
-            <InfoTitle>Bên nhận</InfoTitle>
-            <Grid container columnSpacing={10}>
-              <Grid xs={12} sm={6} md={6}>
-                <label>Số điện thoại</label>
-                <Input
-                  placeHolder={'Nhập số điện thoại'}
-                  value={receiverInfo.phoneNumber}
-                  onChange={(value) => {
-                    setReceiverInfo({ ...receiverInfo, phoneNumber: value });
-                  }}
-                ></Input>
-                <label>Họ tên</label>
-                <Input
-                  placeHolder={'Nhập họ tên'}
-                  value={receiverInfo.name}
-                  onChange={(value) => {
-                    setReceiverInfo({ ...receiverInfo, name: value });
-                  }}
-                ></Input>
-              </Grid>
-              <Grid xs={12} sm={6} md={6}>
-                <label>Tỉnh - thành phố</label>
-                <Input
-                  select
-                  data={['Thái Nguyên', 'Hà Nội', 'Hải Phòng']}
-                  value={receiverInfo.province}
-                  onChange={(value) => {
-                    setReceiverInfo({ ...receiverInfo, province: value });
-                  }}
-                ></Input>
-                <label>Quận - huyện</label>
-                <Input
-                  select
-                  data={['Thái Nguyên', 'Hà Nội', 'Hải Phòng']}
-                  value={receiverInfo.district}
-                  onChange={(value) => {
-                    setReceiverInfo({ ...receiverInfo, district: value });
-                  }}
-                ></Input>
-                <label>Phường - xã</label>
-                <Input
-                  select
-                  data={['Thái Nguyên', 'Hà Nội', 'Hải Phòng']}
-                  value={receiverInfo.ward}
-                  onChange={(value) => {
-                    setReceiverInfo({ ...receiverInfo, ward: value });
-                  }}
-                ></Input>
-              </Grid>
-            </Grid>
-            <Divider />
-            <InfoTitle>Sản phẩm</InfoTitle>
-            <>
-              {productList.map((value, index) => (
-                <Product
-                  key={value.uuid}
-                  handleDeleteProduct={handleDeleteProduct}
-                  handleUpdateProductInfo={handleUpdateProductInfo}
-                  initValue={value}
-                  index={index}
-                ></Product>
-              ))}
-            </>
-            <AddMoreProduct onClick={handleAddMoreProduct}></AddMoreProduct>
-            <Divider />
-            <InfoTitle>Thông tin gói hàng</InfoTitle>
-            <ProductPackageInfo
-              productList={productList}
-              setPackageProductInfo={setPackageProductInfo}
-              packageProductInfo={packageProductInfo}
-            ></ProductPackageInfo>
-            {/*{console.log(packageProductInfo)}*/}
-            <Divider />
-            <InfoTitle>Lưu ý - Ghi chú</InfoTitle>
-            <Grid container spacing={3}>
-              <Grid xs={12} sm={6} md={6}>
-                <Box>
-                  <label>Lưu ý giao hàng</label>
-                  <Input
-                    select
-                    data={Object.keys(requiredNoteState)}
-                    onChange={(value) => {
-                      setNote({ ...note, requiredNote: requiredNoteState[value] });
-                    }}
-                    value={note.requiredNote}
-                  ></Input>
-                </Box>
-              </Grid>
-              <Grid xs={12} sm={6} md={6}>
-                <Box>
-                  <label>Ghi chú </label>
-                  <MinHeightTextarea
-                    value={note.note}
-                    onChange={(value) => {
-                      setNote({ ...note, note: value.target.value });
-                    }}
-                  />
-                </Box>
-              </Grid>
-            </Grid>
-          </div>
-        </Card>
-      </Container>
-      <button style={{ height: 200 }} onClick={() => createParcel()}>
-        Tạo đơn hàng
-      </button>
+      {/*      <InfoTitle>Bên nhận</InfoTitle>*/}
+      {/*      <Grid container columnSpacing={10}>*/}
+      {/*        <Grid xs={12} sm={6} md={6}>*/}
+      {/*          <label>Số điện thoại</label>*/}
+      {/*          <Input*/}
+      {/*            placeHolder={'Nhập số điện thoại'}*/}
+      {/*            value={receiverInfo.phoneNumber}*/}
+      {/*            onChange={(value) => {*/}
+      {/*              setReceiverInfo({ ...receiverInfo, phoneNumber: value });*/}
+      {/*            }}*/}
+      {/*          ></Input>*/}
+      {/*          <label>Họ tên</label>*/}
+      {/*          <Input*/}
+      {/*            placeHolder={'Nhập họ tên'}*/}
+      {/*            value={receiverInfo.name}*/}
+      {/*            onChange={(value) => {*/}
+      {/*              setReceiverInfo({ ...receiverInfo, name: value });*/}
+      {/*            }}*/}
+      {/*          ></Input>*/}
+      {/*        </Grid>*/}
+      {/*        <Grid xs={12} sm={6} md={6}>*/}
+      {/*          <label>Tỉnh - thành phố</label>*/}
+      {/*          <Input*/}
+      {/*            select*/}
+      {/*            data={['Thái Nguyên', 'Hà Nội', 'Hải Phòng']}*/}
+      {/*            value={receiverInfo.province}*/}
+      {/*            onChange={(value) => {*/}
+      {/*              setReceiverInfo({ ...receiverInfo, province: value });*/}
+      {/*            }}*/}
+      {/*          ></Input>*/}
+      {/*          <label>Quận - huyện</label>*/}
+      {/*          <Input*/}
+      {/*            select*/}
+      {/*            data={['Thái Nguyên', 'Hà Nội', 'Hải Phòng']}*/}
+      {/*            value={receiverInfo.district}*/}
+      {/*            onChange={(value) => {*/}
+      {/*              setReceiverInfo({ ...receiverInfo, district: value });*/}
+      {/*            }}*/}
+      {/*          ></Input>*/}
+      {/*          <label>Phường - xã</label>*/}
+      {/*          <Input*/}
+      {/*            select*/}
+      {/*            data={['Thái Nguyên', 'Hà Nội', 'Hải Phòng']}*/}
+      {/*            value={receiverInfo.ward}*/}
+      {/*            onChange={(value) => {*/}
+      {/*              setReceiverInfo({ ...receiverInfo, ward: value });*/}
+      {/*            }}*/}
+      {/*          ></Input>*/}
+      {/*        </Grid>*/}
+      {/*      </Grid>*/}
+      {/*      <Divider />*/}
+      {/*      <InfoTitle>Sản phẩm</InfoTitle>*/}
+      {/*      <>*/}
+      {/*        {productList.map((value, index) => (*/}
+      {/*          <Product*/}
+      {/*            key={value.uuid}*/}
+      {/*            handleDeleteProduct={handleDeleteProduct}*/}
+      {/*            handleUpdateProductInfo={handleUpdateProductInfo}*/}
+      {/*            initValue={value}*/}
+      {/*            index={index}*/}
+      {/*          ></Product>*/}
+      {/*        ))}*/}
+      {/*      </>*/}
+      {/*      <AddMoreProduct onClick={handleAddMoreProduct}></AddMoreProduct>*/}
+      {/*      <Divider />*/}
+      {/*      <InfoTitle>Thông tin gói hàng</InfoTitle>*/}
+      {/*      <ProductPackageInfo*/}
+      {/*        productList={productList}*/}
+      {/*        setPackageProductInfo={setPackageProductInfo}*/}
+      {/*        packageProductInfo={packageProductInfo}*/}
+      {/*      ></ProductPackageInfo>*/}
+      {/*      /!*{console.log(packageProductInfo)}*!/*/}
+      {/*      <Divider />*/}
+      {/*      <InfoTitle>Lưu ý - Ghi chú</InfoTitle>*/}
+      {/*      <Grid container spacing={3}>*/}
+      {/*        <Grid xs={12} sm={6} md={6}>*/}
+      {/*          <Box>*/}
+      {/*            <label>Lưu ý giao hàng</label>*/}
+      {/*            <Input*/}
+      {/*              select*/}
+      {/*              data={Object.keys(requiredNoteState)}*/}
+      {/*              onChange={(value) => {*/}
+      {/*                setNote({ ...note, requiredNote: requiredNoteState[value] });*/}
+      {/*              }}*/}
+      {/*              value={note.requiredNote}*/}
+      {/*            ></Input>*/}
+      {/*          </Box>*/}
+      {/*        </Grid>*/}
+      {/*        <Grid xs={12} sm={6} md={6}>*/}
+      {/*          <Box>*/}
+      {/*            <label>Ghi chú </label>*/}
+      {/*            <MinHeightTextarea*/}
+      {/*              value={note.note}*/}
+      {/*              onChange={(value) => {*/}
+      {/*                setNote({ ...note, note: value.target.value });*/}
+      {/*              }}*/}
+      {/*            />*/}
+      {/*          </Box>*/}
+      {/*        </Grid>*/}
+      {/*      </Grid>*/}
+      {/*    </div>*/}
+      {/*  </Card>*/}
+      {/*</Container>*/}
+      {/*<button style={{ height: 200 }} onClick={() => createParcel()}>*/}
+      {/*  Tạo đơn hàng*/}
+      {/*</button>*/}
     </DashboardLayout>
   );
 };

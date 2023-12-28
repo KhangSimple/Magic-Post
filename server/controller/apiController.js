@@ -24,16 +24,15 @@ function generateString(length) {
 let createStaffTransAccount = async (req, res) => {
   try {
     let data = req.body.data;
+    delete data.token;
     let keys = Object.keys(data);
     let column_list = keys.join(',');
     const mark = '?,'.repeat(keys.length - 1) + '?';
     const values = keys.map((key) => data[key]);
-    var encryptedPassword = await bcrypt.hash(data.password, 10);
-    data.password = encryptedPassword;
-    // await pool.execute(`insert into staff_transaction(${column_list}) values(` + `${mark}` + `)`, values);
-    var token = jwt.sign({ foo: 'bar' }, process.env.TOKEN_KEY, { expiresIn: '1h' });
-    console.log(token);
-    res.status(200).json({ data: { token: token } });
+    // var encryptedPassword = await bcrypt.hash(data.password, 10);
+    // data.password = encryptedPassword;
+    await pool.execute(`insert into staff_transaction(${column_list}) values(` + `${mark}` + `)`, values);
+    res.status(200).json({ flag: 1 });
   } catch (err) {
     console.log(err);
     return res.status(401).send({ Error: 'Lỗi' });
@@ -43,13 +42,21 @@ let createStaffTransAccount = async (req, res) => {
 // Tạo tài khoản cho nhân viên tại điểm tập kết
 // Đầu vào chứa các thông tin của nhân viên: Username, password, phone, email, collection_zip_code
 let createStaffCollAccount = async (req, res) => {
-  let data = req.body.data;
-  let keys = Object.keys(data);
-  let column_list = keys.join(',');
-  const mark = '?,'.repeat(keys.length - 1) + '?';
-  const values = keys.map((key) => data[key]);
-  await pool.execute(`insert into staff_collection(${column_list}) values(` + `${mark}` + `)`, values);
-  console.log('Success');
+  try {
+    let data = req.body.data;
+    delete data.token;
+    let keys = Object.keys(data);
+    let column_list = keys.join(',');
+    const mark = '?,'.repeat(keys.length - 1) + '?';
+    const values = keys.map((key) => data[key]);
+    // var encryptedPassword = await bcrypt.hash(data.password, 10);
+    // data.password = encryptedPassword;
+    await pool.execute(`insert into staff_collection(${column_list}) values(` + `${mark}` + `)`, values);
+    res.status(200).json({ flag: 1 });
+  } catch (err) {
+    console.log(err);
+    return res.status(401).send({ Error: 'Lỗi' });
+  }
 };
 
 // Xóa tài khoản của nhân viên tại điểm giao dịch

@@ -18,6 +18,10 @@ import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import NewsPage from './NewsPage';
+import Button from '@mui/material/Button';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
+
 const cx = classNames.bind(styles);
 
 const TraCuuVanDon = () => {
@@ -25,7 +29,63 @@ const TraCuuVanDon = () => {
 };
 
 const UocTinhCuocPhi = () => {
-  return <div className={cx(styles.subTabContentBox)}>Ước tính cước phí content</div>;
+  return (
+    <div className={cx(styles.subTabContentBox)}>
+      <div className={cx(styles.uocTinhChiPhi)}>
+        <h2>BẢNG CƯỚC PHÍ GỬI HÀNG TỪ 63 TỈNH THÀNH TOÀN QUỐC</h2>
+        <table className={cx(styles.shippingRatesTable)}>
+          <thead className={cx(styles.tHead)}>
+            <tr>
+              <th rowSpan="2"></th>
+              <th rowSpan="2">Nội tỉnh</th>
+              <th rowSpan="2">Nội miền</th>
+              <th colSpan="2">Liên miền</th>
+            </tr>
+            <tr>
+              <th>Chuẩn</th>
+              <th>Nhanh</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className={cx(styles.tdHead)}>Nội thành & Ngoại thành</td>
+              <td>
+                16.500 <br></br> 3kg
+              </td>
+              <td>
+                30.000 <br></br> 0.5kg
+              </td>
+              <td>
+                30.000 - 32.000 <br></br> 0.5kg
+              </td>
+              <td> 45.000 </td>
+            </tr>
+            <tr>
+              <td className={cx(styles.tdHead)}>Huyện, xã</td>
+              <td>30.000</td>
+              <td>35.000</td>
+              <td>37.000 - 40.000</td>
+              <td>55.000</td>
+            </tr>
+            <tr>
+              <td className={cx(styles.tdHead)}>0,5kg tiếp theo</td>
+              <td>+2.500</td>
+              <td>+2.000</td>
+              <td>+5.000</td>
+              <td>+10.000</td>
+            </tr>
+            <tr>
+              <td className={cx(styles.tdHead)}>Ưu đãi</td>
+              <td>Giao trong 6h</td>
+              <td>Giao trong 24 - 28h</td>
+              <td>Giao trong 3 - 5 ngày</td>
+              <td>Giao trong 48h</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 };
 
 const TimKiemBuuCuc = () => {
@@ -38,7 +98,6 @@ const TimKiemBuuCuc = () => {
           <span>
             Tra cứu bưu cục
             <Select
-              InputLabel="Chọn tỉnh thành"
               className={cx(styles.sellectProvinceButton)}
               value={province}
               label="Chọn tỉnh thành"
@@ -47,6 +106,9 @@ const TimKiemBuuCuc = () => {
               <MenuItem>Hà Nội</MenuItem>
               <MenuItem>Thanh Hóa</MenuItem>
               <MenuItem>Thái Nguyên</MenuItem>
+              <MenuItem>Cao Bằng</MenuItem>
+              <MenuItem>Lạng Sơn</MenuItem>
+              <MenuItem>Quảng Ninh</MenuItem>
             </Select>
           </span>
         </span>
@@ -65,7 +127,34 @@ const TimKiemBuuCuc = () => {
   );
 };
 const DangKyDaiLyThuGom = () => {
-  return <div className={cx(styles.subTabContentBox)}>Đăng ký đại lý thu gom content</div>;
+  return (
+    <div className={cx(styles.subTabContentBox)}>
+      <div className={cx(styles.dangKyDaiLy)}>
+        <span className={cx(styles.noidung)}>
+          <strong>
+            <h3>Đăng ký làm đại lý thu gom</h3>
+          </strong>
+          <br></br>
+          <br></br>
+          Magic Post là doanh nghiệp hàng đầu cung cấp dịch vụ chuyển phát hàng hoá, bưu kiện trong nước và quốc tế tại
+          Việt Nam.<br></br>
+          <br></br> Với mạng lưới rộng khắp 63 tỉnh thành trong nước. Bưu chính Magic Post cam kết cung cấp mọi giải
+          phảp vận chuyển tối ưu nhất cho khách hàng với phương châm “NHANH, AN TOÀN, HIỆU QUẢ”.<br></br>
+          <br></br> Nhằm mục đích mở rộng mạng lưới phủ trên toàn quốc. Bưu chính Magic Post tuyển dụng đơn vị, cá nhân
+          có mặt bằng phù hợp để làm đại lý nhận, chuyển phát hàng hoá trên toàn quốc. <br></br> <br></br>
+          <span className={cx(styles.button)}>
+            <Button variant="contained">
+              Đăng ký đại lý &nbsp;
+              <ArrowForwardIcon />
+            </Button>
+          </span>
+        </span>
+        <span>
+          <img className={cx('minhhoa1')} src={images.minhhoa1} alt="anhminhhoa" />
+        </span>
+      </div>
+    </div>
+  );
 };
 
 const Main = () => {
@@ -80,7 +169,6 @@ const Main = () => {
             className={cx(styles.traCuu, { active: activeTab === 'tra-cuu' })}
             onClick={() => {
               setActiveTab('tra-cuu');
-              setActiveSubTab('tra-cuu-van-don');
             }}
           >
             Tra cứu
@@ -92,10 +180,9 @@ const Main = () => {
             Dịch vụ
           </li>
         </ul>
-
         <div className={cx(styles.box)}>
           {activeTab === 'tra-cuu' && (
-            <div>
+            <div className={cx(styles.mainTabContent)}>
               <ul className={cx(styles.menuItems)}>
                 <li
                   className={cx(styles.subMenuItem, { active: activeSubTab === 'tra-cuu-van-don' })}
@@ -154,16 +241,92 @@ const Main = () => {
                   Đăng ký đại lý thu gom
                 </li>
               </ul>
+              <ul>
+                {activeSubTab === 'tra-cuu-van-don' && <TraCuuVanDon />}
+                {activeSubTab === 'uoc-tinh-cuoc-phi' && <UocTinhCuocPhi />}
+                {activeSubTab === 'tim-kiem-buu-cuc' && <TimKiemBuuCuc />}
+                {activeSubTab === 'dang-ky-dai-ly-thu-gom' && <DangKyDaiLyThuGom />}
+              </ul>
             </div>
           )}
-          <ul>
-            {activeSubTab === 'tra-cuu-van-don' && <TraCuuVanDon />}
-            {activeSubTab === 'uoc-tinh-cuoc-phi' && <UocTinhCuocPhi />}
-            {activeSubTab === 'tim-kiem-buu-cuc' && <TimKiemBuuCuc />}
-            {activeSubTab === 'dang-ky-dai-ly-thu-gom' && <DangKyDaiLyThuGom />}
-          </ul>
+          {activeTab === 'dich-vu' && (
+            <div className={cx(styles.mainTabContent)}>
+              <span>
+                <span className={cx(styles.DichVuContent)}>
+                  <span className={cx(styles.itemDichVu)}>
+                    <LocalShippingIcon sx={{ margin: '10px', fontSize: '80px', color: '#4cb9f8' }} />
 
-          {activeTab === 'dich-vu' && <div className={cx(styles.subTabContentBox)}>hehe</div>}
+                    <h3>
+                      <strong>Chuyển phát nhanh hàng hóa, tài liệu</strong>
+                    </h3>
+                    <br></br>
+                    <p>
+                      Là dịch vụ nhận gửi, vận chuyển và phát các loại thư, tài liệu, thư từ trong nước theo chỉ tiêu
+                      thời gian tiêu chuẩn. Không áp dụng với các đơn hàng có thu hộ COD.
+                    </p>
+                    <br></br>
+                    <Button variant="text">
+                      Xem chi tiết &nbsp; <ArrowForwardIcon />
+                    </Button>
+                  </span>
+                  <span className={cx(styles.itemDichVu)}>
+                    <LocalShippingIcon sx={{ margin: '10px', fontSize: '80px', color: '#4cb9f8' }} />
+
+                    <h3>
+                      <strong>Chuyển phát Thương mại điện tử</strong>
+                    </h3>
+                    <br></br>
+                    <p>
+                      I. ĐỊNH NGHĨA Dịch vụ Chuyển phát Thương mại điện tử là dịch vụ giao hàng thu tiền, nhận gửi, vận
+                      chuyển hàng hóa, vật phẩm với thời gian tối ưu, áp dụng cho khách hàng kinh doanh online và
+                      offline trên toàn quốc. Dịch vụ cung cấp nhiều ưu đãi liên quan đến phí thu […]
+                    </p>
+                    <br></br>
+                    <Button variant="text">
+                      Xem chi tiết &nbsp; <ArrowForwardIcon />
+                    </Button>
+                  </span>
+                </span>
+                <span className={cx(styles.DichVuContent)}>
+                  <span className={cx(styles.itemDichVu)}>
+                    <LocalShippingIcon sx={{ margin: '10px', fontSize: '80px', color: '#4cb9f8' }} />
+
+                    <h3>
+                      <strong>Chuyển phát Tiết kiệm</strong>
+                    </h3>
+                    <br></br>
+                    <p>
+                      I. ĐỊNH NGHĨA Dịch vụ Chuyển phát tiết kiệm là dịch vụ nhận gửi, vận chuyển và phát các loại hàng
+                      hóa, bưu phẩm, bưu kiện trong nước, không giới hạn mức trọng lượng, theo chỉ tiêu thời gian tiêu
+                      chuẩn, giá cước hợp lý. Bảng giá không áp dụng với các đơn hàng có thu […]
+                    </p>
+                    <br></br>
+                    <Button variant="text">
+                      Xem chi tiết &nbsp; <ArrowForwardIcon />
+                    </Button>
+                  </span>
+
+                  <span className={cx(styles.itemDichVu)}>
+                    <RocketLaunchIcon sx={{ margin: '10px', fontSize: '80px', color: '#4cb9f8' }} />
+
+                    <h3>
+                      <strong>Chuyển phát Hoả tốc, hẹn giờ</strong>
+                    </h3>
+                    <br></br>
+                    <p>
+                      I. ĐỊNH NGHĨA Dịch vụ Chuyển phát tiết kiệm là dịch vụ nhận gửi, vận chuyển và phát các loại hàng
+                      hóa, bưu phẩm, bưu kiện trong nước, không giới hạn mức trọng lượng, theo chỉ tiêu thời gian tiêu
+                      chuẩn, giá cước hợp lý. Bảng giá không áp dụng với các đơn hàng có thu […]
+                    </p>
+                    <br></br>
+                    <Button variant="text">
+                      Xem chi tiết &nbsp; <ArrowForwardIcon />
+                    </Button>
+                  </span>
+                </span>{' '}
+              </span>
+            </div>
+          )}
         </div>
       </div>
 

@@ -11,6 +11,7 @@ const images = {
   baibao3: require('~/assets/images/baibao3.jpg'),
   baibao4: require('~/assets/images/baibao4.jpg'),
   baibao5: require('~/assets/images/baibao5.jpg'),
+  minhhoa1: require('~/assets/images/minhhoa1.png'),
 };
 
 export default images;

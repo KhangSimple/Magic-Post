@@ -34,12 +34,21 @@ let getEmployeePage = async (req, res) => {
           password,
         ]);
         let info = rows[0];
+        console.log(info);
         var encryptedPassword = await bcrypt.hash(password, 10);
         info.password = encryptedPassword;
         let [c, _] = await pool.execute('select * from transaction where zip_code = ?', [info.transaction_zip_code]);
-        var token = jwt.sign({ id: info.id, role: 'trans-employee', trans_info: c[0] }, process.env.TOKEN_KEY, {
-          expiresIn: '3h',
-        });
+        var token = jwt.sign(
+          {
+            info: { id: info.id, name: info.name, phone: info.phone, email: info.email, img_url: info.img_url },
+            role: 'trans-employee',
+            trans_info: c[0],
+          },
+          process.env.TOKEN_KEY,
+          {
+            expiresIn: '3h',
+          },
+        );
         return res.status(200).json({ flag: 1, token: token });
       } else {
         return res.json({ flag: 0, checkUsername: checkUsername, checkPassword: checkPassword });
@@ -60,12 +69,21 @@ let getEmployeePage = async (req, res) => {
           password,
         ]);
         let info = rows[0];
+        console.log(info);
         var encryptedPassword = await bcrypt.hash(password, 10);
         info.password = encryptedPassword;
         let [c, _] = await pool.execute('select * from collection where zip_code = ?', [info.collection_zip_code]);
-        var token = jwt.sign({ id: info.id, role: 'coll-employee', coll_info: c[0] }, process.env.TOKEN_KEY, {
-          expiresIn: '3h',
-        });
+        var token = jwt.sign(
+          {
+            info: { id: info.id, name: info.name, phone: info.phone, email: info.email, img_url: info.img_url },
+            role: 'coll-employee',
+            coll_info: c[0],
+          },
+          process.env.TOKEN_KEY,
+          {
+            expiresIn: '3h',
+          },
+        );
         return res.status(200).json({ flag: 1, token: token });
       } else {
         return res.json({ flag: 0, checkUsername: checkUsername, checkPassword: checkPassword });

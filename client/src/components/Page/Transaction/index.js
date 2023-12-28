@@ -43,7 +43,7 @@ const Statistics = () => {
       .then(function (response) {
         let data = response.data.decodeData;
         setDecodedData(response.data.decodeData);
-        localStorage.setItem('employee_id', data.id);
+        localStorage.setItem('employee_info', JSON.stringify(data.info));
         localStorage.setItem('role', data.role);
         localStorage.setItem('zip_code', data.trans_info.zip_code);
         localStorage.setItem('name', data.trans_info.name);

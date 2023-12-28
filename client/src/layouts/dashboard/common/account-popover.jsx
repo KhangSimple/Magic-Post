@@ -48,7 +48,7 @@ export default function AccountPopover() {
     localStorage.removeItem('zip_code');
     localStorage.removeItem('name');
     localStorage.removeItem('role');
-    localStorage.removeItem('employee_id');
+    localStorage.removeItem('employee_info');
     delete axios.defaults.headers.common['Authorization'];
     navigate('/employee/login');
     navigate(0);

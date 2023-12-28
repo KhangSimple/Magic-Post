@@ -26,6 +26,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
 
 const CreateUser = ({ handleCreateAccount }) => {
+  const [profileImageURL, setProfileImageURL] = useState('');
   //Profile Image ref
   const profileImageRef = useRef();
   const stackProfileImageRef = useRef();
@@ -45,6 +46,8 @@ const CreateUser = ({ handleCreateAccount }) => {
           profileImageRef.current.style.backgroundRepeat = `no-repeat`;
           profileImageRef.current.style.backgroundSize = `cover`;
           stackProfileImageRef.current.style.display = 'none';
+          setProfileImageURL(img);
+          console.log(img);
         });
       });
 

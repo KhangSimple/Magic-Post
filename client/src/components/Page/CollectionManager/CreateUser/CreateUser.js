@@ -29,6 +29,7 @@ const CreateUser = ({ handleCreateAccount }) => {
   //Profile Image ref
   const profileImageRef = useRef();
   const stackProfileImageRef = useRef();
+  const [profileImageURL, setProfileImageURL] = useState('');
 
   const handleImageInputChange = (event) => {
     if (event.target.files.length) {
@@ -45,7 +46,8 @@ const CreateUser = ({ handleCreateAccount }) => {
           profileImageRef.current.style.backgroundRepeat = `no-repeat`;
           profileImageRef.current.style.backgroundSize = `cover`;
           stackProfileImageRef.current.style.display = 'none';
-
+          setProfileImageURL(img);
+          console.log(img);
         });
       });
 

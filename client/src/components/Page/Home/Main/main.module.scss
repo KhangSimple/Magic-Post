@@ -15,8 +15,8 @@
 .traCuu,
 .dichVu {
   font-family: 'sf-ui-medium';
-  font-size: 26px;
-  font-weight: 600;
+  font-size: 30px;
+  font-weight: 500;
   padding: 20px 100px 20px 100px;
   //   border: 1px solid #ccc;
   transition: 0.5s;
@@ -91,19 +91,28 @@
     }
   }
 }
-.DichVuContent {
+.parcelTracking {
+  display: block;
+}
+.itemDichVu {
+  padding: 20px;
+  background-color: #f1ecec;
+  border-radius: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  margin-left: 50px;
+  width: 5400px;
+}
+.DichVuContent1 {
+  margin-top: 20px;
+  display: flex;
+}
+
+.DichVuContent2 {
   margin-top: 50px;
   display: flex;
-  .itemDichVu {
-    padding: 20px;
-    background-color: #f1ecec;
-    border-radius: 30px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    margin-left: 50px;
-    width: 5400px;
-  }
 }
 .quangCao1 {
+  margin-top: 50px;
   font-family: 'Roboto', sans-serif;
 
   .title {
@@ -115,6 +124,7 @@
     padding: 20px;
   }
   .row {
+    margin-top: 30px;
     list-style-type: none;
     padding: 0;
     display: flex;
@@ -139,6 +149,10 @@
 .subTabContentBox {
   margin-top: 20px;
   z-index: 1001;
+}
+.minhhoa3 {
+  margin-top: 50px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.212);
 }
 .searchBuuCuc {
   display: block;
@@ -172,6 +186,7 @@
   .minhhoa1 {
     margin-left: 150px;
   }
+
   .button {
     background-color: #4cb9f8;
   }
@@ -191,14 +206,31 @@
 // .sellectProvince {
 //   margin-top: 100px;
 // }
+
+.newsTitle {
+  margin: 30px 10px 10px 50px;
+  text-align: left;
+  font-size: 36px;
+  font-weight: 500;
+}
+.parcelTrackingTitle {
+  margin: 30px 10px 10px 100px;
+  text-align: left;
+  font-size: 36px;
+  font-weight: 500;
+}
+.ptTitle {
+  margin: 30px 10px 10px 50px;
+  text-align: center;
+  font-size: 36px;
+  font-weight: 500;
+}
 .tinTucSuKien {
   font-family: Montserrat, sans-serif;
   margin-top: 20px;
   margin-bottom: 80px;
-  .sTitle {
-    margin: 30px 10px 30px 50px;
-    font-size: 30px;
-  }
+  margin-left: 50px;
+  margin-right: 100px;
   .row {
     display: flex;
     margin-right: -15px;
@@ -207,7 +239,7 @@
       display: block;
     }
     .colLeft {
-      width: 50%;
+      width: 70%;
       .ngayDang {
         margin-top: 20px;
       }
@@ -231,6 +263,7 @@
   }
   .colRight {
     .anhMinhHoa {
+      margin-left: 10px;
       width: 147px;
       height: 88px;
       margin-top: 20px;

@@ -8,7 +8,7 @@ const cx = classNames.bind(styles);
 const NewsPage = () => {
   return (
     <div className={cx(styles.tinTucSuKien)}>
-      <h3 className={cx(styles.sTitle)}>Tin tức Magic Post</h3>
+      <h3 className={cx(styles.newsTitle)}>Tin tức Magic Post</h3>
       <div className={cx(styles.row)}>
         <div className={cx(styles.colLeft)}>
           <div className={cx(styles.blogItem)}>

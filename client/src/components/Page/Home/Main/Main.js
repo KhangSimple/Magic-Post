@@ -10,8 +10,6 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import MapIcon from '@mui/icons-material/Map';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
 import LaptopChromebookIcon from '@mui/icons-material/LaptopChromebook';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
@@ -21,11 +19,18 @@ import NewsPage from './NewsPage';
 import Button from '@mui/material/Button';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
+import ParcelTracking from '../../ParcelTracking';
 
 const cx = classNames.bind(styles);
 
 const TraCuuVanDon = () => {
-  return <div className={cx(styles.subTabContentBox)}>Tra cứu vận đơn content</div>;
+  return (
+    <div className={cx(styles.subTabContentBox)}>
+      <span className={cx(styles.parcelTracking)}>
+        <img className={cx('minhhoa3')} src={images.minhhoa3} alt="anhminhhoa" />
+      </span>
+    </div>
+  );
 };
 
 const UocTinhCuocPhi = () => {
@@ -96,20 +101,24 @@ const TimKiemBuuCuc = () => {
       <div className={cx(styles.searchBuuCuc)}>
         <span className={cx(styles.sellectProvince)}>
           <span>
-            Tra cứu bưu cục
-            <Select
-              className={cx(styles.sellectProvinceButton)}
-              value={province}
-              label="Chọn tỉnh thành"
-              onChange={console.log('hehe')}
-            >
-              <MenuItem>Hà Nội</MenuItem>
-              <MenuItem>Thanh Hóa</MenuItem>
-              <MenuItem>Thái Nguyên</MenuItem>
-              <MenuItem>Cao Bằng</MenuItem>
-              <MenuItem>Lạng Sơn</MenuItem>
-              <MenuItem>Quảng Ninh</MenuItem>
-            </Select>
+            <span>
+              <h3>Tra cứu bưu cục</h3>
+            </span>
+            <span>
+              <Select
+                className={cx(styles.sellectProvinceButton)}
+                value={province}
+                label="Chọn tỉnh thành"
+                onChange={console.log('hehe')}
+              >
+                <MenuItem>Hà Nội</MenuItem>
+                <MenuItem>Thanh Hóa</MenuItem>
+                <MenuItem>Thái Nguyên</MenuItem>
+                <MenuItem>Cao Bằng</MenuItem>
+                <MenuItem>Lạng Sơn</MenuItem>
+                <MenuItem>Quảng Ninh</MenuItem>
+              </Select>
+            </span>
           </span>
         </span>
 
@@ -252,7 +261,7 @@ const Main = () => {
           {activeTab === 'dich-vu' && (
             <div className={cx(styles.mainTabContent)}>
               <span>
-                <span className={cx(styles.DichVuContent)}>
+                <span className={cx(styles.DichVuContent1)}>
                   <span className={cx(styles.itemDichVu)}>
                     <LocalShippingIcon sx={{ margin: '10px', fontSize: '80px', color: '#4cb9f8' }} />
 
@@ -287,7 +296,7 @@ const Main = () => {
                     </Button>
                   </span>
                 </span>
-                <span className={cx(styles.DichVuContent)}>
+                <span className={cx(styles.DichVuContent2)}>
                   <span className={cx(styles.itemDichVu)}>
                     <LocalShippingIcon sx={{ margin: '10px', fontSize: '80px', color: '#4cb9f8' }} />
 
@@ -329,10 +338,16 @@ const Main = () => {
           )}
         </div>
       </div>
+      <div>
+        <h3 className={cx(styles.parcelTrackingTitle)}>Tra cứu mã vận đơn</h3>
+        <ParcelTracking />
+      </div>
 
       {/* quảng cáo 1 */}
       <div className={cx(styles.quangCao1)}>
-        <div className={cx(styles.title)}>Phương thức hoạt động</div>
+        <div>
+          <h3 className={cx(styles.ptTitle)}>Phương thức hoạt động</h3>
+        </div>
         <div className={cx(styles.greyBg)}>
           <div className={cx(styles.content)}>
             <ul className={cx(styles.row)}>

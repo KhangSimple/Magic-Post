@@ -701,6 +701,36 @@ let collectionStatistic = async (req, res) => {
   }
 };
 
+let collectionStatisticTrans = async (req, res) => {
+  try {
+    let token = req.headers.token;
+    var decode = jwt.verify(token, process.env.TOKEN_KEY);
+    // console.log(decode);
+    if (decode.role == 'coll-manager') {
+      let { startDate, endDate } = req.query;
+      let [trans_rows, _] = await pool.execute(
+        'SELECT t.name, count(*) as count FROM `collection_stock` as cs join transaction as t on cs.sender_transaction_zip_code = t.zip_code WHERE cs.collection_zip_code = ? and receive_time BETWEEN ? and ? group by sender_transaction_zip_code;',
+        [decode.coll_info.zip_code, startDate, endDate],
+      );
+      let [coll_rows, __] = await pool.execute(
+        'SELECT t.name, count(*) as count FROM `collection_stock` as cs join collection as t on cs.sender_col_zip_code = t.zip_code WHERE cs.collection_zip_code = ? and receive_time BETWEEN ? and ? group by sender_col_zip_code;',
+        [decode.coll_info.zip_code, startDate, endDate],
+      );
+      trans_rows.map((item) => {
+        item.name = 'ĐGD: ' + item.name;
+      });
+      coll_rows.map((item) => {
+        item.name = 'ĐTK: ' + item.name;
+      });
+      return res.status(200).json({ rows: trans_rows.concat(coll_rows) });
+    } else {
+      return res.status(403).json({ status: 'Invalid token' });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export default {
   createStaffTransAccount,
   createStaffCollAccount,
@@ -727,4 +757,5 @@ export default {
   getTransactionStaffList,
   getCollectionStaffList,
   collectionStatistic,
+  collectionStatisticTrans,
 };

@@ -11,7 +11,7 @@ import AppWidgetSummary from './Statistics/components/WidgetSummary';
 // import AppTrafficBySite from '../app-traffic-by-site';
 // import AppCurrentSubject from '../app-current-subject';
 import AppConversionRates from './Statistics/components/ConversionRates';
-import axios from 'axios';
+import axios, { all } from 'axios';
 import { useEffect, useState } from 'react';
 const Statistics = () => {
   const [decodedData, setDecodedData] = useState({});
@@ -19,6 +19,7 @@ const Statistics = () => {
   const [arrivalParcelCount, setArrivalParcelCount] = useState(0);
   const [waitParcelcount, setWaitParcelcount] = useState(0);
   const [bugParcelcount, setBugParcelcount] = useState(0);
+  const [allStatistics, setAllStatistics] = useState([]);
   useEffect(() => {
     console.log('Use Effect main index');
     axios
@@ -58,6 +59,26 @@ const Statistics = () => {
         setWaitParcelcount(data.waitParcelcount);
         setBugParcelcount(data.bugParcelcount);
         console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    console.log('Use Effect main index');
+    axios
+      .get(`http://localhost:1510/collectionStatisticTrans`, {
+        headers: {
+          token: localStorage.getItem('token'),
+        },
+        params: {
+          startDate: '2023-11-29',
+          endDate: '2023-12-29',
+        },
+      })
+      .then(function (response) {
+        setAllStatistics(response.data.rows);
       })
       .catch(function (error) {
         console.log(error);
@@ -112,12 +133,9 @@ const Statistics = () => {
             <AppAllStatistics
               title="Current Visits"
               chart={{
-                series: [
-                  { label: 'America', value: 4344 },
-                  { label: 'Asia', value: 5435 },
-                  { label: 'Europe', value: 1443 },
-                  { label: 'Africa', value: 4443 },
-                ],
+                series: allStatistics.map((item) => {
+                  return { label: item.name, value: item.count };
+                }),
               }}
             />
           </Grid>
@@ -127,18 +145,21 @@ const Statistics = () => {
               title="Conversion Rates"
               subheader="(+43%) than last year"
               chart={{
-                series: [
-                  { label: 'Italy', value: 400 },
-                  { label: 'Japan', value: 430 },
-                  { label: 'China', value: 448 },
-                  { label: 'Canada', value: 470 },
-                  { label: 'France', value: 540 },
-                  { label: 'Germany', value: 580 },
-                  { label: 'South Korea', value: 690 },
-                  { label: 'Netherlands', value: 1100 },
-                  { label: 'United States', value: 1200 },
-                  { label: 'United Kingdom', value: 1380 },
-                ],
+                series: allStatistics.map((item) => {
+                  return { label: item.name, value: item.count };
+                }),
+                // series: [
+                //   { label: 'Italy', value: 400 },
+                //   { label: 'Japan', value: 430 },
+                //   { label: 'China', value: 448 },
+                //   { label: 'Canada', value: 470 },
+                //   { label: 'France', value: 540 },
+                //   { label: 'Germany', value: 580 },
+                //   { label: 'South Korea', value: 690 },
+                //   { label: 'Netherlands', value: 1100 },
+                //   { label: 'United States', value: 1200 },
+                //   { label: 'United Kingdom', value: 1380 },
+                // ],
               }}
             />
           </Grid>

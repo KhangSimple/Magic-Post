@@ -34,6 +34,7 @@ import { emptyRows, applyFilter, getComparator } from './utils';
 import styles from './AccountTable.module.scss';
 import * as React from 'react';
 import classNames from 'classnames/bind';
+import EditUserProfile from '~/components/Page/TransactionManager/EditUserProfile/EditUserProfile';
 
 const cx = classNames.bind(styles);
 // ----------------------------------------------------------------------

@@ -52,6 +52,7 @@ header {
   margin-left: 50px;
   background-color: aquamarine;
   &:hover {
+    cursor: pointer;
     background-color: #00f7ff;
   }
 }
@@ -111,7 +112,8 @@ nav ul {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .subMenu li {
-  padding: 10px 50px;
+  padding: 20px 30px 20px 30px;
+
   color: rgb(0, 0, 0);
   cursor: pointer;
 }

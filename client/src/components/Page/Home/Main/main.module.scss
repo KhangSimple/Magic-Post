@@ -15,8 +15,8 @@
 .traCuu,
 .dichVu {
   font-family: 'sf-ui-medium';
-  font-size: 26px;
-  font-weight: 600;
+  font-size: 30px;
+  font-weight: 500;
   padding: 20px 100px 20px 100px;
   //   border: 1px solid #ccc;
   transition: 0.5s;
@@ -52,48 +52,67 @@
     display: block;
   }
 }
-.menuItems {
-  display: inline;
-  list-style-type: none;
-  padding: 0;
-  font-size: 18px;
+
+.mainTabContent {
+  .menuItems {
+    display: inline;
+    list-style-type: none;
+    padding: 0;
+    font-size: 18px;
+  }
+  .subMenuItem {
+    display: inline-block;
+    width: 290px;
+    height: 60px;
+    line-height: 20px;
+    margin-left: 0px;
+    flex-grow: 1;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    background-color: rgb(223, 208, 208);
+    font-weight: 500;
+    font-family: 'sf-ui-medium';
+    font-size: 18px;
+    &.active {
+      color: #4cb9f8;
+      background-color: rgb(247, 241, 241);
+    }
+    &:hover {
+      cursor: pointer;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .content {
+      display: none;
+    }
+  }
+}
+.parcelTracking {
+  display: block;
+}
+.itemDichVu {
+  padding: 20px;
+  background-color: #f1ecec;
+  border-radius: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  margin-left: 50px;
+  width: 5400px;
+}
+.DichVuContent1 {
+  margin-top: 20px;
+  display: flex;
 }
 
-.subMenuItem {
-  display: inline-block;
-  width: 290px;
-  height: 60px;
-  line-height: 20px;
-  margin-left: 0px;
-  flex-grow: 1;
-  text-align: center;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-  background-color: rgb(223, 208, 208);
-  font-weight: 500;
-  font-family: 'sf-ui-medium';
-  font-size: 18px;
-  &.active {
-    color: #4cb9f8;
-    background-color: rgb(247, 241, 241);
-  }
-  &:hover {
-    cursor: pointer;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
-  }
-
-  .content {
-    display: none;
-  }
-
-  .content.active {
-    display: block;
-  }
+.DichVuContent2 {
+  margin-top: 50px;
+  display: flex;
 }
 .quangCao1 {
+  margin-top: 50px;
   font-family: 'Roboto', sans-serif;
 
   .title {
@@ -105,6 +124,7 @@
     padding: 20px;
   }
   .row {
+    margin-top: 30px;
     list-style-type: none;
     padding: 0;
     display: flex;
@@ -125,20 +145,185 @@
     border-right: none;
   }
 }
+
+.subTabContentBox {
+  margin-top: 20px;
+  z-index: 1001;
+}
+.minhhoa3 {
+  margin-top: 50px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.212);
+}
+.searchBuuCuc {
+  display: block;
+  .sellectProvince {
+    z-index: 1002;
+    background: #f8f8f8;
+    padding: 20px;
+    float: left;
+    width: 30%;
+    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 30px;
+  }
+}
+.dangKyDaiLy {
+  margin-top: 100px;
+  display: block;
+  .noidung {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.212);
+    border-radius: 30px;
+    background-color: #f1ecec;
+    z-index: 1002;
+    float: left;
+    padding: 30px;
+    margin-bottom: 30px;
+    margin-left: 30px;
+    width: 500px;
+    text-align: justify;
+  }
+  .minhhoa1 {
+    margin-left: 150px;
+  }
+
+  .button {
+    background-color: #4cb9f8;
+  }
+}
+.rowContainer {
+  display: flex;
+}
+.sellectProvinceButton {
+  margin-right: 20px;
+  margin-top: 20px;
+  font-size: 16px;
+  width: 300px;
+}
+.ggMap {
+  margin-left: 150px;
+}
+// .sellectProvince {
+//   margin-top: 100px;
+// }
+
+.newsTitle {
+  margin: 30px 10px 10px 50px;
+  text-align: left;
+  font-size: 36px;
+  font-weight: 500;
+}
+.parcelTrackingTitle {
+  margin: 30px 10px 10px 100px;
+  text-align: left;
+  font-size: 36px;
+  font-weight: 500;
+}
+.ptTitle {
+  margin: 30px 10px 10px 50px;
+  text-align: center;
+  font-size: 36px;
+  font-weight: 500;
+}
+.tinTucSuKien {
+  font-family: Montserrat, sans-serif;
+  margin-top: 20px;
+  margin-bottom: 80px;
+  margin-left: 50px;
+  margin-right: 100px;
+  .row {
+    display: flex;
+    margin-right: -15px;
+    margin-left: 50px;
+    div {
+      display: block;
+    }
+    .colLeft {
+      width: 70%;
+      .ngayDang {
+        margin-top: 20px;
+      }
+    }
+  }
+  .image1 {
+    margin: 10px;
+    width: 700px;
+    height: 420px;
+  }
+  .colLeft {
+    float: left;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
+    .blogTitle {
+      margin-bottom: 20px;
+    }
+  }
+  .colRight {
+    .anhMinhHoa {
+      margin-left: 10px;
+      width: 147px;
+      height: 88px;
+      margin-top: 20px;
+    }
+    .blogItem {
+      display: flex;
+      box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
+    }
+    .blogDetail {
+      margin: 20px 50px 40px 20px;
+    }
+  }
+}
+.uocTinhChiPhi {
+  margin-top: 50px;
+  .shippingRatesTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 50px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .shippingRatesTable th,
+  .shippingRatesTable td {
+    border: 3px solid #4cb9f8;
+    padding: 8px;
+    text-align: center;
+    height: 100px;
+  }
+
+  .shippingRatesTable th {
+    font-size: 20px;
+    background-color: #f9f9f9;
+    height: 30px;
+  }
+
+  .shippingRatesTable tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  .tdHead {
+    font-weight: bold;
+    font-size: 20px;
+  }
+}
 .quangCao2 {
-  height: 20%;
+  height: 150px;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   flex-wrap: wrap;
+  margin-bottom: 50px;
   margin-right: -15px;
   margin-left: -15px;
   h4 {
     color: rgba(68, 73, 77, 1);
-    font-size: 31px;
+    font-size: 30px;
     line-height: 40px;
     font-family: 'sf-ui-bold';
-    width: 50%;
+    width: 80%;
     margin: 5px auto;
   }
   img {
@@ -187,92 +372,5 @@
     margin-left: 15%;
     margin-top: 2%;
     display: flex;
-  }
-}
-
-.subTabContentBox {
-  margin-top: 20px;
-  z-index: 1001;
-}
-.searchBuuCuc {
-  display: block;
-  .sellectProvince {
-    z-index: 1002;
-    background: #f8f8f8;
-    padding: 20px;
-    float: left;
-    width: 30%;
-    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    margin-bottom: 30px;
-  }
-}
-.rowContainer {
-  display: flex;
-}
-.sellectProvinceButton {
-  margin-right: 20px;
-  margin-top: 20px;
-  font-size: 16px;
-  width: 300px;
-}
-.ggMap {
-  margin-left: 150px;
-}
-// .sellectProvince {
-//   margin-top: 100px;
-// }
-.tinTucSuKien {
-  font-family: Montserrat, sans-serif;
-  margin-top: 20px;
-  margin-bottom: 80px;
-  .sTitle {
-    margin: 30px 10px 30px 50px;
-    font-size: 30px;
-  }
-  .row {
-    display: flex;
-    margin-right: -15px;
-    margin-left: 50px;
-    div {
-      display: block;
-    }
-    .colLeft {
-      width: 50%;
-      .ngayDang {
-        margin-top: 20px;
-      }
-    }
-  }
-  .image1 {
-    margin: 10px;
-    width: 700px;
-    height: 420px;
-  }
-  .colLeft {
-    float: left;
-    position: relative;
-    min-height: 1px;
-    padding-right: 15px;
-    padding-left: 15px;
-    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
-    .blogTitle {
-      margin-bottom: 20px;
-    }
-  }
-  .colRight {
-    .anhMinhHoa {
-      width: 147px;
-      height: 88px;
-      margin-top: 20px;
-    }
-    .blogItem {
-      display: flex;
-      box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
-    }
-    .blogDetail {
-      margin: 20px 50px 40px 20px;
-    }
   }
 }

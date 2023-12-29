@@ -56,8 +56,9 @@ function CustomerLogin() {
             Quên mật khẩu
           </Link>
         </span>
-        <div className={cx('signin-btn')}>
+        <div>
           <Button
+            className={cx('signin-btn')}
             log
             onClick={() => {
               console.log(username);
@@ -79,7 +80,9 @@ function CustomerLogin() {
         </div>
         <span className={cx('route-link')}>
           Bạn chưa có tài khoản?
-          <Link to="/register">Đăng ký ngay</Link>
+          <Link to="/register" className={cx('dangKyNgay')}>
+            Đăng ký ngay
+          </Link>
         </span>
       </div>
       <div className={cx('more-info')}></div>

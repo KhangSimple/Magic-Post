@@ -1,7 +1,9 @@
 .wrapper {
-  background-image: url(/assets/images/tracking-img.svg);
+  background-image: url(/assets/images/tracking-img.png);
+  background-size: 450px auto;
   background-position: top right;
   background-repeat: no-repeat;
+
   padding: 40px 0;
   .paneTop {
     width: 50%;
@@ -29,7 +31,7 @@
       margin-bottom: 50px;
     }
     .button {
-      background: #e03;
+      background: #4cb9f8;
       border-radius: 5px;
       border: 0;
       color: #fff;

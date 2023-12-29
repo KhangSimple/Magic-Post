@@ -1,5 +1,7 @@
 import styles from './TimeLine.module.scss';
 import classNames from 'classnames/bind';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+
 const cx = classNames.bind(styles);
 
 const TimeLine = ({ status, details, isShowPostPosition, isActive }) => {
@@ -14,10 +16,7 @@ const TimeLine = ({ status, details, isShowPostPosition, isActive }) => {
       {isShowPostPosition ? (
         <div className={cx(styles.showPostPosition)}>
           Thông tin bưu cục
-          <img
-            className={cx(styles.img)}
-            src="https://viettelpost.vn/viettelpost-iframe/assets/images/location-v2.png"
-          ></img>
+          <LocationOnIcon />
         </div>
       ) : (
         <div className={cx(styles.showDetail)}>Xem chi tiết đơn hàng</div>

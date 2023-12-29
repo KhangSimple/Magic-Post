@@ -16,7 +16,18 @@ import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
-export default function UserTableRow({ selected, name, avatarUrl, email, role, phoneNumber, status, handleClick, handleEditProfile }) {
+export default function UserTableRow({
+  selected,
+  name,
+  avatarUrl,
+  email,
+  role,
+  phoneNumber,
+  status,
+  handleClick,
+  handleEditProfile,
+  handleDeleteAccout,
+}) {
   const [open, setOpen] = useState(null);
 
   const handleOpenMenu = (event) => {
@@ -77,7 +88,7 @@ export default function UserTableRow({ selected, name, avatarUrl, email, role, p
           Edit
         </MenuItem>
 
-        <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
+        <MenuItem onClick={handleDeleteAccout} sx={{ color: 'error.main' }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
           Delete
         </MenuItem>

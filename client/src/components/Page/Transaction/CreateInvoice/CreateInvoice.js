@@ -482,7 +482,7 @@ const CreateInvoice = () => {
             <DialogActions>
               <Button className={cx(styles.buttonModel)} onClick={() => {
                 setOpen(false);
-                //createParcel();
+                createParcel();
               }
               } color='primary'>
                 Tạo đơn hàng

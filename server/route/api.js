@@ -19,7 +19,7 @@ const initAPIRoute = (app) => {
   router.get('/getArrivalParcelPackage', auth, apiController.getArrivalParcelPackage);
   router.get('/getSendedParcelPackage', auth, apiController.getSendedParcelPackage);
   router.get('/getPackageDetail', auth, apiController.getPackageDetail);
-  router.post('/sendPackage', auth, apiController.sendPackage);
+  // router.post('/sendPackage', auth, apiController.sendPackage);
   router.post('/confirmCollecionPackage', auth, apiController.confirmCollecionPackage);
   router.post('/confirmTransactionPackage', auth, apiController.confirmTransactionPackage);
   router.get('/getCollectionPackageDetail', auth, apiController.getCollectionPackageDetail);
@@ -27,6 +27,7 @@ const initAPIRoute = (app) => {
   router.post('/createCollectionPackage', auth, apiController.createCollectionPackage);
   router.post('/createTransactionPackage', auth, apiController.createTransactionPackage);
   router.get('/getTransactionStaffList', auth, apiController.getTransactionStaffList);
+  router.get('/getCollectionStaffList', auth, apiController.getCollectionStaffList);
   return app.use('/', router);
 };
 

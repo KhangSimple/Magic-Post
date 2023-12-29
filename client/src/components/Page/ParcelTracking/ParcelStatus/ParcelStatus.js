@@ -6,6 +6,9 @@ import { dateFormat } from '..';
 import { ParcelContext } from '..';
 import { useContext } from 'react';
 import axios from 'axios';
+import Iconify from '~/components/iconify';
+import Button from '@mui/material/Button';
+import * as React from 'react';
 const cx = classNames.bind(styles);
 const ParcelStatus = () => {
   const parcel = useContext(ParcelContext).parcelData;
@@ -51,7 +54,7 @@ const ParcelStatus = () => {
   };
   return (
     <div className={cx(styles.wrapper)}>
-      {parcelStatus.map((item, index) => {
+      {parcelStatus.reverse().map((item, index) => {
         if (index < parcelStatus.length - 1) {
           return (
             <TimeLine
@@ -85,14 +88,26 @@ const ParcelStatus = () => {
       })}
       {parcelStatus.length == 7 && (
         <div>
-          <button onClick={() => confirmParcel()} style={{ background: 'blue', height: 50 }}>
-            Xác nhận đã nhận đơn hàng
-          </button>
-          <br />
-          <br />
-          <button onClick={() => confirmParcelUnsuccessful()} style={{ background: 'red', height: 50 }}>
+          <Button
+            variant="contained"
+            color="error"
+            sx={{
+              margin:'5px',
+            }}
+            onClick={() => confirmParcelUnsuccessful()}
+          >
             Xác nhận đơn hàng không đến
-          </button>
+          </Button>
+          <Button
+            variant="contained"
+            color="success"
+            sx={{
+              margin:'5px',
+            }}
+            onClick={() => confirmParcel()}
+          >
+            Xác nhận đã nhận đơn hàng
+          </Button>
         </div>
       )}
       {/* <TimeLine

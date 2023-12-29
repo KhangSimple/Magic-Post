@@ -17,22 +17,14 @@ import axios from 'axios';
 
 const MENU_OPTIONS = [
   {
-    label: 'Home',
-    icon: 'eva:home-fill',
-  },
-  {
     label: 'Profile',
     icon: 'eva:person-fill',
-  },
-  {
-    label: 'Settings',
-    icon: 'eva:settings-2-fill',
   },
 ];
 
 // ----------------------------------------------------------------------
 
-export default function AccountPopover() {
+export default function AccountPopover({handleOpenEditUserProfileModal}) {
   const [open, setOpen] = useState(null);
   const navigate = useNavigate();
 
@@ -96,21 +88,22 @@ export default function AccountPopover() {
         }}
       >
         <Box sx={{ my: 1.5, px: 2 }}>
-          <Typography variant="subtitle2" noWrap>
+          <Typography variant='subtitle2' noWrap>
             {account.displayName}
           </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+          <Typography variant='body2' sx={{ color: 'text.secondary' }} noWrap>
             {account.email}
           </Typography>
         </Box>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        {MENU_OPTIONS.map((option) => (
-          <MenuItem key={option.label} onClick={handleClose}>
-            {option.label}
-          </MenuItem>
-        ))}
+        <MenuItem onClick={()=>{
+          handleOpenEditUserProfileModal();
+        }}>
+          Cập nhật thông tin
+        </MenuItem>
+
 
         <Divider sx={{ borderStyle: 'dashed', m: 0 }} />
 

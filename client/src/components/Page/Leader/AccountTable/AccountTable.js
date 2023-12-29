@@ -52,10 +52,12 @@ export default function AccountManagementTable() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const [open, setOpen] = React.useState(false);
+  const [createUserModalOpen, setCreateUserModalOpen] = useState(false);
+  const [editUserModalOpen, setEditUserModalOpen] = useState(false);
+  const [currentIdUserEditProfile, setCurrentIdUserEditProfile] = useState();
 
   const handleCreateAccount = () => {
-    handleClose();
+    handleCloseCreateUserModal();
   };
 
   const handleSort = (event, id) => {
@@ -112,8 +114,12 @@ export default function AccountManagementTable() {
 
   const notFound = !dataFiltered.length && !!filterName;
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseCreateUserModal = () => {
+    setCreateUserModalOpen(false);
+  };
+
+  const handleCloseEditUserProfileModal = () => {
+    setEditUserModalOpen(false);
   };
 
   return (
@@ -127,7 +133,7 @@ export default function AccountManagementTable() {
             variant="contained"
             color="inherit"
             startIcon={<Iconify icon="eva:plus-fill" />}
-            onClick={() => setOpen(true)}
+            onClick={() => setCreateUserModalOpen(true)}
           >
             Tạo tài khoản
           </Button>
@@ -167,6 +173,10 @@ export default function AccountManagementTable() {
                       phoneNumber={row.phoneNumber}
                       selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}
+                      handleEditProfile={()=>{
+                        setEditUserModalOpen(true);
+                        setCurrentIdUserEditProfile(row.id);
+                      }}
                     />
                   );
                 })}
@@ -188,10 +198,16 @@ export default function AccountManagementTable() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Card>
-        <Dialog className={cx(styles.dialog)} open={open} onClose={handleClose} fullWidth maxWidth="lg">
+        <Dialog className={cx(styles.dialog)} open={createUserModalOpen} onClose={handleCloseCreateUserModal} fullWidth maxWidth="lg">
           <DialogTitle className={cx(styles.title)}>Tạo tài khoản cho nhân viên</DialogTitle>
           <DialogContent>
             <CreateUser handleCreateAccount={handleCreateAccount}></CreateUser>
+          </DialogContent>
+        </Dialog>
+        <Dialog className={cx(styles.dialog)} open={editUserModalOpen} onClose={handleCloseEditUserProfileModal} fullWidth maxWidth="lg">
+          <DialogTitle className={cx(styles.title)}>Cập nhật thông tin tài khoản nhân viên</DialogTitle>
+          <DialogContent>
+            <EditUserProfile idUser={currentIdUserEditProfile} handleCloseModal={handleCloseEditUserProfileModal}></EditUserProfile>
           </DialogContent>
         </Dialog>
       </Container>

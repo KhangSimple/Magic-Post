@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Unstable_Grid2';
 
-import { Container, Divider } from '@mui/material';
+import { CardActions, Container, Divider } from '@mui/material';
 import AddMoreProduct from './AddMoreProduct/AddMoreProduct';
 import ProductPackageInfo from './ProductPackageInfo/ProductPackageInfo';
 import MinHeightTextarea from './MinHeightTextArea';
@@ -23,6 +23,8 @@ import axios from 'axios';
 import Address from '~/Object/Address';
 import { LocalFireDepartmentOutlined } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import AddIcon from '@mui/icons-material/Add';
+import Button from '~/components/Button';
 
 const defaultPackageInfo = {
   fee: {},
@@ -451,11 +453,13 @@ const CreateInvoice = () => {
               </Grid>
             </Grid>
           </div>
+          <CardActions>
+            <Button onClick={() => createParcel()}>
+              Tạo đơn
+            </Button>
+          </CardActions>
         </Card>
       </Container>
-      <button style={{ height: 200 }} onClick={() => createParcel()}>
-        Tạo đơn hàng
-      </button>
     </DashboardLayout>
   );
 };

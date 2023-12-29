@@ -20,7 +20,7 @@ import NotificationsPopover from './common/notifications-popover';
 
 // ----------------------------------------------------------------------
 
-export default function Header({ onOpenNav }) {
+export default function Header({ onOpenNav, handleOpenEditUserProfileModal }) {
   const theme = useTheme();
 
   const lgUp = useResponsive('up', 'lg');
@@ -39,7 +39,7 @@ export default function Header({ onOpenNav }) {
 
       <Stack direction="row" alignItems="center" spacing={1}>
         <NotificationsPopover />
-        <AccountPopover />
+        <AccountPopover handleOpenEditUserProfileModal={handleOpenEditUserProfileModal}/>
       </Stack>
     </>
   );

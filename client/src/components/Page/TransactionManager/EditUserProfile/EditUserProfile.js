@@ -103,7 +103,7 @@ const EditUserProfile = ({ handleCloseModal, idUser }) => {
       toast.error('Vui lòng điền đầy đủ thông tin!');
     } else {
       axios
-        .post(`http://localhost:1510/updateUserProfile`, {
+        .post(`http://localhost:1510/updateTransactionUserProfile`, {
           data: allInfo,
         })
         .then(function (response) {

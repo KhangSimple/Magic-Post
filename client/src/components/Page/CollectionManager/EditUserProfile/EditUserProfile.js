@@ -33,11 +33,17 @@ import { useNavigate } from 'react-router-dom';
 
 const ZIP_CODE = localStorage.getItem('zip_code');
 const EditUserProfile = ({ handleCloseModal, idUser }) => {
-  console.log('iduser', idUser);
-  const [profileImageURL, setProfileImageURL] = useState('');
+  const [profileImageURL, setProfileImageURL] = useState(idUser.avatarUrl);
   //Profile Image ref
   const profileImageRef = useRef();
   const stackProfileImageRef = useRef();
+  const navigate = useNavigate();
+  useEffect(() => {
+    profileImageRef.current.style.backgroundImage = `url(${idUser.avatarUrl})`;
+    profileImageRef.current.style.backgroundRepeat = `no-repeat`;
+    profileImageRef.current.style.backgroundSize = `cover`;
+    stackProfileImageRef.current.style.display = 'none';
+  }, []);
 
   const handleImageInputChange = (event) => {
     if (event.target.files.length) {
@@ -63,23 +69,25 @@ const EditUserProfile = ({ handleCloseModal, idUser }) => {
 
   const [eyeIcon, setEyeIcon] = useState(0);
   const [passType, setPassType] = useState('password');
-  const [name, setName] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [address, setAddress] = useState('');
-  const [repassword, setRepassword] = useState('');
+  const [id, setId] = useState(idUser.id);
+  const [name, setName] = useState(idUser.name);
+  const [username, setUsername] = useState(idUser.username);
+  const [password, setPassword] = useState(idUser.password);
+  const [email, setEmail] = useState(idUser.email);
+  const [phoneNumber, setPhoneNumber] = useState(idUser.phoneNumber);
+  const [address, setAddress] = useState(idUser.address);
+  const [repassword, setRepassword] = useState(idUser.password);
 
   const allInfo = {
     token: localStorage.getItem('token'),
+    id: id,
     name: name,
     username: username,
     password: password,
     address: address,
     phone: phoneNumber,
     email: email,
-    transaction_zip_code: ZIP_CODE,
+    collection_zip_code: ZIP_CODE,
     img_url: profileImageURL,
   };
   const handleEye = () => {
@@ -87,7 +95,28 @@ const EditUserProfile = ({ handleCloseModal, idUser }) => {
     setPassType(passType === 'text' ? 'password' : 'text');
   };
   const handleUpdateUserProfile = () => {
+    let check = false;
+    Object.keys(allInfo).forEach((item) => {
+      check = check || allInfo[item] === '';
+    });
     console.log(allInfo);
+    if (check) {
+      toast.error('Vui lòng điền đầy đủ thông tin!');
+    } else {
+      axios
+        .post(`http://localhost:1510/updateCollectionUserProfile`, {
+          data: allInfo,
+        })
+        .then(function (response) {
+          let data = response.data;
+          handleCloseModal();
+          toast.success('Sửa tài khoản thành công');
+          navigate(0);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   };
 
   return (
@@ -323,6 +352,18 @@ const EditUserProfile = ({ handleCloseModal, idUser }) => {
           </Card>
         </Grid>
       </Grid>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </Container>
   );
 };

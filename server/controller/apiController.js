@@ -52,7 +52,6 @@ let createStaffCollAccount = async (req, res) => {
     let data = req.body.data;
     const token = data.token;
     var decode = jwt.verify(token, process.env.TOKEN_KEY);
-    console.log(decode);
     if (decode.role == 'coll-manager') {
       console.log(data);
       delete data.token;
@@ -632,7 +631,6 @@ let getTransactionStaffList = async (req, res) => {
   try {
     const token = req.headers.token;
     var decode = jwt.verify(token, process.env.TOKEN_KEY);
-    console.log(decode);
     if (decode.role == 'trans-manager') {
       const [rows, field] = await pool.execute('select * from staff_transaction where transaction_zip_code = ?', [
         decode.trans_info.zip_code,
@@ -648,12 +646,10 @@ let getCollectionStaffList = async (req, res) => {
   try {
     const token = req.headers.token;
     var decode = jwt.verify(token, process.env.TOKEN_KEY);
-    console.log(decode);
     if (decode.role === 'coll-manager') {
-      const [rows, field] = await pool.execute(
-        'select id, name, phone,email, img_url from staff_collection where collection_zip_code = ?',
-        [decode.coll_info.zip_code],
-      );
+      const [rows, field] = await pool.execute('select * from staff_collection where collection_zip_code = ?', [
+        decode.coll_info.zip_code,
+      ]);
       return res.status(200).json(rows);
     } else {
       return res.status(403).json({ status: 'Invalid token' });
@@ -773,7 +769,6 @@ let transactionStatisticColl = async (req, res) => {
   try {
     let token = req.headers.token;
     var decode = jwt.verify(token, process.env.TOKEN_KEY);
-    console.log(decode);
     if (decode.role == 'trans-manager') {
       let { startDate, endDate } = req.query;
       let [rows, _] = await pool.execute(
@@ -831,7 +826,7 @@ let getUserParcelList = async (req, res) => {
   }
 };
 
-let updateUserProfile = async (req, res) => {
+let updateTransactionUserProfile = async (req, res) => {
   try {
     let data = req.body.data;
     const token = data.token;
@@ -841,6 +836,29 @@ let updateUserProfile = async (req, res) => {
       console.log(data);
       await pool.execute(
         `update staff_transaction set name = ?,username = ?, password = ?, address = ?, phone = ?, email = ? ,img_url = ? where id = ?`,
+        [data.name, data.username, data.password, data.address, data.phone, data.email, data.img_url, data.id],
+      );
+      res.status(200).json({ flag: 1 });
+    } else {
+      res.status(403).json({ status: 'Invalid token' });
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(401).send({ Error: 'Lỗi' });
+  }
+};
+
+let updateCollectionUserProfile = async (req, res) => {
+  try {
+    let data = req.body.data;
+    const token = data.token;
+    var decode = jwt.verify(token, process.env.TOKEN_KEY);
+    console.log(decode);
+    if (decode.role == 'coll-manager') {
+      delete data.token;
+      console.log(data);
+      await pool.execute(
+        `update staff_collection set name = ?,username = ?, password = ?, address = ?, phone = ?, email = ? ,img_url = ? where id = ?`,
         [data.name, data.username, data.password, data.address, data.phone, data.email, data.img_url, data.id],
       );
       res.status(200).json({ flag: 1 });
@@ -883,5 +901,6 @@ export default {
   transactionStatisticColl,
   getSuccessNFailParcel,
   getUserParcelList,
-  updateUserProfile,
+  updateTransactionUserProfile,
+  updateCollectionUserProfile,
 };

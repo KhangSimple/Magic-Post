@@ -41,7 +41,7 @@ const ParcelShipment = () => {
   React.useEffect(() => {
     console.log('Use Effect');
     axios
-      .get(`http://localhost:1510/getTransactionList`, {
+      .get(`http://localhost:1510/getUserParcelList`, {
         headers: {
           token: localStorage.getItem('token'),
         },

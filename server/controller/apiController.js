@@ -95,7 +95,7 @@ let getTransactionList = async (req, res) => {
   try {
     let { id, type, status } = req.query || req.body || req.params || '';
     let [rows, field] = await pool.execute(
-      'SELECT *,ts.sender_col_zip_code,ts.status,ts.type from parcels join transaction_stock as ts on parcels.id = ts.parcel_id where ts.transaction_zip_code = ? and ts.type = ? and ts.status = ?',
+      'SELECT *,ts.sender_col_zip_code,ts.status,ts.type from parcels join transaction_stock as ts on parcels.id = ts.parcel_id where ts.transaction_zip_code = ? and ts.type = ? and ts.status = ? and parcels.cur_pos != 3',
       [id, type, status],
     );
     return res.json(rows);
@@ -818,6 +818,19 @@ let getSuccessNFailParcel = async (req, res) => {
     console.log(err);
   }
 };
+
+let getUserParcelList = async (req, res) => {
+  try {
+    let { id, type, status } = req.query || req.body || req.params || '';
+    let [rows, field] = await pool.execute(
+      'SELECT *,ts.sender_col_zip_code,ts.status,ts.type from parcels join transaction_stock as ts on parcels.id = ts.parcel_id where ts.transaction_zip_code = ? and ts.type = ? and ts.status = ? and parcels.cur_pos = 3',
+      [id, type, status],
+    );
+    return res.json(rows);
+  } catch (err) {
+    console.log('Vllll');
+  }
+};
 export default {
   createStaffTransAccount,
   createStaffCollAccount,
@@ -848,4 +861,5 @@ export default {
   transactionStatistic,
   transactionStatisticColl,
   getSuccessNFailParcel,
+  getUserParcelList,
 };

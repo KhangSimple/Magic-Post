@@ -39,6 +39,7 @@ import * as React from 'react';
 import classNames from 'classnames/bind';
 import axios from 'axios';
 import EditUserProfile from '~/components/Page/CollectionManager/EditUserProfile/EditUserProfile';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 // ----------------------------------------------------------------------
@@ -61,6 +62,7 @@ export default function AccountManagementTable() {
   const [createUserModalOpen, setCreateUserModalOpen] = useState(false);
   const [editUserModalOpen, setEditUserModalOpen] = useState(false);
   const [currentIdUserEditProfile, setCurrentIdUserEditProfile] = useState();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     axios
@@ -94,6 +96,23 @@ export default function AccountManagementTable() {
 
   const handleCreateAccount = () => {
     handleCloseCreateUserModal();
+  };
+
+  const handleDeleteAccout = (id) => {
+    axios
+      .post(`http://localhost:1510/deleteCollectionUserAccount`, {
+        data: {
+          token: localStorage.getItem('token'),
+          id: id,
+        },
+      })
+      .then(function (response) {
+        toast.success('Xóa tài khoản thành công');
+        navigate(0);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   const handleSort = (event, id) => {
@@ -212,6 +231,9 @@ export default function AccountManagementTable() {
                       handleEditProfile={() => {
                         setEditUserModalOpen(true);
                         setCurrentIdUserEditProfile(row);
+                      }}
+                      handleDeleteAccout={() => {
+                        handleDeleteAccout(row.id);
                       }}
                     />
                   );

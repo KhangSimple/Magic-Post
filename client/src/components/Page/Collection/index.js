@@ -148,7 +148,7 @@ const ParcelCollectionInStock = () => {
           token: localStorage.getItem('token'),
           parcel_id: selectedRows,
           sender_id: ZIP_CODE,
-          sender_name: 'Hồ Chí Minh',
+          sender_name: localStorage.getItem('name'),
           type: 'Điểm tập kết',
         },
       })

@@ -1001,6 +1001,14 @@ let updateCollectionManagerProfile = async (req, res) => {
   }
 };
 
+let deleteCollectionUserAccount = async (req, res) => {
+  try {
+    let { token, id } = req.body.data;
+    await pool.execute('delete from staff_collection where id = ?', [id]);
+    return res.status(200).json({ status: 'Success' });
+  } catch (err) {}
+};
+
 export default {
   createStaffTransAccount,
   createStaffCollAccount,
@@ -1039,4 +1047,5 @@ export default {
   allTransactionStatistic,
   getManagerList,
   updateCollectionManagerProfile,
+  deleteCollectionUserAccount,
 };

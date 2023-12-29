@@ -60,6 +60,27 @@ const ParcelCollectionInStock = () => {
 
   //get table data
   React.useEffect(() => {
+    console.log('Use Effect main index');
+    axios
+      .get(`http://localhost:1510/verify-token`, {
+        params: {
+          token: localStorage.getItem('token'),
+        },
+      })
+      .then(function (response) {
+        let data = response.data.decodeData;
+        // setDecodedData(response.data.decodeData);
+        localStorage.setItem('employee_info', JSON.stringify(data.info));
+        localStorage.setItem('role', data.role);
+        localStorage.setItem('zip_code', data.coll_info.zip_code);
+        localStorage.setItem('name', data.coll_info.name);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
+
+  React.useEffect(() => {
     console.log('Use Effect');
     axios
       .get(`http://localhost:1510/getCollectionList`, {

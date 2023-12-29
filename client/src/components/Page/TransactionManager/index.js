@@ -80,7 +80,6 @@ const Statistics = () => {
   }, [startDate, endDate]);
 
   useEffect(() => {
-    console.log('Use Effect main index');
     axios
       .get(`http://localhost:1510/transactionStatisticColl`, {
         headers: {

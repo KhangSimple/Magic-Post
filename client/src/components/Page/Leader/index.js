@@ -27,7 +27,10 @@ const Statistics = () => {
       return oneWeekAgo.toISOString().substring(0, 10);
     })(),
   );
-
+  const [successParcel, setSuccessParcel] = useState('0');
+  const [sendedParcel, setSendedParcel] = useState('0');
+  const [returnParcel, setReturnParcel] = useState('0');
+  const [allStatistics, setAllStatistics] = useState([]);
   const [endDate, setEndDate] = useState(new Date().toISOString().substring(0, 10));
   const [tinh, setTinh] = useState('');
   const [huyen, setHuyen] = useState('');
@@ -67,21 +70,108 @@ const Statistics = () => {
         });
     }
   }, [tinh]);
+
   useEffect(() => {
-    if (districtData.length !== 0) {
-      console.log(districtData);
-      axios.post('http://localhost:1510/addTransaction', {
-        data: districtData,
-      });
+    console.log('Use Effect main index');
+    if (category == 'all') {
+      axios
+        .get(`http://localhost:1510/allStatistic`, {
+          headers: {
+            token: localStorage.getItem('token'),
+          },
+          params: {
+            startDate: startDate,
+            endDate: endDate,
+          },
+        })
+        .then(function (response) {
+          let data = response.data;
+          console.log(response.data);
+          setSuccessParcel(data.successParcelCount);
+          setReturnParcel(data.returnParcelCount);
+          setSendedParcel(data.sendedParcelCount);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
-  }, [districtData]);
+    if (category == 'collection') {
+      console.log(tinh);
+      if (tinh != '') {
+        axios
+          .get(`http://localhost:1510/allCollectionStatistic`, {
+            headers: {
+              token: localStorage.getItem('token'),
+            },
+            params: {
+              startDate: startDate,
+              endDate: endDate,
+              tinh: tinh,
+            },
+          })
+          .then(function (response) {
+            let data = response.data;
+            console.log(response.data);
+            setSuccessParcel(data.successParcelCount);
+            setReturnParcel(data.returnParcelCount);
+            setSendedParcel(data.sendedParcelCount);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+    }
+    if (category == 'transaction') {
+      if (tinh != '' && huyen != '') {
+        axios
+          .get(`http://localhost:1510/allTransactionStatistic`, {
+            headers: {
+              token: localStorage.getItem('token'),
+            },
+            params: {
+              startDate: startDate,
+              endDate: endDate,
+              huyen: huyen,
+            },
+          })
+          .then(function (response) {
+            let data = response.data;
+            console.log(response.data);
+            setSuccessParcel(data.successParcelCount);
+            setReturnParcel(data.returnParcelCount);
+            setSendedParcel(data.sendedParcelCount);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+    }
+  }, [startDate, endDate, category, tinh, huyen]);
+
+  // useEffect(() => {
+  //   axios
+  //     .get(`http://localhost:1510/allStatisticScheme`, {
+  //       headers: {
+  //         token: localStorage.getItem('token'),
+  //       },
+  //       params: {
+  //         startDate: startDate,
+  //         endDate: endDate,
+  //       },
+  //     })
+  //     .then(function (response) {
+  //       setAllStatistics(response.data.rows);
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     });
+  // }, [startDate, endDate]);
+  // }
   return (
     <DashboardLayout navConfig={navConfig}>
       <Container maxWidth="xl">
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4">
-            THỐNG KÊ ĐIỂM GIAO DỊCH {localStorage.getItem('name').toUpperCase() || ''}
-          </Typography>
+          <Typography variant="h4">THỐNG KÊ ĐIỂM GIAO DỊCH</Typography>
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
@@ -173,37 +263,28 @@ const Statistics = () => {
         </Stack>
 
         <Grid container spacing={3}>
-          <Grid xs={12} sm={6} md={3}>
+          <Grid xs={12} sm={6} md={4}>
             <AppWidgetSummary
-              title="Chờ nhập kho"
-              total={1223}
+              title="Đang gửi"
+              total={sendedParcel != 0 ? sendedParcel : '0'}
               color="success"
               icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
             />
           </Grid>
 
-          <Grid xs={12} sm={6} md={3}>
+          <Grid xs={12} sm={6} md={4}>
             <AppWidgetSummary
-              title="Đơn hàng đi"
-              total={1352831}
+              title="Gửi thành công"
+              total={successParcel != 0 ? successParcel : '0'}
               color="info"
               icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
             />
           </Grid>
 
-          <Grid xs={12} sm={6} md={3}>
+          <Grid xs={12} sm={6} md={4}>
             <AppWidgetSummary
-              title="Đơn hàng đến"
-              total={1723315}
-              color="warning"
-              icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
-            />
-          </Grid>
-
-          <Grid xs={12} sm={6} md={3}>
-            <AppWidgetSummary
-              title="Bug Reports"
-              total={234}
+              title="Đơn hoàn trả"
+              total={returnParcel != 0 ? returnParcel : '0'}
               color="error"
               icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
             />
@@ -214,10 +295,9 @@ const Statistics = () => {
               title="Current Visits"
               chart={{
                 series: [
-                  { label: 'America', value: 4344 },
-                  { label: 'Asia', value: 5435 },
-                  { label: 'Europe', value: 1443 },
-                  { label: 'Africa', value: 4443 },
+                  { label: 'Send', value: sendedParcel },
+                  { label: 'Success', value: successParcel },
+                  { label: 'Fail', value: returnParcel },
                 ],
               }}
             />
@@ -229,16 +309,9 @@ const Statistics = () => {
               subheader="(+43%) than last year"
               chart={{
                 series: [
-                  { label: 'Italy', value: 400 },
-                  { label: 'Japan', value: 430 },
-                  { label: 'China', value: 448 },
-                  { label: 'Canada', value: 470 },
-                  { label: 'France', value: 540 },
-                  { label: 'Germany', value: 580 },
-                  { label: 'South Korea', value: 690 },
-                  { label: 'Netherlands', value: 1100 },
-                  { label: 'United States', value: 1200 },
-                  { label: 'United Kingdom', value: 1380 },
+                  { label: 'Send', value: sendedParcel },
+                  { label: 'Success', value: successParcel },
+                  { label: 'Fail', value: returnParcel },
                 ],
               }}
             />

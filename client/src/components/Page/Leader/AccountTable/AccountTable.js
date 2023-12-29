@@ -1,4 +1,5 @@
 import { useState, Fragment } from 'react';
+import { sample } from 'lodash';
 
 import DashboardLayout from 'src/layouts/dashboard';
 import navConfig from '../config-navigation';
@@ -8,7 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 
-import CreateUser from '~/components/Page/TransactionManager/CreateUser/CreateUser';
+import CreateUser from '../CreateUser/CreateUser';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -21,7 +22,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import { Link } from 'react-router-dom';
 
-import { users } from 'src/_mock/user';
+// import { users } from 'src/_mock/user';
 
 import Iconify from 'src/components/iconify';
 
@@ -34,12 +35,18 @@ import { emptyRows, applyFilter, getComparator } from './utils';
 import styles from './AccountTable.module.scss';
 import * as React from 'react';
 import classNames from 'classnames/bind';
-import EditUserProfile from '~/components/Page/TransactionManager/EditUserProfile/EditUserProfile';
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import EditUserProfile from '~/components/Page/Leader/EditUserProfile/EditUserProfile';
 
 const cx = classNames.bind(styles);
 // ----------------------------------------------------------------------
 
 export default function AccountManagementTable() {
+  const [category, setCategory] = useState('all');
+  const [users, setUsers] = useState([]);
+
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -52,9 +59,50 @@ export default function AccountManagementTable() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  const [trans, setTrans] = useState([]);
+  const [coll, setColl] = useState([]);
+
   const [createUserModalOpen, setCreateUserModalOpen] = useState(false);
   const [editUserModalOpen, setEditUserModalOpen] = useState(false);
-  const [currentIdUserEditProfile, setCurrentIdUserEditProfile] = useState();
+  const [currentUserEditProfile, setCurrentUserEditProfile] = useState();
+
+  React.useEffect(() => {
+    axios
+      .get(`http://localhost:1510/getManagerList`, {
+        headers: {
+          token: localStorage.getItem('token'),
+        },
+      })
+      .then(function (response) {
+        setTrans(response.data.trans_row);
+        setColl(response.data.coll_row);
+        let data =
+          category == 'all'
+            ? response.data.trans_row.concat(response.data.coll_row)
+            : category == 'transaction'
+            ? response.data.trans_row
+            : response.data.coll_row;
+        setUsers(
+          data.map((row) => {
+            return {
+              id: row.id,
+              avatarUrl: row.img_url,
+              name: row.name,
+              username: row.username,
+              password: row.password,
+              address: row.address,
+              email: row.email,
+              phoneNumber: row.phone,
+              status: sample(['Hoạt động']),
+              role: sample(['Quản lí']),
+            };
+          }),
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, [category]);
 
   const handleCreateAccount = () => {
     handleCloseCreateUserModal();
@@ -126,9 +174,7 @@ export default function AccountManagementTable() {
     <DashboardLayout navConfig={navConfig}>
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4">
-            ĐIỂM GIAO DỊCH {localStorage.getItem('name') ? localStorage.getItem('name').toUpperCase() : ''}
-          </Typography>
+          <Typography variant="h4">ĐIỂM GIAO DỊCH {localStorage.getItem('name').toUpperCase() || ''}</Typography>
           <Button
             variant="contained"
             color="inherit"
@@ -140,8 +186,13 @@ export default function AccountManagementTable() {
         </Stack>
 
         <Card>
-          <UserTableToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
-
+          <UserTableToolbar
+            numSelected={selected.length}
+            filterName={filterName}
+            onFilterName={handleFilterByName}
+            category={category}
+            setCategory={setCategory}
+          />
           <TableContainer sx={{ overflow: 'set' }}>
             <Table sx={{ minWidth: 800 }}>
               <UserTableHead
@@ -173,9 +224,9 @@ export default function AccountManagementTable() {
                       phoneNumber={row.phoneNumber}
                       selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}
-                      handleEditProfile={()=>{
+                      handleEditProfile={() => {
                         setEditUserModalOpen(true);
-                        setCurrentIdUserEditProfile(row.id);
+                        setCurrentUserEditProfile(row);
                       }}
                     />
                   );
@@ -198,19 +249,46 @@ export default function AccountManagementTable() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Card>
-        <Dialog className={cx(styles.dialog)} open={createUserModalOpen} onClose={handleCloseCreateUserModal} fullWidth maxWidth="lg">
+        <Dialog
+          className={cx(styles.dialog)}
+          open={createUserModalOpen}
+          onClose={handleCloseCreateUserModal}
+          fullWidth
+          maxWidth="lg"
+        >
           <DialogTitle className={cx(styles.title)}>Tạo tài khoản cho nhân viên</DialogTitle>
           <DialogContent>
             <CreateUser handleCreateAccount={handleCreateAccount}></CreateUser>
           </DialogContent>
         </Dialog>
-        <Dialog className={cx(styles.dialog)} open={editUserModalOpen} onClose={handleCloseEditUserProfileModal} fullWidth maxWidth="lg">
+        <Dialog
+          className={cx(styles.dialog)}
+          open={editUserModalOpen}
+          onClose={handleCloseEditUserProfileModal}
+          fullWidth
+          maxWidth="lg"
+        >
           <DialogTitle className={cx(styles.title)}>Cập nhật thông tin tài khoản nhân viên</DialogTitle>
           <DialogContent>
-            <EditUserProfile idUser={currentIdUserEditProfile} handleCloseModal={handleCloseEditUserProfileModal}></EditUserProfile>
+            <EditUserProfile
+              idUser={currentUserEditProfile}
+              handleCloseModal={handleCloseEditUserProfileModal}
+            ></EditUserProfile>
           </DialogContent>
         </Dialog>
       </Container>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </DashboardLayout>
   );
 }

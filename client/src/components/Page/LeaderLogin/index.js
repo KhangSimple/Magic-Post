@@ -55,6 +55,7 @@ function LeaderLogin() {
             localStorage.setItem('token', data.token);
             authContext.setToken(data.token);
             console.log('Success');
+            navigate('/leader');
           }
         })
         .catch(function (error) {
@@ -72,9 +73,12 @@ function LeaderLogin() {
           <img className={cx('logo')} src={images.logo} alt="logo" />
           <p className={cx('title')}>Đăng nhập tài khoản Admin</p>
         </div>
-        <div className={cx('login-form-body')} style={{
-          paddingBottom: '3rem'
-        }}>
+        <div
+          className={cx('login-form-body')}
+          style={{
+            paddingBottom: '3rem',
+          }}
+        >
           <Input
             refC={usernameRef}
             value={username}

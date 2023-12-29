@@ -89,16 +89,8 @@ const Routes = () => {
       element: <HomePage />,
     },
     {
-      path: '/leader/',
-      element: <LeaderStatistics />,
-    },
-    {
       path: '/leader/login',
       element: <LeaderLogin />,
-    },
-    {
-      path: '/leader/account-management',
-      element: <LeaderAccountManagementTable />,
     },
     //transaction manager
 
@@ -182,6 +174,14 @@ const Routes = () => {
         {
           path: '/collection/manager/account-management',
           element: <CollectionAccountManagementTable />,
+        },
+        {
+          path: '/leader/',
+          element: <LeaderStatistics />,
+        },
+        {
+          path: '/leader/account-management',
+          element: <LeaderAccountManagementTable />,
         },
       ],
     },

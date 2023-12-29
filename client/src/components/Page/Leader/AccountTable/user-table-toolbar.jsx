@@ -12,9 +12,7 @@ import Box from '@mui/material/Box';
 import SelectSmall from '~/components/Page/Leader/components/SelectSmall';
 // ----------------------------------------------------------------------
 
-
-
-export default function UserTableToolbar({ numSelected, filterName, onFilterName }) {
+export default function UserTableToolbar({ numSelected, filterName, onFilterName, category, setCategory }) {
   return (
     <Toolbar
       sx={{
@@ -44,25 +42,31 @@ export default function UserTableToolbar({ numSelected, filterName, onFilterName
           }
         />
       )}
-      <Box sx={{
-        display: 'flex',
-        marginLeft: '1rem'
-      }}>
-        <SelectSmall data={[
-          {
-            value: 'all',
-            name: 'Tất cả'
-          },
-          {
-            value: 'transaction',
-            name: 'Điểm giao dịch'
-          },
-          {
-            value: 'collection',
-            name: 'Điểm tập kết'
-          }
-        ]} defaultValue={'all'}
-                     label={'Loại'}
+      <Box
+        sx={{
+          display: 'flex',
+          marginLeft: '1rem',
+        }}
+      >
+        <SelectSmall
+          data={[
+            {
+              value: 'all',
+              name: 'Tất cả',
+            },
+            {
+              value: 'transaction',
+              name: 'Điểm giao dịch',
+            },
+            {
+              value: 'collection',
+              name: 'Điểm tập kết',
+            },
+          ]}
+          defaultValue={'all'}
+          label={'Loại'}
+          category={category}
+          setCategory={setCategory}
         ></SelectSmall>
         {numSelected > 0 ? (
           <Tooltip title="Delete">
@@ -78,7 +82,6 @@ export default function UserTableToolbar({ numSelected, filterName, onFilterName
           </Tooltip>
         )}
       </Box>
-
     </Toolbar>
   );
 }

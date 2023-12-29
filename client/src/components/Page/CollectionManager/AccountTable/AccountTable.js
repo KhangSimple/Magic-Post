@@ -38,7 +38,7 @@ import styles from './AccountTable.module.scss';
 import * as React from 'react';
 import classNames from 'classnames/bind';
 import axios from 'axios';
-import EditUserProfile from '~/components/Page/TransactionManager/EditUserProfile/EditUserProfile';
+import EditUserProfile from '~/components/Page/CollectionManager/EditUserProfile/EditUserProfile';
 
 const cx = classNames.bind(styles);
 // ----------------------------------------------------------------------
@@ -68,9 +68,6 @@ export default function AccountManagementTable() {
         headers: {
           token: localStorage.getItem('token'),
         },
-        params: {
-          zip_code: localStorage.getItem('zip_code'),
-        },
       })
       .then(function (response) {
         setUsers(
@@ -79,6 +76,9 @@ export default function AccountManagementTable() {
               id: row.id,
               avatarUrl: row.img_url,
               name: row.name,
+              username: row.username,
+              password: row.password,
+              address: row.address,
               email: row.email,
               phoneNumber: row.phone,
               status: sample(['Hoạt động']),
@@ -209,9 +209,9 @@ export default function AccountManagementTable() {
                       phoneNumber={row.phoneNumber}
                       selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}
-                      handleEditProfile={()=>{
+                      handleEditProfile={() => {
                         setEditUserModalOpen(true);
-                        setCurrentIdUserEditProfile(row.id);
+                        setCurrentIdUserEditProfile(row);
                       }}
                     />
                   );
@@ -234,16 +234,31 @@ export default function AccountManagementTable() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Card>
-        <Dialog className={cx(styles.dialog)} open={createUserModalOpen} onClose={handleCloseCreateUserModal} fullWidth maxWidth="lg">
+        <Dialog
+          className={cx(styles.dialog)}
+          open={createUserModalOpen}
+          onClose={handleCloseCreateUserModal}
+          fullWidth
+          maxWidth="lg"
+        >
           <DialogTitle className={cx(styles.title)}>Tạo tài khoản cho nhân viên</DialogTitle>
           <DialogContent>
             <CreateUser handleCreateAccount={handleCreateAccount}></CreateUser>
           </DialogContent>
         </Dialog>
-        <Dialog className={cx(styles.dialog)} open={editUserModalOpen} onClose={handleCloseEditUserProfileModal} fullWidth maxWidth="lg">
+        <Dialog
+          className={cx(styles.dialog)}
+          open={editUserModalOpen}
+          onClose={handleCloseEditUserProfileModal}
+          fullWidth
+          maxWidth="lg"
+        >
           <DialogTitle className={cx(styles.title)}>Cập nhật thông tin tài khoản nhân viên</DialogTitle>
           <DialogContent>
-            <EditUserProfile idUser={currentIdUserEditProfile} handleCloseModal={handleCloseEditUserProfileModal}></EditUserProfile>
+            <EditUserProfile
+              idUser={currentIdUserEditProfile}
+              handleCloseModal={handleCloseEditUserProfileModal}
+            ></EditUserProfile>
           </DialogContent>
         </Dialog>
       </Container>

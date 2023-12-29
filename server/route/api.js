@@ -34,6 +34,13 @@ const initAPIRoute = (app) => {
   router.get('/transactionStatisticColl', apiController.transactionStatisticColl);
   router.get('/getSuccessNFailParcel', apiController.getSuccessNFailParcel);
   router.get('/getUserParcelList', apiController.getUserParcelList);
+  router.post('/updateTransactionUserProfile', apiController.updateTransactionUserProfile);
+  router.post('/updateCollectionUserProfile', apiController.updateCollectionUserProfile);
+  router.get('/allStatistic', apiController.allStatistic);
+  router.get('/allCollectionStatistic', apiController.allCollectionStatistic);
+  router.get('/allTransactionStatistic', apiController.allTransactionStatistic);
+  router.get('/getManagerList', apiController.getManagerList);
+  router.post('/updateCollectionManagerProfile', apiController.updateCollectionManagerProfile);
   return app.use('/', router);
 };
 

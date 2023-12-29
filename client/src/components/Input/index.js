@@ -13,7 +13,7 @@ const citySelectItems = [
   { ProvinceName: 'Paris', ProviceID: 'PRS' },
 ];
 function Input({
-  value = '',
+  value,
   valueCheck,
   type,
   select = false,

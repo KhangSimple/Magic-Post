@@ -36,6 +36,7 @@ const initAPIRoute = (app) => {
   router.get('/getUserParcelList', apiController.getUserParcelList);
   router.post('/updateTransactionUserProfile', apiController.updateTransactionUserProfile);
   router.post('/updateCollectionUserProfile', apiController.updateCollectionUserProfile);
+  router.get('/allStatistic', apiController.allStatistic);
   return app.use('/', router);
 };
 

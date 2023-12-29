@@ -27,7 +27,11 @@ const Statistics = () => {
       return oneWeekAgo.toISOString().substring(0, 10);
     })(),
   );
-
+  const [sendedParcelCount, setSendedParcelCount] = useState(0);
+  const [arrivalParcelCount, setArrivalParcelCount] = useState(0);
+  const [waitParcelcount, setWaitParcelcount] = useState(0);
+  const [bugParcelcount, setBugParcelcount] = useState(0);
+  const [allStatistics, setAllStatistics] = useState([]);
   const [endDate, setEndDate] = useState(new Date().toISOString().substring(0, 10));
   const [tinh, setTinh] = useState('');
   const [huyen, setHuyen] = useState('');
@@ -75,13 +79,57 @@ const Statistics = () => {
       });
     }
   }, [districtData]);
+  useEffect(() => {
+    console.log('Use Effect main index');
+    if (category == 'all') {
+      axios
+        .get(`http://localhost:1510/allStatistic`, {
+          // headers: {
+          //   token: localStorage.getItem('token'),
+          // },
+          params: {
+            startDate: startDate,
+            endDate: endDate,
+          },
+        })
+        .then(function (response) {
+          let data = response.data;
+          setArrivalParcelCount(data.arrivalParcelCount);
+          setSendedParcelCount(data.sendedParcelCount);
+          setWaitParcelcount(data.waitParcelcount);
+          setBugParcelcount(data.bugParcelcount);
+          console.log(response.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  }, [startDate, endDate]);
+
+  // useEffect(() => {
+  //   axios
+  //     .get(`http://localhost:1510/allStatisticScheme`, {
+  //       headers: {
+  //         token: localStorage.getItem('token'),
+  //       },
+  //       params: {
+  //         startDate: startDate,
+  //         endDate: endDate,
+  //       },
+  //     })
+  //     .then(function (response) {
+  //       setAllStatistics(response.data.rows);
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     });
+  // }, [startDate, endDate]);
+  // }
   return (
     <DashboardLayout navConfig={navConfig}>
       <Container maxWidth="xl">
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4">
-            THỐNG KÊ ĐIỂM GIAO DỊCH {localStorage.getItem('name').toUpperCase() || ''}
-          </Typography>
+          <Typography variant="h4">THỐNG KÊ ĐIỂM GIAO DỊCH</Typography>
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">

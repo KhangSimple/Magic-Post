@@ -231,6 +231,11 @@
   margin-bottom: 80px;
   margin-left: 50px;
   margin-right: 100px;
+
+  @media screen and (max-width: 1200px) {
+    margin-right: 50px;
+  }
+
   .row {
     display: flex;
     margin-right: -15px;
@@ -238,18 +243,35 @@
     div {
       display: block;
     }
+
+    @media screen and (max-width: 1200px) {
+      display: block;
+      margin-left: 0;
+    }
+
     .colLeft {
       width: 70%;
+
+      @media screen and (max-width: 768px) {
+        width: 100%;
+        height: auto;
+      }
+
       .ngayDang {
         margin-top: 20px;
       }
     }
   }
+
   .image1 {
     margin: 10px;
-    width: 700px;
-    height: 420px;
+    width: 100%;
+
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
   }
+
   .colLeft {
     float: left;
     position: relative;
@@ -257,23 +279,46 @@
     padding-right: 15px;
     padding-left: 15px;
     box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
+
+    @media screen and (max-width: 768px) {
+      float: none;
+      width: 100%;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+
     .blogTitle {
       margin-bottom: 20px;
     }
   }
+
   .colRight {
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
+
     .anhMinhHoa {
       margin-left: 10px;
-      width: 147px;
-      height: 88px;
+      width: 100%;
+      height: auto;
       margin-top: 20px;
     }
+
     .blogItem {
       display: flex;
       box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
+
+      @media screen and (max-width: 768px) {
+        flex-direction: column;
+      }
     }
+
     .blogDetail {
       margin: 20px 50px 40px 20px;
+
+      @media screen and (max-width: 768px) {
+        margin: 20px 0;
+      }
     }
   }
 }
@@ -318,6 +363,7 @@
   margin-bottom: 50px;
   margin-right: -15px;
   margin-left: -15px;
+
   h4 {
     color: rgba(68, 73, 77, 1);
     font-size: 30px;
@@ -325,13 +371,12 @@
     font-family: 'sf-ui-bold';
     width: 80%;
     margin: 5px auto;
+
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
   }
-  img {
-    vertical-align: middle;
-    border-style: none;
-    max-width: 100%;
-    height: auto;
-  }
+
   .s1 {
     background-color: #dfdbdb;
     font-family: 'pfb', sans-serif;
@@ -341,7 +386,15 @@
     color: #212529;
     width: 30%;
     text-align: center;
+
+    @media screen and (max-width: 768px) {
+      width: 100%;
+      .logoGG {
+        margin-bottom: 10px;
+      }
+    }
   }
+
   .s2 {
     position: relative;
     width: 100%;
@@ -351,13 +404,20 @@
     width: 70%;
     display: flex;
     background-color: #1ca4f3;
+
+    @media screen and (max-width: 768px) {
+      width: 100%;
+      flex-direction: column;
+    }
   }
+
   h5 {
     font-size: 36px;
     line-height: 45px;
     font-family: 'sf-ui-bold';
     color: #fff;
   }
+
   p {
     font-size: 16px;
     display: block;
@@ -367,10 +427,92 @@
     margin-inline-end: 0px;
     color: #fff;
   }
+
   .cout {
     padding: 20px;
     margin-left: 15%;
     margin-top: 2%;
     display: flex;
+
+    @media screen and (max-width: 768px) {
+      margin-left: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .serviceContainer {
+    min-height: auto;
+  }
+
+  .u1 {
+    flex-direction: row;
+  }
+
+  .traCuu,
+  .dichVu {
+    padding: 10px;
+    font-size: 20px;
+  }
+
+  .box {
+    width: 100%;
+    height: auto;
+    margin: 10px;
+  }
+
+  .mainTabContent .menuItems {
+    font-size: 16px;
+  }
+
+  .mainTabContent .subMenuItem {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .itemDichVu {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .DichVuContent1,
+  .DichVuContent2 {
+    flex-direction: column;
+  }
+
+  .quangCao1 .row {
+    flex-direction: column;
+  }
+
+  .sellectProvince {
+    width: 100%;
+    float: none;
+  }
+
+  .searchBuuCuc {
+    /* styles for smaller screens */
+  }
+
+  .dangKyDaiLy {
+    margin-top: 50px;
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .minhhoa1 {
+    margin-left: 0;
+  }
+
+  .rowContainer {
+    flex-direction: column;
+  }
+
+  .sellectProvinceButton {
+    margin-right: 0;
+    margin-top: 10px;
+  }
+
+  .ggMap {
+    margin-left: 0;
   }
 }

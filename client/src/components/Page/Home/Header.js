@@ -18,7 +18,7 @@ const Header = () => {
       </div>
       <div className={cx(styles.searchLogin)}>
         <div className={cx(styles.search)}>
-          <SearchIcon fontSize="large" color="primary" sx={{ m: 1 }} />
+          <SearchIcon fontSize="small" color="primary" sx={{ m: 1 }} />
           <input
             className={cx('search-input')}
             placeholder="Tìm kiếm"
@@ -29,7 +29,7 @@ const Header = () => {
         </div>
         <div className={cx(styles.loginRegister)}>
           <button onClick={handleLoginRegisterClick}>
-            <LoginIcon fontSize="large" color="primary" sx={{ m: 1 }} />
+            <LoginIcon fontSize="small" sx={{ m: 1 }} />
             Đăng ký / Đăng nhập
           </button>
         </div>

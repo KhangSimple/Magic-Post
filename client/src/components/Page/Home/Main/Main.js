@@ -396,10 +396,10 @@ const Main = () => {
           </h4>
           <div>
             <a href="https://example.com/">
-              <img className={cx('logo')} src={images.appstore} alt="logo" />
+              <img className={cx('logoGG')} src={images.appstore} alt="logo" />
             </a>
             <a href="https://example.com/">
-              <img className={cx('logo')} src={images.ggstore} alt="logo" />
+              <img className={cx('logoApple')} src={images.ggstore} alt="logo" />
             </a>
           </div>
         </div>

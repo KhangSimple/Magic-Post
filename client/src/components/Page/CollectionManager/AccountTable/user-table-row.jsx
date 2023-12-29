@@ -16,7 +16,7 @@ import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
-export default function UserTableRow({ selected, name, avatarUrl, email, role, phoneNumber, status, handleClick }) {
+export default function UserTableRow({ selected, name, avatarUrl, email, role, phoneNumber, status, handleClick, handleEditProfile }) {
   const [open, setOpen] = useState(null);
 
   const handleOpenMenu = (event) => {
@@ -72,7 +72,7 @@ export default function UserTableRow({ selected, name, avatarUrl, email, role, p
           sx: { width: 140 },
         }}
       >
-        <MenuItem onClick={handleCloseMenu}>
+        <MenuItem onClick={handleEditProfile}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
           Edit
         </MenuItem>

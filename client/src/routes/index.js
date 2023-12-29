@@ -85,6 +85,14 @@ const Routes = () => {
       path: '',
       element: <HomePage />,
     },
+    {
+      path: '/leader/',
+      element: <LeaderStatistics />,
+    },
+    {
+      path: '/leader/account-management',
+      element: <LeaderAccountManagementTable />,
+    },
     //transaction manager
 
     //collection manage

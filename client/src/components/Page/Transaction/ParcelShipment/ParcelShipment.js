@@ -41,7 +41,7 @@ const ParcelShipment = () => {
   React.useEffect(() => {
     console.log('Use Effect');
     axios
-      .get(`http://localhost:1510/getTransactionList`, {
+      .get(`http://localhost:1510/getUserParcelList`, {
         headers: {
           token: localStorage.getItem('token'),
         },
@@ -225,31 +225,31 @@ const ParcelShipment = () => {
                   Selected Rows Details:
                   <table>
                     <thead>
-                    <tr>
-                      {columns.map((column) => (
-                        <th key={column.field}>{column.headerName}</th>
-                      ))}
-                    </tr>
+                      <tr>
+                        {columns.map((column) => (
+                          <th key={column.field}>{column.headerName}</th>
+                        ))}
+                      </tr>
                     </thead>
                     <tbody>
-                    {selectedRows.map((id) => (
-                      <tr key={id}>
-                        {Object.keys(
-                          rows.find((e) => {
-                            return e.id === id;
-                          }),
-                        ).map((field) => (
-                          <td key={field}>
-                            {
-                              rows.find((e) => {
-                                return e.id === id;
-                              })[field]
-                            }
-                          </td>
-                        ))}
-                        {/* console.log(rows[id]) */}
-                      </tr>
-                    ))}
+                      {selectedRows.map((id) => (
+                        <tr key={id}>
+                          {Object.keys(
+                            rows.find((e) => {
+                              return e.id === id;
+                            }),
+                          ).map((field) => (
+                            <td key={field}>
+                              {
+                                rows.find((e) => {
+                                  return e.id === id;
+                                })[field]
+                              }
+                            </td>
+                          ))}
+                          {/* console.log(rows[id]) */}
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>

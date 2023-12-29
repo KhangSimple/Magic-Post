@@ -103,7 +103,7 @@ const Statistics = () => {
     <DashboardLayout navConfig={navConfig}>
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
-          THỐNG KÊ ĐIỂM TẬP KẾT {localStorage.getItem('name').toUpperCase()}
+          THỐNG KÊ ĐIỂM TẬP KẾT {localStorage.getItem('name') ? localStorage.getItem('name').toUpperCase() : ''}
         </Typography>
         <Stack direction="row" alignItems="center" justifyContent="space-between">
           <DatePickerRange

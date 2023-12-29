@@ -95,7 +95,7 @@ let getTransactionList = async (req, res) => {
   try {
     let { id, type, status } = req.query || req.body || req.params || '';
     let [rows, field] = await pool.execute(
-      'SELECT *,ts.sender_col_zip_code,ts.status,ts.type from parcels join transaction_stock as ts on parcels.id = ts.parcel_id where ts.transaction_zip_code = ? and ts.type = ? and ts.status = ?',
+      'SELECT *,ts.sender_col_zip_code,ts.status,ts.type from parcels join transaction_stock as ts on parcels.id = ts.parcel_id where ts.transaction_zip_code = ? and ts.type = ? and ts.status = ? and parcels.cur_pos != 3',
       [id, type, status],
     );
     return res.json(rows);
@@ -793,6 +793,44 @@ let transactionStatisticColl = async (req, res) => {
   }
 };
 
+let getSuccessNFailParcel = async (req, res) => {
+  try {
+    let token = req.headers.token;
+    var decode = jwt.verify(token, process.env.TOKEN_KEY);
+    if (decode.role == 'trans-employee') {
+      console.log(decode);
+      let { startDate, endDate } = req.query;
+      let [successRow, _] = await pool.execute(
+        'select * from parcel_package where sender_id = ? and receiver_name = "Người nhận" and status = "Đã xác nhận" and send_date between ? and ?',
+        [decode.trans_info.zip_code, startDate, endDate],
+      );
+
+      let [failRow, __] = await pool.execute(
+        'select * from parcel_package where sender_id = ? and receiver_name = "Người nhận" and status = "Không gửi thành công đến người nhận" and send_date between ? and ?',
+        [decode.trans_info.zip_code, startDate, endDate],
+      );
+      console.log(failRow);
+      return res.status(200).json({ successRow: successRow, failRow: failRow });
+    } else {
+      return res.status(403).json({ status: 'Invalid token' });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+let getUserParcelList = async (req, res) => {
+  try {
+    let { id, type, status } = req.query || req.body || req.params || '';
+    let [rows, field] = await pool.execute(
+      'SELECT *,ts.sender_col_zip_code,ts.status,ts.type from parcels join transaction_stock as ts on parcels.id = ts.parcel_id where ts.transaction_zip_code = ? and ts.type = ? and ts.status = ? and parcels.cur_pos = 3',
+      [id, type, status],
+    );
+    return res.json(rows);
+  } catch (err) {
+    console.log('Vllll');
+  }
+};
 export default {
   createStaffTransAccount,
   createStaffCollAccount,
@@ -822,4 +860,6 @@ export default {
   collectionStatisticTrans,
   transactionStatistic,
   transactionStatisticColl,
+  getSuccessNFailParcel,
+  getUserParcelList,
 };

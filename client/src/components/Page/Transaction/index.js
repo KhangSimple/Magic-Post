@@ -21,6 +21,8 @@ import { DataGrid } from '@mui/x-data-grid';
 import DialogActions from '@mui/material/DialogActions';
 import * as React from 'react';
 import classNames from 'classnames/bind';
+import Stack from '@mui/material/Stack';
+import DatePickerRange from './components/DatePickerRange';
 
 const cx = classNames.bind(styles);
 
@@ -43,11 +45,22 @@ export function dateFormat(date) {
 }
 
 const Statistics = () => {
+  const [startDate, setStartDate] = useState(
+    (() => {
+      const now = new Date();
+      const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+      return oneWeekAgo.toISOString().substring(0, 10);
+    })(),
+  );
+
+  const [endDate, setEndDate] = useState(new Date().toISOString().substring(0, 10));
   const [open, setOpen] = React.useState(false);
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [packages, setPackages] = React.useState([]);
   const [invoiceDetail, setInvoiceDetail] = React.useState([]);
   const [decodedData, setDecodedData] = useState({});
+  const [successRow, setSuccessRow] = useState([]);
+  const [failRow, setFailRow] = useState([]);
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
     { field: 'senderName', headerName: 'Sender Name', width: 150 },
@@ -72,7 +85,37 @@ const Statistics = () => {
 
   const handleDetailsClick = (packageData) => {
     setOpen(true);
-
+    try {
+      console.log('Call get detail');
+      axios
+        .get(`http://localhost:1510/getTransactionPackageDetail`, {
+          headers: {
+            token: localStorage.getItem('token'),
+          },
+          params: {
+            package_id: packageData.parcel_package_id,
+            transaction_id: localStorage.getItem('zip_code'),
+          },
+        })
+        .then(function (response) {
+          console.log(response);
+          setInvoiceDetail(
+            response.data.data.map((row) => ({
+              id: row.parcel_id,
+              senderName: row.sender_name,
+              senderPhone: row.sender_phone,
+              senderAddress: row.sender_address,
+              receiverName: row.receiver_name,
+              receiverPhone: row.receiver_phone,
+              receiverAddress: row.receiver_address,
+              cost: row.cost,
+            })),
+          );
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } catch (err) {}
   };
   const handleAcceptedClick = (selectionModel) => {
     setSelectedRows(selectionModel);
@@ -82,27 +125,58 @@ const Statistics = () => {
     setOpen(false);
   };
 
+  useEffect(() => {
+    axios
+      .get(`http://localhost:1510/getSuccessNFailParcel`, {
+        headers: {
+          token: localStorage.getItem('token'),
+        },
+        params: {
+          startDate: startDate,
+          endDate: endDate,
+        },
+      })
+      .then(function (response) {
+        let data = response.data;
+        setSuccessRow(data.successRow);
+        setFailRow(data.failRow);
+        let rows = data.successRow.concat(data.failRow);
+        setPackages(rows);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, [startDate, endDate]);
+
   return (
     <TransactionContext.Provider value={decodedData}>
       <DashboardLayout navConfig={navConfig}>
         <Container maxWidth="xl">
           <Typography variant="h4" sx={{ mb: 5 }}>
-            THỐNG KÊ ĐIỂM GIAO DỊCH {localStorage.getItem('name').toUpperCase()}
+            THỐNG KÊ ĐIỂM GIAO DỊCH {localStorage.getItem('name') ? localStorage.getItem('name').toUpperCase() : ''}
           </Typography>
+          <Stack direction="row" alignItems="center" justifyContent="space-between">
+            <DatePickerRange
+              startDate={startDate}
+              setStartDate={setStartDate}
+              endDate={endDate}
+              setEndDate={setEndDate}
+            ></DatePickerRange>
+          </Stack>
 
           <Grid container spacing={3}>
-            <Grid xs={12} sm={6} md={3}>
+            <Grid xs={12} sm={6} md={6}>
               <AppWidgetSummary
                 title="Đơn thành công"
-                total={1223}
+                total={successRow.length}
                 color="success"
                 icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
               />
             </Grid>
-            <Grid xs={12} sm={6} md={3}>
+            <Grid xs={12} sm={6} md={6}>
               <AppWidgetSummary
                 title="Đơn hoàn trả"
-                total={234}
+                total={failRow.length}
                 color="error"
                 icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
               />
@@ -134,8 +208,8 @@ const Statistics = () => {
                               packageData.status === 'Đã xác nhận'
                                 ? 'success'
                                 : packageData.status === 'Không gửi thành công đến người nhận'
-                                  ? 'secondary'
-                                  : 'primary'
+                                ? 'secondary'
+                                : 'primary'
                             }
                           >
                             {packageData.status === 'Đã xác nhận' ||
@@ -173,7 +247,6 @@ const Statistics = () => {
                 </DialogActions>
               </Dialog>
             </Grid>
-
           </Grid>
         </Container>
       </DashboardLayout>

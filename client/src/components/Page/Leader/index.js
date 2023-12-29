@@ -79,7 +79,9 @@ const Statistics = () => {
     <DashboardLayout navConfig={navConfig}>
       <Container maxWidth="xl">
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4">THỐNG KÊ ĐIỂM GIAO DỊCH {localStorage.getItem('name').toUpperCase()}</Typography>
+          <Typography variant="h4">
+            THỐNG KÊ ĐIỂM GIAO DỊCH {localStorage.getItem('name').toUpperCase() || ''}
+          </Typography>
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">

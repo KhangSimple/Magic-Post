@@ -8,13 +8,14 @@ import Typography from '@mui/material/Typography';
 import AppAllStatistics from './Statistics/components/AllStatistics';
 // import AppWebsiteVisits from '../app-website-visits';
 import AppWidgetSummary from './Statistics/components/WidgetSummary';
-// import AppTrafficBySite from '../app-traffic-by-site';
-// import AppCurrentSubject from '../app-current-subject';
+import { useNavigation } from 'react-router-dom';
 import AppConversionRates from './Statistics/components/ConversionRates';
 import Stack from '@mui/material/Stack';
 import DatePickerRange from './components/DatePickerRange';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 const Statistics = () => {
   const [startDate, setStartDate] = useState(
     (() => {

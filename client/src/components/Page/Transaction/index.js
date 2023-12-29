@@ -10,10 +10,22 @@ import AppWidgetSummary from './Statistics/components/WidgetSummary';
 import AppConversionRates from './Statistics/components/ConversionRates';
 import axios from 'axios';
 import { createContext, useEffect, useState } from 'react';
+import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import styles from '~/components/Page/Transaction/ParcelTransactionHistory/ParcelTransactionHistory.module.scss';
+import Label from '~/components/label';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import Card from '@mui/material/Card';
+import { DataGrid } from '@mui/x-data-grid';
+import DialogActions from '@mui/material/DialogActions';
+import * as React from 'react';
+import classNames from 'classnames/bind';
+
+const cx = classNames.bind(styles);
 
 export const TransactionContext = createContext();
 
-// export const ZIP_CODE = 1442;
 export function dateFormat(date) {
   if (date) {
     const d = new Date(date);
@@ -31,27 +43,45 @@ export function dateFormat(date) {
 }
 
 const Statistics = () => {
+  const [open, setOpen] = React.useState(false);
+  const [selectedRows, setSelectedRows] = React.useState([]);
+  const [packages, setPackages] = React.useState([]);
+  const [invoiceDetail, setInvoiceDetail] = React.useState([]);
   const [decodedData, setDecodedData] = useState({});
-  useEffect(() => {
-    console.log('Use Effect main index');
-    axios
-      .get(`http://localhost:1510/verify-token`, {
-        params: {
-          token: localStorage.getItem('token'),
-        },
-      })
-      .then(function (response) {
-        let data = response.data.decodeData;
-        setDecodedData(response.data.decodeData);
-        localStorage.setItem('employee_info', JSON.stringify(data.info));
-        localStorage.setItem('role', data.role);
-        localStorage.setItem('zip_code', data.trans_info.zip_code);
-        localStorage.setItem('name', data.trans_info.name);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }, []);
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'senderName', headerName: 'Sender Name', width: 150 },
+    { field: 'senderPhone', headerName: 'Sender Phone', width: 150 },
+    { field: 'senderAddress', headerName: 'Sender Address', width: 200 },
+    { field: 'receiverName', headerName: 'Receiver Name', width: 150 },
+    { field: 'receiverPhone', headerName: 'Receiver Phone', width: 150 },
+    { field: 'receiverAddress', headerName: 'Receiver Address', width: 200 },
+    { field: 'cost', headerName: 'Cost', width: 100 },
+  ];
+
+  const rows = invoiceDetail.map((detail) => ({
+    id: detail.id,
+    senderName: detail.senderName,
+    senderPhone: detail.senderPhone,
+    senderAddress: detail.senderAddress,
+    receiverName: detail.receiverName,
+    receiverPhone: detail.receiverPhone,
+    receiverAddress: detail.receiverAddress,
+    cost: detail.cost,
+  }));
+
+  const handleDetailsClick = (packageData) => {
+    setOpen(true);
+
+  };
+  const handleAcceptedClick = (selectionModel) => {
+    setSelectedRows(selectionModel);
+    handleClose();
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <TransactionContext.Provider value={decodedData}>
       <DashboardLayout navConfig={navConfig}>
@@ -63,7 +93,7 @@ const Statistics = () => {
           <Grid container spacing={3}>
             <Grid xs={12} sm={6} md={3}>
               <AppWidgetSummary
-                title="Chờ nhập kho"
+                title="Đơn thành công"
                 total={1223}
                 color="success"
                 icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
@@ -71,65 +101,79 @@ const Statistics = () => {
             </Grid>
             <Grid xs={12} sm={6} md={3}>
               <AppWidgetSummary
-                title="Đơn hàng đi"
-                total={1352831}
-                color="info"
-                icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
-              />
-            </Grid>
-
-            <Grid xs={12} sm={6} md={3}>
-              <AppWidgetSummary
-                title="Đơn hàng đến"
-                total={1723315}
-                color="warning"
-                icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
-              />
-            </Grid>
-
-            <Grid xs={12} sm={6} md={3}>
-              <AppWidgetSummary
-                title="Bug Reports"
+                title="Đơn hoàn trả"
                 total={234}
                 color="error"
                 icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
               />
             </Grid>
 
-            <Grid xs={12} md={6} lg={4}>
-              <AppAllStatistics
-                title="Current Visits"
-                chart={{
-                  series: [
-                    { label: 'America', value: 4344 },
-                    { label: 'Asia', value: 5435 },
-                    { label: 'Europe', value: 1443 },
-                    { label: 'Africa', value: 4443 },
-                  ],
-                }}
-              />
+            <Grid xs={12} md={6} lg={12}>
+              <TableContainer component={Paper}>
+                <Table className={cx(styles.packageTableTransaction)} aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>ID</TableCell>
+                      <TableCell>Loại</TableCell>
+                      <TableCell>Tên</TableCell>
+                      <TableCell>Ngày tháng nhận</TableCell>
+                      <TableCell>Status</TableCell>
+                      <TableCell>Xem chi tiết</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {packages.map((packageData) => (
+                      <TableRow key={packageData.id}>
+                        <TableCell>{packageData.parcel_package_id}</TableCell>
+                        <TableCell>{packageData.receiver_type}</TableCell>
+                        <TableCell>{packageData.receiver_name}</TableCell>
+                        <TableCell>{dateFormat(packageData.receive_date)}</TableCell>
+                        <TableCell>
+                          <Label
+                            color={
+                              packageData.status === 'Đã xác nhận'
+                                ? 'success'
+                                : packageData.status === 'Không gửi thành công đến người nhận'
+                                  ? 'secondary'
+                                  : 'primary'
+                            }
+                          >
+                            {packageData.status === 'Đã xác nhận' ||
+                            packageData.status === 'Không gửi thành công đến người nhận'
+                              ? packageData.status
+                              : 'Đang gửi'}
+                          </Label>
+                        </TableCell>
+                        <TableCell>
+                          <Button variant="contained" onClick={() => handleDetailsClick(packageData)}>
+                            Xem chi tiết
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+
+              <Dialog className={cx(styles.dialog)} open={open} onClose={handleClose} maxWidth="lg">
+                <DialogTitle>
+                  <div className={cx(styles.title)}>Xem chi tiết các đơn hàng</div>
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContent>
+                    <Card>
+                      <DataGrid rows={rows} columns={columns} onSelectionModelChange={handleAcceptedClick} />
+                    </Card>
+                  </DialogContent>
+                </DialogContent>
+                <DialogActions>
+                  <Button className={cx(styles.buttonModel)} onClick={handleClose} color="primary">
+                    Hủy
+                  </Button>
+                </DialogActions>
+              </Dialog>
             </Grid>
 
-            <Grid xs={12} md={6} lg={8}>
-              <AppConversionRates
-                title="Conversion Rates"
-                subheader="(+43%) than last year"
-                chart={{
-                  series: [
-                    { label: 'Italy', value: 400 },
-                    { label: 'Japan', value: 430 },
-                    { label: 'China', value: 448 },
-                    { label: 'Canada', value: 470 },
-                    { label: 'France', value: 540 },
-                    { label: 'Germany', value: 580 },
-                    { label: 'South Korea', value: 690 },
-                    { label: 'Netherlands', value: 1100 },
-                    { label: 'United States', value: 1200 },
-                    { label: 'United Kingdom', value: 1380 },
-                  ],
-                }}
-              />
-            </Grid>
           </Grid>
         </Container>
       </DashboardLayout>

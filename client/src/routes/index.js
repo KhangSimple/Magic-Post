@@ -133,6 +133,11 @@ const Routes = () => {
           element: <ParcelTransactionHistory />,
         },
         {
+          path: '/transaction/employee/parcel-shipment',
+          element: <ParcelTransactionShipment />,
+        },
+
+        {
           path: '/collection/employee/',
           element: <ParcelCollectionStatistics />,
         },

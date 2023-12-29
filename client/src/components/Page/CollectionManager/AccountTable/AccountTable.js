@@ -155,7 +155,9 @@ export default function AccountManagementTable() {
     <DashboardLayout navConfig={navConfig}>
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4">ĐIỂM TẬP KẾT {localStorage.getItem('name').toUpperCase()}</Typography>
+          <Typography variant="h4">
+            ĐIỂM TẬP KẾT {localStorage.getItem('name') ? localStorage.getItem('name').toUpperCase() : ''}
+          </Typography>
           <Button
             variant="contained"
             color="inherit"

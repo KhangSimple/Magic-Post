@@ -32,6 +32,8 @@ export function dateFormat(date) {
 
 const Statistics = () => {
   const [decodedData, setDecodedData] = useState({});
+  const [successRow, setSuccessRow] = useState([]);
+  const [failRow, setFailRow] = useState([]);
   useEffect(() => {
     console.log('Use Effect main index');
     axios
@@ -52,12 +54,33 @@ const Statistics = () => {
         console.log(error);
       });
   }, []);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:1510/getSuccessNFailParcel`, {
+        headers: {
+          token: localStorage.getItem('token'),
+        },
+        params: {
+          startDate: '2023-11-29',
+          endDate: '2023-12-30',
+        },
+      })
+      .then(function (response) {
+        let data = response.data;
+        setSuccessRow(data.successRow);
+        setFailRow(data.failRow);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
+
   return (
     <TransactionContext.Provider value={decodedData}>
       <DashboardLayout navConfig={navConfig}>
         <Container maxWidth="xl">
           <Typography variant="h4" sx={{ mb: 5 }}>
-            THỐNG KÊ ĐIỂM GIAO DỊCH {localStorage.getItem('name').toUpperCase()}
+            THỐNG KÊ ĐIỂM GIAO DỊCH {localStorage.getItem('name') ? localStorage.getItem('name').toUpperCase() : ''}
           </Typography>
 
           <Grid container spacing={3}>

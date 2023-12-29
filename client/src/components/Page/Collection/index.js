@@ -54,7 +54,7 @@ const Statistics = () => {
     <DashboardLayout navConfig={navConfig}>
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
-          THỐNG KÊ ĐIỂM GIAO DỊCH {localStorage.getItem('name').toUpperCase()}
+          THỐNG KÊ ĐIỂM GIAO DỊCH {localStorage.getItem('name') ? localStorage.getItem('name').toUpperCase() : ''}
         </Typography>
 
         <Grid container spacing={3}>

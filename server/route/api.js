@@ -32,6 +32,7 @@ const initAPIRoute = (app) => {
   router.get('/collectionStatisticTrans', apiController.collectionStatisticTrans);
   router.get('/transactionStatistic', apiController.transactionStatistic);
   router.get('/transactionStatisticColl', apiController.transactionStatisticColl);
+  router.get('/getSuccessNFailParcel', apiController.getSuccessNFailParcel);
   return app.use('/', router);
 };
 

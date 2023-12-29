@@ -793,6 +793,31 @@ let transactionStatisticColl = async (req, res) => {
   }
 };
 
+let getSuccessNFailParcel = async (req, res) => {
+  try {
+    let token = req.headers.token;
+    var decode = jwt.verify(token, process.env.TOKEN_KEY);
+    if (decode.role == 'trans-employee') {
+      console.log(decode);
+      let { startDate, endDate } = req.query;
+      let [successRow, _] = await pool.execute(
+        'select * from parcel_package where sender_id = ? and receiver_name = "Người nhận" and status = "Đã xác nhận" and send_date between ? and ?',
+        [decode.trans_info.zip_code, startDate, endDate],
+      );
+
+      let [failRow, __] = await pool.execute(
+        'select * from parcel_package where sender_id = ? and receiver_name = "Người nhận" and status = "Không gửi thành công đến người nhận" and send_date between ? and ?',
+        [decode.trans_info.zip_code, startDate, endDate],
+      );
+      console.log(failRow);
+      return res.status(200).json({ successRow: successRow, failRow: failRow });
+    } else {
+      return res.status(403).json({ status: 'Invalid token' });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
 export default {
   createStaffTransAccount,
   createStaffCollAccount,
@@ -822,4 +847,5 @@ export default {
   collectionStatisticTrans,
   transactionStatistic,
   transactionStatisticColl,
+  getSuccessNFailParcel,
 };

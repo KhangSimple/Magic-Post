@@ -21,6 +21,9 @@ const cx = classNames.bind(styles);
 const ParcelShipment = () => {
   const [open, setOpen] = React.useState(false);
   const [selectedRows, setSelectedRows] = React.useState([]);
+
+  useEffect(() => {}, []);
+
   const parcels = [
     {
       id: '1',
@@ -37,7 +40,7 @@ const ParcelShipment = () => {
       receiverAddress: '44 Tran Thai Tong 2',
       status: 'Giao thành công',
       sendDate: '25/15/2023',
-    }
+    },
   ];
 
   const handleDetailsClick = (packageData) => {
@@ -60,7 +63,7 @@ const ParcelShipment = () => {
         </Stack>
         {/*<Scrollbar></Scrollbar>*/}
         <TableContainer component={Paper}>
-          <Table className={cx(styles.packageTableTransaction)} aria-label="simple table" >
+          <Table className={cx(styles.packageTableTransaction)} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell>ID</TableCell>
@@ -102,7 +105,7 @@ const ParcelShipment = () => {
           </DialogTitle>
           <DialogContent>
             <DialogContent>
-                <Invoice></Invoice>
+              <Invoice></Invoice>
             </DialogContent>
           </DialogContent>
           <DialogActions>

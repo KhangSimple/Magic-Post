@@ -36,13 +36,8 @@ const navConfig = [
   //   icon: icon('ic_disabled'),
   // },
   {
-    title: 'Thống kê đơn hàng',
-    path: '/collection/employee/',
-    icon: icon('ic_user'),
-  },
-  {
     title: 'Chờ gửi',
-    path: '/collection/employee/parcel-in-stock',
+    path: '/collection/employee/',
     icon: icon('ic_user'),
   },
   {

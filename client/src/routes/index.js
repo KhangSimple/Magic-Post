@@ -13,10 +13,9 @@ import { useAuth } from '../provider/authProvider';
 import { ProtectedRoute } from './ProtectedRoute';
 
 //collection
-import ParcelCollectionInStock from '~/components/Page/Collection/ParcelCollectionsInStock/ParcelCollectionsInStock';
+import ParcelCollectionInStock from '~/components/Page/Collection/';
 import ParcelCollectionWaitAccept from '~/components/Page/Collection/ParcelCollectionWaitAccept/ParcelCollectionWaitAccept';
 import ParcelCollectionHistory from '~/components/Page/Collection/ParcelCollectionHistory/ParcelCollectionHistory';
-import ParcelCollectionStatistics from '~/components/Page/Collection';
 
 //transaction
 import ParcelTransactionHistory from '~/components/Page/Transaction/ParcelTransactionHistory/ParcelTransactionHistory';
@@ -138,11 +137,11 @@ const Routes = () => {
         },
 
         {
-          path: '/collection/employee/',
-          element: <ParcelCollectionStatistics />,
+          path: '/transaction/employee/parcel-shipment',
+          element: <ParcelTransactionShipment />,
         },
         {
-          path: '/collection/employee/parcel-in-stock',
+          path: '/collection/employee/',
           element: <ParcelCollectionInStock />,
         },
         {
@@ -153,7 +152,6 @@ const Routes = () => {
           path: '/collection/employee/parcel-history',
           element: <ParcelCollectionHistory />,
         },
-
         {
           path: '/transaction/manager',
           element: <TransactionStatistics />,

@@ -15,7 +15,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Label from 'src/components/label';
 import axios from 'axios';
-import { dateFormat } from '..';
+import { dateFormat } from '../index';
 
 const ZIP_CODE = localStorage.getItem('zip_code');
 // import { ZIP_CODE } from '..';

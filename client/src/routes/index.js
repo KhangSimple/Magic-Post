@@ -37,6 +37,9 @@ import CollectionAccountManagementTable from '~/components/Page/CollectionManage
 import LeaderStatistics from '~/components/Page/Leader';
 import LeaderAccountManagementTable from '~/components/Page/Leader/AccountTable/AccountTable';
 
+//leader login
+import LeaderLogin from '~/components/Page/LeaderLogin';
+
 // const publicRoutes = [
 //   { path: '', component: HomePage, name: 'Home Page' },
 //   { path: '/employee', component: EmployeePage, name: 'Employee Page' },
@@ -88,6 +91,10 @@ const Routes = () => {
     {
       path: '/leader/',
       element: <LeaderStatistics />,
+    },
+    {
+      path: '/leader/login',
+      element: <LeaderLogin />,
     },
     {
       path: '/leader/account-management',

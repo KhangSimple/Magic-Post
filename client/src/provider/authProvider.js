@@ -12,6 +12,7 @@ const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    console.log('Call verify token in auth');
     if (token) {
       var status;
       axios

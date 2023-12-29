@@ -15,6 +15,10 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 const Statistics = () => {
   const [decodedData, setDecodedData] = useState({});
+  const [sendedParcelCount, setSendedParcelCount] = useState(0);
+  const [arrivalParcelCount, setArrivalParcelCount] = useState(0);
+  const [waitParcelcount, setWaitParcelcount] = useState(0);
+  const [bugParcelcount, setBugParcelcount] = useState(0);
   useEffect(() => {
     console.log('Use Effect main index');
     axios
@@ -35,6 +39,30 @@ const Statistics = () => {
         console.log(error);
       });
   }, []);
+  useEffect(() => {
+    console.log('Use Effect main index');
+    axios
+      .get(`http://localhost:1510/collectionStatistic`, {
+        headers: {
+          token: localStorage.getItem('token'),
+        },
+        params: {
+          startDate: '2023-11-29',
+          endDate: '2023-12-29',
+        },
+      })
+      .then(function (response) {
+        let data = response.data;
+        setArrivalParcelCount(data.arrivalParcelCount);
+        setSendedParcelCount(data.sendedParcelCount);
+        setWaitParcelcount(data.waitParcelcount);
+        setBugParcelcount(data.bugParcelcount);
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
 
   return (
     <DashboardLayout navConfig={navConfig}>
@@ -47,7 +75,7 @@ const Statistics = () => {
           <Grid xs={12} sm={6} md={3}>
             <AppWidgetSummary
               title="Chờ nhập kho"
-              total={1223}
+              total={waitParcelcount.toString()}
               color="success"
               icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
             />
@@ -56,7 +84,7 @@ const Statistics = () => {
           <Grid xs={12} sm={6} md={3}>
             <AppWidgetSummary
               title="Đơn hàng đi"
-              total={1352831}
+              total={sendedParcelCount.toString()}
               color="info"
               icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
             />
@@ -65,7 +93,7 @@ const Statistics = () => {
           <Grid xs={12} sm={6} md={3}>
             <AppWidgetSummary
               title="Đơn hàng đến"
-              total={1723315}
+              total={arrivalParcelCount.toString()}
               color="warning"
               icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
             />
@@ -74,7 +102,7 @@ const Statistics = () => {
           <Grid xs={12} sm={6} md={3}>
             <AppWidgetSummary
               title="Bug Reports"
-              total={234}
+              total={bugParcelcount.toString()}
               color="error"
               icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
             />

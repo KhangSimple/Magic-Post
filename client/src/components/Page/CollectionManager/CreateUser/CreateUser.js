@@ -30,6 +30,8 @@ import { faCompass } from '@fortawesome/free-regular-svg-icons';
 import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
 
+const ZIP_CODE = localStorage.getItem('zip_code');
+
 const CreateUser = ({ handleCreateAccount }) => {
   const [profileImageURL, setProfileImageURL] = useState('');
   //Profile Image ref
@@ -76,7 +78,7 @@ const CreateUser = ({ handleCreateAccount }) => {
     address: address,
     phone: phoneNumber,
     email: email,
-    collection_zip_code: 201,
+    collection_zip_code: ZIP_CODE,
     img_url: profileImageURL,
   };
   const handleEye = () => {

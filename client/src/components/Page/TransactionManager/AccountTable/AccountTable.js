@@ -63,9 +63,6 @@ export default function AccountManagementTable() {
         headers: {
           token: localStorage.getItem('token'),
         },
-        params: {
-          zip_code: localStorage.getItem('zip_code'),
-        },
       })
       .then(function (response) {
         setUsers(

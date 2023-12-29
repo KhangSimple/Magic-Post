@@ -84,15 +84,7 @@ const Routes = () => {
     },
     //transaction manager
 
-    //collection manager
-    {
-      path: '/collection/manager',
-      element: <CollectionStatistics />,
-    },
-    {
-      path: '/collection/manager/account-management',
-      element: <CollectionAccountManagementTable />,
-    },
+    //collection manage
 
     //transaction employee
     //collection employee
@@ -160,6 +152,14 @@ const Routes = () => {
         {
           path: '/transaction/manager/account-management',
           element: <TransactionAccountManagementTable />,
+        },
+        {
+          path: '/collection/manager',
+          element: <CollectionStatistics />,
+        },
+        {
+          path: '/collection/manager/account-management',
+          element: <CollectionAccountManagementTable />,
         },
       ],
     },

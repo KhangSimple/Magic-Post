@@ -26,8 +26,9 @@ const initAPIRoute = (app) => {
   router.get('/getTransactionPackageDetail', auth, apiController.getTransactionPackageDetail);
   router.post('/createCollectionPackage', auth, apiController.createCollectionPackage);
   router.post('/createTransactionPackage', auth, apiController.createTransactionPackage);
-  router.get('/getTransactionStaffList', auth, apiController.getTransactionStaffList);
-  router.get('/getCollectionStaffList', auth, apiController.getCollectionStaffList);
+  router.get('/getTransactionStaffList', apiController.getTransactionStaffList);
+  router.get('/getCollectionStaffList', apiController.getCollectionStaffList);
+  router.get('/collectionStatistic', apiController.collectionStatistic);
   return app.use('/', router);
 };
 

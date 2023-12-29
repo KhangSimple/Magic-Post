@@ -7,7 +7,7 @@
   min-width: 100px;
   padding: 9px 16px;
   border-radius: 6px;
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   //   background-color: var(--white);
@@ -47,7 +47,7 @@
   border-color: #bfbfbf;
   background: rgb(0, 115, 214);
   background: linear-gradient(90deg, rgba(0, 115, 214, 1) 24%, rgba(0, 73, 136, 1) 100%);
-
+  font-size: 1rem;
   &:hover {
     border-color: #e39c29;
     // background: linear-gradient(0deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.06)), #fe2c55;
@@ -55,8 +55,9 @@
 }
 
 .outline {
-  font-size: 1.5rem;
+  font-size: 1rem;
   color: #004588;
+
   background: #eef3ff;
   border-color: #bfbfbf;
   margin: 5px 0px;

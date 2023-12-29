@@ -395,11 +395,11 @@ const Main = () => {
             trên 63 tỉnh thành{' '}
           </h4>
           <div>
-            <a href="">
-              <img className={cx('logo')} src={images.appstore} alt="logo" />
+            <a href="https://example.com/">
+              <img className={cx('logoGG')} src={images.appstore} alt="logo" />
             </a>
-            <a href="">
-              <img className={cx('logo')} src={images.ggstore} alt="logo" />
+            <a href="https://example.com/">
+              <img className={cx('logoApple')} src={images.ggstore} alt="logo" />
             </a>
           </div>
         </div>

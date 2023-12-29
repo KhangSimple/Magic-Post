@@ -8,12 +8,12 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 0.2rem;
-  background-color: #4cb9f8;
+  background-color: #f0f0f0;
 }
 .logo {
   margin-left: 50px;
-  width: 60px;
-  margin-bottom: 10px;
+  width: 50px;
+  margin-bottom: 5px;
   margin-top: 5px;
 }
 .searchLogin {
@@ -22,6 +22,7 @@ header {
   align-items: center;
 }
 .search {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   align-items: center;
   display: flex;
   border-radius: 20px;
@@ -29,7 +30,7 @@ header {
 }
 .search input {
   flex: 1;
-  padding: 1px;
+
   border-radius: 20px;
   background-color: rgb(255, 255, 255);
 }
@@ -47,19 +48,22 @@ header {
   align-items: center;
   font-family: 'Public Sans', sans-serif;
   font-size: 14px;
-  border-radius: 10px;
+  border-radius: 7px;
   padding: 2px 8px 2px 4px;
-  margin-left: 50px;
-  background-color: aquamarine;
+  margin-left: 20px;
+  background-color: rgb(84, 173, 84);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   &:hover {
     cursor: pointer;
-    background-color: #00f7ff;
+    background-color: rgb(163, 228, 250);
+    color: #000000;
   }
 }
 
 nav ul {
   margin-bottom: 0;
-  background-color: #ffffff;
+  background-color: #e0ecf1;
   list-style: none;
   padding: 0;
   display: flex;
@@ -72,10 +76,10 @@ nav ul {
   font-family: 'pfb', sans-serif;
   margin-left: 20px;
   list-style: none;
-  padding: 20px 50px;
-  font-size: 16px;
+  padding: 15px 50px;
+  font-size: 1rem;
   position: relative;
-  transition: background-color 0.3s ease;
+  transition: background-color 1s ease;
 
   &:hover .subMenu {
     display: block;
@@ -95,7 +99,8 @@ nav ul {
 }
 
 .menuItem:hover {
-  background-color: #4cb9f8;
+  background-color: #6cceff;
+  color: #fff;
   cursor: pointer;
   transition: 0.5s;
 }
@@ -112,8 +117,7 @@ nav ul {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .subMenu li {
-  padding: 20px 30px 20px 30px;
-
+  padding: 10px 30px 10px 30px;
   color: rgb(0, 0, 0);
   cursor: pointer;
 }
@@ -122,8 +126,8 @@ nav ul {
 }
 
 .subMenu li:hover {
-  background-color: aquamarine;
-  color: #4cb9f8;
+  background-color: #6cceff;
+  color: #fff;
 }
 .appBar {
   position: relative;
@@ -132,14 +136,6 @@ nav ul {
   z-index: 1000;
 }
 
-.appBarFixed {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: #fff;
-  z-index: 1000;
-}
 .banner:hover {
   cursor: pointer;
 }
@@ -153,4 +149,56 @@ nav ul {
 }
 .main {
   margin-top: 50px;
+}
+
+@media screen and (max-width: 700px) {
+  header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .logo {
+    margin-left: 0;
+  }
+
+  .searchLogin {
+    margin-right: 0;
+    margin-top: 10px;
+  }
+
+  .search {
+    margin-top: 10px;
+  }
+
+  .searchIcon {
+    margin: 0;
+  }
+
+  .loginRegister button {
+    margin-left: 0;
+  }
+
+  nav ul {
+    flex-direction: column;
+  }
+
+  .menuItem {
+    margin-left: 0;
+    padding: 15px 20px;
+  }
+
+  .subMenu {
+    z-index: 1000;
+    left: 0;
+    top: auto;
+    width: 100%;
+  }
+
+  .subMenu li {
+    padding: 10px 20px;
+  }
+
+  .main {
+    margin-top: 20px;
+  }
 }

@@ -4,31 +4,54 @@
   font-family: sans-serif;
   font-size: 14px;
   margin-top: 30px;
+
+  .lineFooter {
+    height: 7px;
+    width: 100%;
+    background: #4cb9f8;
+  }
+
   .content {
+    padding: 30px;
+    height: 200px;
     display: flex;
-  }
-}
-.lineFooter {
-  height: 7px;
-  width: 100%;
-  background: #4cb9f8;
-}
-.content {
-  padding: 30px;
-  height: 200px;
-  .title {
-    p {
-      font-size: 16px;
+
+    @media screen and (max-width: 700px) {
+      flex-direction: column;
     }
-    margin-right: 20vh;
-    margin-left: 50px;
+
+    .title {
+      p {
+        font-size: 16px;
+      }
+      margin-right: 20vh;
+      margin-left: 50px;
+
+      @media screen and (max-width: 700px) {
+        margin-right: 0;
+      }
+    }
+
+    .contact {
+      text-align: left;
+      display: flex;
+
+      @media screen and (max-width: 700px) {
+        flex-direction: column;
+      }
+    }
+
+    .contactInfo {
+      font-size: 16px;
+      margin: 10px 50px 50px 30px;
+
+      @media screen and (max-width: 700px) {
+        margin: 10px 0;
+      }
+    }
   }
-  .contact {
-    text-align: left;
-    display: flex;
-  }
-  .contactInfo {
-    font-size: 16px;
-    margin: 10px 50px 50px 30px;
+  @media screen and (max-width: 700px) {
+    background-color: #062525;
+    z-index: 1000;
   }
 }

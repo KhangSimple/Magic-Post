@@ -46,14 +46,19 @@ export function dateFormat(date) {
   }
 }
 
+//In stock collection component
 const ParcelCollectionInStock = () => {
+  //mark open modal create invoice
   const [open, setOpen] = React.useState(false);
+
+  //table handle
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [selectedSenderAddress, setSelectedSenderAddress] = React.useState('');
   const [filteredRows, setFilteredRows] = React.useState([]);
   const [isFilterActive, setIsFilterActive] = React.useState(false);
   const [rows, setRows] = React.useState([]);
 
+  //get table data
   React.useEffect(() => {
     console.log('Use Effect');
     axios
@@ -85,14 +90,18 @@ const ParcelCollectionInStock = () => {
         console.log(error);
       });
   }, []);
-  console.log(rows);
+
+  //handle open create invoice
   const handleCreateInvoiceClick = () => {
     setOpen(true);
   };
 
+  //handle close create invoice
   const handleClose = () => {
     setOpen(false);
   };
+
+  //handle send parcel
   const sendParcel = (parcel_id, package_id) => {
     axios
       .post(`http://localhost:1510/sendParcel`, {
@@ -109,6 +118,7 @@ const ParcelCollectionInStock = () => {
       });
   };
 
+  //handle send parcel package
   const sendParcelPackage = () => {
     setOpen(false);
     axios
@@ -209,8 +219,6 @@ const ParcelCollectionInStock = () => {
           />
         </Card>
 
-        {/* Hiển thị model các đơn được chọn  */}
-
         <Dialog className={cx(styles.dialog)} open={open} onClose={handleClose} maxWidth="lg" fullWidth>
           <DialogTitle>
             <div className={cx(styles.title)}>Create Invoice</div>
@@ -219,7 +227,6 @@ const ParcelCollectionInStock = () => {
             <DialogContent>
               <DialogContentText>
                 <div>
-                  {console.log(selectedRows)}
                   <span className={cx(styles.date)}>Current Date: {new Date().toLocaleDateString()}</span>
                   <span className={cx(styles.countRowsSelect)}>Invoice quantity: {selectedRows.length}</span>
                 </div>

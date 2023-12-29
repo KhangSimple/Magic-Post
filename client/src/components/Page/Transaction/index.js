@@ -5,10 +5,7 @@ import { Cookies } from 'react-cookie';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
-import AppAllStatistics from './Statistics/components/AllStatistics';
 import AppWidgetSummary from './Statistics/components/WidgetSummary';
-import AppConversionRates from './Statistics/components/ConversionRates';
-import axios from 'axios';
 import { createContext, useEffect, useState } from 'react';
 import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import styles from '~/components/Page/Transaction/ParcelTransactionHistory/ParcelTransactionHistory.module.scss';
@@ -23,6 +20,7 @@ import * as React from 'react';
 import classNames from 'classnames/bind';
 import Stack from '@mui/material/Stack';
 import DatePickerRange from './components/DatePickerRange';
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 

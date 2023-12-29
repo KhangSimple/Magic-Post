@@ -20,11 +20,14 @@ const cx = classNames.bind(styles);
 const ZIP_CODE = localStorage.getItem('zip_code');
 const NAME = localStorage.getItem('name');
 
-const ParcelCollectionHistory = () => {
+//Parcel collection history
+const ParcelCollectionWaitAccept = () => {
   const [open, setOpen] = React.useState(false);
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [packages, setPackages] = React.useState([]);
   const [selectedPackage, setSelectedPackage] = React.useState('');
+
+  //fetch arrival parcel package
   React.useEffect(() => {
     try {
       console.log('Call');
@@ -49,6 +52,8 @@ const ParcelCollectionHistory = () => {
   }, []);
 
   const [invoiceDetail, setInvoiceDetail] = React.useState([]);
+
+  //column def
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
     { field: 'senderName', headerName: 'Sender Name', width: 150 },
@@ -60,6 +65,7 @@ const ParcelCollectionHistory = () => {
     { field: 'cost', headerName: 'Cost', width: 100 },
   ];
 
+  //rows
   const rows = invoiceDetail.map((detail) => ({
     id: detail.id,
     senderName: detail.senderName,
@@ -73,6 +79,7 @@ const ParcelCollectionHistory = () => {
     cost: detail.cost,
   }));
 
+  //handle details button click
   const handleDetailsClick = (packageData) => {
     setOpen(true);
     setSelectedPackage(packageData.parcel_package_id);
@@ -107,6 +114,8 @@ const ParcelCollectionHistory = () => {
         });
     } catch (err) {}
   };
+
+  //confirm parcel function with parcel_id
   const confirmParcel = (parcel_id) => {
     axios
       .post(`http://localhost:1510/confirmParcel`, {
@@ -124,6 +133,8 @@ const ParcelCollectionHistory = () => {
         console.log(error);
       });
   };
+
+  //handle accept click
   const handleAcceptedClick = (selectionModel) => {
     setSelectedRows(selectionModel);
     console.log('hehe');
@@ -147,6 +158,8 @@ const ParcelCollectionHistory = () => {
         console.log(error);
       });
   };
+
+  //handle close modal
   const handleClose = () => {
     setOpen(false);
   };
@@ -210,4 +223,4 @@ const ParcelCollectionHistory = () => {
   );
 };
 
-export default ParcelCollectionHistory;
+export default ParcelCollectionWaitAccept;

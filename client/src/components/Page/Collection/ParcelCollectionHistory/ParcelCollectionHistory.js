@@ -120,7 +120,7 @@ const ParcelCollectionHistory = () => {
     <DashboardLayout navConfig={navConfig}>
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4">ĐƠN HÀNG CHỜ XÁC NHẬN</Typography>
+          <Typography variant="h4">LỊCH SỬ ĐƠN HÀNG</Typography>
         </Stack>
         <TableContainer component={Paper}>
           <Table className={cx(styles.packageTableTransaction)} aria-label="simple table">

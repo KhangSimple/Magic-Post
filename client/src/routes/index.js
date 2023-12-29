@@ -34,6 +34,10 @@ import TransactionAccountManagementTable from '~/components/Page/TransactionMana
 import CollectionStatistics from '~/components/Page/CollectionManager';
 import CollectionAccountManagementTable from '~/components/Page/CollectionManager/AccountTable/AccountTable';
 
+//leader
+import LeaderStatistics from '~/components/Page/Leader';
+import LeaderAccountManagementTable from '~/components/Page/Leader/AccountTable/AccountTable';
+
 // const publicRoutes = [
 //   { path: '', component: HomePage, name: 'Home Page' },
 //   { path: '/employee', component: EmployeePage, name: 'Employee Page' },

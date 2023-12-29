@@ -642,6 +642,20 @@ let getTransactionStaffList = async (req, res) => {
   } catch (err) {}
 };
 
+let getManagerList = async (req, res) => {
+  try {
+    const token = req.headers.token;
+    var decode = jwt.verify(token, process.env.TOKEN_KEY);
+    if (decode.role == 'admin') {
+      const [trans_row, field] = await pool.execute('select * from manager_transaction');
+      const [coll_row, field_] = await pool.execute('select * from manager_collection');
+      return res.status(200).json({ trans_row, coll_row });
+    } else {
+      return res.status(403).json({ status: 'Invalid token' });
+    }
+  } catch (err) {}
+};
+
 let getCollectionStaffList = async (req, res) => {
   try {
     const token = req.headers.token;
@@ -767,38 +781,96 @@ let transactionStatistic = async (req, res) => {
 
 let allStatistic = async (req, res) => {
   try {
-    // let token = req.headers.token;
-    // var decode = jwt.verify(token, process.env.TOKEN_KEY);
-    // // console.log(decode);
-    // if (decode.role == 'trans-manager') {
-    let { startDate, endDate } = req.query;
-    let sendedParcelCount = await pool.execute(
-      'select count(*) as count from transaction_stock where transaction_zip_code = ? and type="out" and send_time between ? and ? ',
-      [decode.trans_info.zip_code, startDate, endDate],
-    );
-    sendedParcelCount = sendedParcelCount[0][0].count;
+    let token = req.headers.token;
+    var decode = jwt.verify(token, process.env.TOKEN_KEY);
+    // console.log(decode);
+    if (decode.role == 'admin') {
+      let { startDate, endDate } = req.query;
+      let sendedParcelCount = await pool.execute(
+        'select count(*) as count from parcels where cur_pos < 4 and createdTime between ? and ? ',
+        [startDate, endDate],
+      );
+      sendedParcelCount = sendedParcelCount[0][0].count;
 
-    let arrivalParcelCount = await pool.execute(
-      'select count(*) as count from transaction_stock where transaction_zip_code = ? and type="in" and status = "Chờ gửi" and receive_time between ? and ? ',
-      [decode.trans_info.zip_code, startDate, endDate],
-    );
-    arrivalParcelCount = arrivalParcelCount[0][0].count;
+      let successParcelCount = await pool.execute(
+        'select count(*) as count from parcels join transaction_stock as ts on parcels.id = ts.parcel_id where cur_pos = 4 and ts.is_confirm = 1 and createdTime between ? and ? ',
+        [startDate, endDate],
+      );
+      successParcelCount = successParcelCount[0][0].count;
 
-    let waitParcelcount = await pool.execute(
-      'select count(*) as count from transaction_stock where transaction_zip_code = ? and type="in" and status = "Chờ xác nhận" and send_time between ? and ? ',
-      [decode.trans_info.zip_code, startDate, endDate],
-    );
-    waitParcelcount = waitParcelcount[0][0].count;
+      let returnParcelCount = await pool.execute(
+        'select count(*) as count from parcels join transaction_stock as ts on parcels.id = ts.parcel_id where cur_pos = 4 and ts.is_confirm = -1 and createdTime between ? and ? ',
+        [startDate, endDate],
+      );
+      returnParcelCount = returnParcelCount[0][0].count;
 
-    let bugParcelcount = await pool.execute(
-      'select count(*) as count from transaction_stock where transaction_zip_code = ? and type="out" and status = "Không gửi thành công" and send_time between ? and ? ',
-      [decode.trans_info.zip_code, startDate, endDate],
-    );
-    bugParcelcount = bugParcelcount[0][0].count;
-    return res.status(200).json({ sendedParcelCount, arrivalParcelCount, waitParcelcount, bugParcelcount });
-    // } else {
-    //   return res.status(403).json({ status: 'Invalid token' });
-    // }
+      return res.status(200).json({ sendedParcelCount, successParcelCount, returnParcelCount });
+    } else {
+      return res.status(403).json({ status: 'Invalid token' });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+let allCollectionStatistic = async (req, res) => {
+  try {
+    let token = req.headers.token;
+    var decode = jwt.verify(token, process.env.TOKEN_KEY);
+    // console.log(decode);
+    if (decode.role == 'admin') {
+      let { startDate, endDate, tinh } = req.query;
+      let sendedParcelCount = await pool.execute(
+        'select count(*) as count from collection_stock where collection_zip_code = ? and status = "Chờ xác nhận" and send_time between ? and ? ',
+        [tinh, startDate, endDate],
+      );
+      sendedParcelCount = sendedParcelCount[0][0].count;
+
+      let successParcelCount = await pool.execute(
+        'select count(*) as count from collection_stock where collection_zip_code = ? and status = "Đã gửi thành công" and send_time between ? and ? ',
+        [tinh, startDate, endDate],
+      );
+      successParcelCount = successParcelCount[0][0].count;
+
+      let returnParcelCount = 0;
+
+      return res.status(200).json({ sendedParcelCount, successParcelCount, returnParcelCount });
+    } else {
+      return res.status(403).json({ status: 'Invalid token' });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+let allTransactionStatistic = async (req, res) => {
+  try {
+    let token = req.headers.token;
+    var decode = jwt.verify(token, process.env.TOKEN_KEY);
+    // console.log(decode);
+    if (decode.role == 'admin') {
+      let { startDate, endDate, huyen } = req.query;
+      let sendedParcelCount = await pool.execute(
+        'select count(*) as count from transaction_stock where transaction_zip_code = ? and status = "Chờ xác nhận" and send_time between ? and ? ',
+        [huyen, startDate, endDate],
+      );
+      sendedParcelCount = sendedParcelCount[0][0].count;
+
+      let successParcelCount = await pool.execute(
+        'select count(*) as count from transaction_stock where transaction_zip_code = ? and status = "Đã gửi thành công" and send_time between ? and ? ',
+        [huyen, startDate, endDate],
+      );
+      successParcelCount = successParcelCount[0][0].count;
+
+      let returnParcelCount = await pool.execute(
+        'select count(*) as count from transaction_stock where transaction_zip_code = ? and status = "Không gửi thành công đến người nhận" and send_time between ? and ? ',
+        [huyen, startDate, endDate],
+      );
+      returnParcelCount = returnParcelCount[0][0].count;
+
+      return res.status(200).json({ sendedParcelCount, successParcelCount, returnParcelCount });
+    } else {
+      return res.status(403).json({ status: 'Invalid token' });
+    }
   } catch (err) {
     console.log(err);
   }
@@ -867,9 +939,9 @@ let updateTransactionUserProfile = async (req, res) => {
     let data = req.body.data;
     const token = data.token;
     var decode = jwt.verify(token, process.env.TOKEN_KEY);
-    if (decode.role == 'trans-manager') {
+    if (decode.role == 'trans-manager' || decode.role == 'admin') {
       delete data.token;
-      console.log(data);
+      // console.log(data);
       await pool.execute(
         `update staff_transaction set name = ?,username = ?, password = ?, address = ?, phone = ?, email = ? ,img_url = ? where id = ?`,
         [data.name, data.username, data.password, data.address, data.phone, data.email, data.img_url, data.id],
@@ -890,7 +962,7 @@ let updateCollectionUserProfile = async (req, res) => {
     const token = data.token;
     var decode = jwt.verify(token, process.env.TOKEN_KEY);
     console.log(decode);
-    if (decode.role == 'coll-manager') {
+    if (decode.role == 'coll-manager' || decode.role == 'admin') {
       delete data.token;
       console.log(data);
       await pool.execute(
@@ -906,6 +978,29 @@ let updateCollectionUserProfile = async (req, res) => {
     return res.status(401).send({ Error: 'Lỗi' });
   }
 };
+let updateCollectionManagerProfile = async (req, res) => {
+  try {
+    let data = req.body.data;
+    const token = data.token;
+    var decode = jwt.verify(token, process.env.TOKEN_KEY);
+    console.log(decode);
+    if (decode.role == 'coll-manager' || decode.role == 'admin') {
+      delete data.token;
+      console.log(data);
+      await pool.execute(
+        `update manager_collection set name = ?,username = ?, password = ?, address = ?, phone = ?, email = ? ,img_url = ? where id = ?`,
+        [data.name, data.username, data.password, data.address, data.phone, data.email, data.img_url, data.id],
+      );
+      res.status(200).json({ flag: 1 });
+    } else {
+      res.status(403).json({ status: 'Invalid token' });
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(401).send({ Error: 'Lỗi' });
+  }
+};
+
 export default {
   createStaffTransAccount,
   createStaffCollAccount,
@@ -940,4 +1035,8 @@ export default {
   updateTransactionUserProfile,
   updateCollectionUserProfile,
   allStatistic,
+  allCollectionStatistic,
+  allTransactionStatistic,
+  getManagerList,
+  updateCollectionManagerProfile,
 };

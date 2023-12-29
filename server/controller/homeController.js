@@ -184,9 +184,44 @@ let register = async (req, res) => {
   console.log('Success');
 };
 
+let getAdminPage = async (req, res) => {
+  let { username, password } = req.body;
+  let checkUsername = await pool.execute('select count(username) as ct from admin where username=?', [username]);
+  let checkPassword = await pool.execute('select count(username) as ct from admin where username=? and password=?', [
+    username,
+    password,
+  ]);
+  checkUsername = checkUsername[0][0].ct;
+  checkPassword = checkPassword[0][0].ct;
+  if ((checkUsername != 0) & (checkPassword != 0)) {
+    let [rows, field] = await pool.execute('select * from admin where username=? and password = ?', [
+      username,
+      password,
+    ]);
+    let info = rows[0];
+    console.log(info);
+    var encryptedPassword = await bcrypt.hash(password, 10);
+    info.password = encryptedPassword;
+    var token = jwt.sign(
+      {
+        info: { id: info.id, name: info.name, phone: info.phone, email: info.email, img_url: info.img_url },
+        role: 'admin',
+      },
+      process.env.TOKEN_KEY,
+      {
+        expiresIn: '3h',
+      },
+    );
+    return res.status(200).json({ flag: 1, token: token });
+  } else {
+    return res.json({ flag: 0, checkUsername: checkUsername, checkPassword: checkPassword });
+  }
+};
+
 export default {
   getTransactionPage,
   getEmployeePage,
   register,
   getManagerPage,
+  getAdminPage,
 };

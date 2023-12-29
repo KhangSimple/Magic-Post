@@ -37,6 +37,10 @@ const initAPIRoute = (app) => {
   router.post('/updateTransactionUserProfile', apiController.updateTransactionUserProfile);
   router.post('/updateCollectionUserProfile', apiController.updateCollectionUserProfile);
   router.get('/allStatistic', apiController.allStatistic);
+  router.get('/allCollectionStatistic', apiController.allCollectionStatistic);
+  router.get('/allTransactionStatistic', apiController.allTransactionStatistic);
+  router.get('/getManagerList', apiController.getManagerList);
+  router.post('/updateCollectionManagerProfile', apiController.updateCollectionManagerProfile);
   return app.use('/', router);
 };
 

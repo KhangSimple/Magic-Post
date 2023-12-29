@@ -12,6 +12,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Input from '~/components/Input';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useNavigate } from 'react-router-dom';
 import {
   faBuilding,
   faEarthAmerica,
@@ -28,6 +29,7 @@ import {
 import React, { useEffect, useState, useRef } from 'react';
 import { faCompass } from '@fortawesome/free-regular-svg-icons';
 import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
 const ZIP_CODE = localStorage.getItem('zip_code');
@@ -69,6 +71,7 @@ const CreateUser = ({ handleCreateAccount }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [address, setAddress] = useState('');
   const [repassword, setRepassword] = useState('');
+  const naviage = useNavigate();
 
   const allInfo = {
     token: localStorage.getItem('token'),
@@ -92,6 +95,7 @@ const CreateUser = ({ handleCreateAccount }) => {
       check = check || allInfo[item] === '';
     });
     if (check) {
+      console.log('Heheheheheheh');
       toast.error('Vui lòng điền đầy đủ thông tin!');
     } else {
       axios
@@ -100,6 +104,9 @@ const CreateUser = ({ handleCreateAccount }) => {
         })
         .then(function (response) {
           let data = response.data;
+          toast.success('Tạo tài khoản thành công');
+          handleCreateAccount();
+          naviage(0);
         })
         .catch(function (error) {
           console.log(error);
@@ -330,7 +337,7 @@ const CreateUser = ({ handleCreateAccount }) => {
                   variant="contained"
                   color="inherit"
                   onClick={() => {
-                    handleCreateAccount();
+                    // handleCreateAccount();
                     handleRegister();
                   }}
                 >
@@ -341,7 +348,7 @@ const CreateUser = ({ handleCreateAccount }) => {
           </Card>
         </Grid>
       </Grid>
-      <ToastContainer
+      {/* <ToastContainer
         position="top-right"
         autoClose={2000}
         hideProgressBar={false}
@@ -352,7 +359,7 @@ const CreateUser = ({ handleCreateAccount }) => {
         draggable
         pauseOnHover
         theme="light"
-      />
+      /> */}
     </Container>
   );
 };

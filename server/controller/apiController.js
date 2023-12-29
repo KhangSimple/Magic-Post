@@ -731,6 +731,68 @@ let collectionStatisticTrans = async (req, res) => {
   }
 };
 
+let transactionStatistic = async (req, res) => {
+  try {
+    let token = req.headers.token;
+    var decode = jwt.verify(token, process.env.TOKEN_KEY);
+    // console.log(decode);
+    if (decode.role == 'trans-manager') {
+      let { startDate, endDate } = req.query;
+      let sendedParcelCount = await pool.execute(
+        'select count(*) as count from transaction_stock where transaction_zip_code = ? and type="out" and send_time between ? and ? ',
+        [decode.trans_info.zip_code, startDate, endDate],
+      );
+      sendedParcelCount = sendedParcelCount[0][0].count;
+
+      let arrivalParcelCount = await pool.execute(
+        'select count(*) as count from transaction_stock where transaction_zip_code = ? and type="in" and status = "Chờ gửi" and receive_time between ? and ? ',
+        [decode.trans_info.zip_code, startDate, endDate],
+      );
+      arrivalParcelCount = arrivalParcelCount[0][0].count;
+
+      let waitParcelcount = await pool.execute(
+        'select count(*) as count from transaction_stock where transaction_zip_code = ? and type="in" and status = "Chờ xác nhận" and send_time between ? and ? ',
+        [decode.trans_info.zip_code, startDate, endDate],
+      );
+      waitParcelcount = waitParcelcount[0][0].count;
+
+      let bugParcelcount = await pool.execute(
+        'select count(*) as count from transaction_stock where transaction_zip_code = ? and type="out" and status = "Không gửi thành công" and send_time between ? and ? ',
+        [decode.trans_info.zip_code, startDate, endDate],
+      );
+      bugParcelcount = bugParcelcount[0][0].count;
+      return res.status(200).json({ sendedParcelCount, arrivalParcelCount, waitParcelcount, bugParcelcount });
+    } else {
+      return res.status(403).json({ status: 'Invalid token' });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+let transactionStatisticColl = async (req, res) => {
+  try {
+    let token = req.headers.token;
+    var decode = jwt.verify(token, process.env.TOKEN_KEY);
+    console.log(decode);
+    if (decode.role == 'trans-manager') {
+      let { startDate, endDate } = req.query;
+      let [rows, _] = await pool.execute(
+        'SELECT c.name, count(*) as count FROM `transaction_stock` as ts join collection as c on ts.sender_col_zip_code = c.zip_code WHERE ts.transaction_zip_code = ? and receive_time BETWEEN ? and ? group by sender_col_zip_code;',
+        [decode.trans_info.zip_code, startDate, endDate],
+      );
+      // trans_rows.map((item) => {
+      //   item.name = 'ĐTK: ' + item.name;
+      // });
+      return res.status(200).json({ rows: rows });
+    } else {
+      return res.status(403).json({ status: 'Invalid token' });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export default {
   createStaffTransAccount,
   createStaffCollAccount,
@@ -758,4 +820,6 @@ export default {
   getCollectionStaffList,
   collectionStatistic,
   collectionStatisticTrans,
+  transactionStatistic,
+  transactionStatisticColl,
 };

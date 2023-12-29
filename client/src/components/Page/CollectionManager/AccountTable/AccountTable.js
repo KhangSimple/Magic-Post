@@ -21,6 +21,8 @@ import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import { Link } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // import { users } from 'src/_mock/user';
 
@@ -153,7 +155,7 @@ export default function AccountManagementTable() {
     <DashboardLayout navConfig={navConfig}>
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4">ĐIỂM TẬP KẾT THÁI NGUYÊN</Typography>
+          <Typography variant="h4">ĐIỂM TẬP KẾT {localStorage.getItem('name').toUpperCase()}</Typography>
           <Button
             variant="contained"
             color="inherit"
@@ -226,6 +228,18 @@ export default function AccountManagementTable() {
           </DialogContent>
         </Dialog>
       </Container>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </DashboardLayout>
   );
 }

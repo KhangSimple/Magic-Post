@@ -30,6 +30,8 @@ const initAPIRoute = (app) => {
   router.get('/getCollectionStaffList', apiController.getCollectionStaffList);
   router.get('/collectionStatistic', apiController.collectionStatistic);
   router.get('/collectionStatisticTrans', apiController.collectionStatisticTrans);
+  router.get('/transactionStatistic', apiController.transactionStatistic);
+  router.get('/transactionStatisticColl', apiController.transactionStatisticColl);
   return app.use('/', router);
 };
 

@@ -1,6 +1,8 @@
 import DashboardLayout from 'src/layouts/dashboard';
 import navConfig from './config-navigation';
 import { faker } from '@faker-js/faker';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -89,7 +91,7 @@ const Statistics = () => {
     <DashboardLayout navConfig={navConfig}>
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
-          THỐNG KÊ ĐIỂM TẬP KẾT THÁI NGUYÊN
+          THỐNG KÊ ĐIỂM TẬP KẾT {localStorage.getItem('name').toUpperCase()}
         </Typography>
 
         <Grid container spacing={3}>
@@ -148,23 +150,23 @@ const Statistics = () => {
                 series: allStatistics.map((item) => {
                   return { label: item.name, value: item.count };
                 }),
-                // series: [
-                //   { label: 'Italy', value: 400 },
-                //   { label: 'Japan', value: 430 },
-                //   { label: 'China', value: 448 },
-                //   { label: 'Canada', value: 470 },
-                //   { label: 'France', value: 540 },
-                //   { label: 'Germany', value: 580 },
-                //   { label: 'South Korea', value: 690 },
-                //   { label: 'Netherlands', value: 1100 },
-                //   { label: 'United States', value: 1200 },
-                //   { label: 'United Kingdom', value: 1380 },
-                // ],
               }}
             />
           </Grid>
         </Grid>
       </Container>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </DashboardLayout>
   );
 };

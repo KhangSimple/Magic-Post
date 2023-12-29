@@ -25,6 +25,12 @@ import { LocalFireDepartmentOutlined } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import Button from '~/components/Button';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import { DataGrid } from '@mui/x-data-grid';
+import DialogActions from '@mui/material/DialogActions';
+import Dialog from '@mui/material/Dialog';
+import Invoice from '~/components/Page/Transaction/Invoice/Invoice';
 
 const defaultPackageInfo = {
   fee: {},
@@ -51,6 +57,7 @@ const cx = classNames.bind(styles);
 const defaultProduct = { name: '', code: '', weight: '200', quantity: '1' };
 
 const CreateInvoice = () => {
+  const [open, setOpen] = useState(false);
   let [senderProvinceData, setSenderProvinceData] = useState([]);
   let [senderDistrictData, setSenderDistrictData] = useState([]);
   let [senderWardData, setSenderWardData] = useState([]);
@@ -84,11 +91,11 @@ const CreateInvoice = () => {
       .get(`https://online-gateway.ghn.vn/shiip/public-api/master-data/province`, {
         headers: { token: '1b869b93-97de-11ee-a59f-a260851ba65c' },
       })
-      .then(function (response) {
+      .then(function(response) {
         setSenderProvinceData((prev) => [...response.data.data]);
         setReceiverProvinceData((prev) => [...response.data.data]);
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   }, []);
@@ -105,10 +112,10 @@ const CreateInvoice = () => {
             province_id: +senderInfo.province.id,
           },
         })
-        .then(function (response) {
+        .then(function(response) {
           setSenderDistrictData((prev) => [...response.data.data]);
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.log(error);
         });
     }
@@ -126,10 +133,10 @@ const CreateInvoice = () => {
             province_id: +receiverInfo.province.id,
           },
         })
-        .then(function (response) {
+        .then(function(response) {
           setReceiverDistrictData((prev) => [...response.data.data]);
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.log(error);
         });
     }
@@ -144,10 +151,10 @@ const CreateInvoice = () => {
             district_id: +senderInfo.district.id,
           },
         })
-        .then(function (response) {
+        .then(function(response) {
           setSenderWardData((prev) => [...response.data.data]);
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.log(error);
         });
     }
@@ -162,10 +169,10 @@ const CreateInvoice = () => {
             district_id: +receiverInfo.district.id,
           },
         })
-        .then(function (response) {
+        .then(function(response) {
           setReceiverWardData((prev) => [...response.data.data]);
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.log(error);
         });
     }
@@ -174,6 +181,7 @@ const CreateInvoice = () => {
   function handleAddMoreProduct() {
     setProductList([...productList, { ...defaultProduct, uuid: uuidv4() }]);
   }
+
   function handleDeleteProduct(index) {
     // console.log(productList[index]);
     var productListClone = [];
@@ -212,13 +220,13 @@ const CreateInvoice = () => {
           note: note,
         },
       })
-      .then(function (response) {
+      .then(function(response) {
         console.log(response);
         if (response.status === 200) {
           navigate('/transaction/employee/parcel-in-stock');
         }
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   };
@@ -239,13 +247,13 @@ const CreateInvoice = () => {
           coupon: null,
         },
       })
-      .then(function (response) {
+      .then(function(response) {
         if (response.status == 200) {
           setPackageProductInfo({ ...packageProductInfo, fee: response.data.data });
         }
         console.log(response);
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   }, [
@@ -261,8 +269,8 @@ const CreateInvoice = () => {
   return (
     <DashboardLayout navConfig={navConfig}>
       <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4">TẠO ĐƠN HÀNG ĐIỂM GIAO DỊCH</Typography>
+        <Stack direction='row' alignItems='center' justifyContent='space-between' mb={5}>
+          <Typography variant='h4'>TẠO ĐƠN HÀNG ĐIỂM GIAO DỊCH</Typography>
 
           {/* <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
           Tạo tài khoản
@@ -302,8 +310,8 @@ const CreateInvoice = () => {
                   select
                   data={senderProvinceData}
                   value={senderInfo.province.id}
-                  optionLabel="ProvinceName"
-                  optionValue="ProvinceID"
+                  optionLabel='ProvinceName'
+                  optionValue='ProvinceID'
                   onChange={(value) => {
                     let row = senderProvinceData.filter((row) => row.ProvinceID === value);
                     setSenderInfo({ ...senderInfo, province: { name: row[0].ProvinceName, id: row[0].ProvinceID } });
@@ -314,8 +322,8 @@ const CreateInvoice = () => {
                   select
                   data={senderDistrictData}
                   value={senderInfo.district.id}
-                  optionLabel="DistrictName"
-                  optionValue="DistrictID"
+                  optionLabel='DistrictName'
+                  optionValue='DistrictID'
                   onChange={(value) => {
                     let row = senderDistrictData.filter((row) => row.DistrictID === value);
                     setSenderInfo({ ...senderInfo, district: { name: row[0].DistrictName, id: row[0].DistrictID } });
@@ -326,8 +334,8 @@ const CreateInvoice = () => {
                   select
                   data={senderWardData}
                   value={senderInfo.ward.id}
-                  optionLabel="WardName"
-                  optionValue="WardCode"
+                  optionLabel='WardName'
+                  optionValue='WardCode'
                   onChange={(value) => {
                     let row = senderWardData.filter((row) => row.WardCode === value);
                     setSenderInfo({ ...senderInfo, ward: { name: row[0].WardName, id: row[0].WardCode } });
@@ -363,8 +371,8 @@ const CreateInvoice = () => {
                   select
                   data={receiverProvinceData}
                   value={receiverInfo.province.id}
-                  optionLabel="ProvinceName"
-                  optionValue="ProvinceID"
+                  optionLabel='ProvinceName'
+                  optionValue='ProvinceID'
                   onChange={(value) => {
                     let row = receiverProvinceData.filter((row) => row.ProvinceID === value);
                     setReceiverInfo({
@@ -378,8 +386,8 @@ const CreateInvoice = () => {
                   select
                   data={receiverDistrictData}
                   value={receiverInfo.district.id}
-                  optionLabel="DistrictName"
-                  optionValue="DistrictID"
+                  optionLabel='DistrictName'
+                  optionValue='DistrictID'
                   onChange={(value) => {
                     let row = receiverDistrictData.filter((row) => row.DistrictID === value);
                     setReceiverInfo({
@@ -393,8 +401,8 @@ const CreateInvoice = () => {
                   select
                   data={receiverWardData}
                   value={receiverInfo.ward.id}
-                  optionLabel="WardName"
-                  optionValue="WardCode"
+                  optionLabel='WardName'
+                  optionValue='WardCode'
                   onChange={(value) => {
                     let row = receiverWardData.filter((row) => row.WardCode === value);
                     setReceiverInfo({ ...receiverInfo, ward: { name: row[0].WardName, id: row[0].WardCode } });
@@ -454,10 +462,33 @@ const CreateInvoice = () => {
             </Grid>
           </div>
           <CardActions>
-            <Button onClick={() => createParcel()}>
+            <Button onClick={() => setOpen(true)}>
               Tạo đơn
             </Button>
           </CardActions>
+
+          <Dialog className={cx(styles.dialog)} open={open} onClose={() => setOpen(false)} maxWidth='lg'>
+            <DialogTitle>
+              <div className={cx(styles.title)}>Xem chi tiết các đơn hàng</div>
+            </DialogTitle>
+            <DialogContent>
+              <DialogContent>
+                <Card>
+                  <Invoice senderInfo={senderInfo} receiverInfo={receiverInfo} productList={productList}
+                           packageProductInfo={packageProductInfo} note={note}></Invoice>
+                </Card>
+              </DialogContent>
+            </DialogContent>
+            <DialogActions>
+              <Button className={cx(styles.buttonModel)} onClick={() => {
+                setOpen(false);
+                //createParcel();
+              }
+              } color='primary'>
+                Tạo đơn hàng
+              </Button>
+            </DialogActions>
+          </Dialog>
         </Card>
       </Container>
     </DashboardLayout>

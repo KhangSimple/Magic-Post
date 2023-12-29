@@ -1,0 +1,22 @@
+.wrapper{
+  width: fit-content;
+  margin: 1rem 1rem 1rem 0;
+  .input{
+    background-color: #ffffff;
+    padding: 15px;
+    font-family: "Roboto Mono",monospace;
+    color: #000000;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    width: fit-content;
+  }
+}
+
+::-webkit-calendar-picker-indicator{
+  background-color: #ffffff;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 3px;
+}

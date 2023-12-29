@@ -29,6 +29,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { faCompass } from '@fortawesome/free-regular-svg-icons';
 import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const ZIP_CODE = localStorage.getItem('zip_code');
 
@@ -37,6 +38,7 @@ const CreateUser = ({ handleCreateAccount }) => {
   //Profile Image ref
   const profileImageRef = useRef();
   const stackProfileImageRef = useRef();
+  const naviage = useNavigate();
 
   const handleImageInputChange = (event) => {
     if (event.target.files.length) {
@@ -100,6 +102,9 @@ const CreateUser = ({ handleCreateAccount }) => {
         })
         .then(function (response) {
           let data = response.data;
+          handleCreateAccount();
+          toast.success('Tạo tài khoản thành công');
+          naviage(0);
         })
         .catch(function (error) {
           console.log(error);
@@ -330,7 +335,6 @@ const CreateUser = ({ handleCreateAccount }) => {
                   variant="contained"
                   color="inherit"
                   onClick={() => {
-                    handleCreateAccount();
                     handleRegister();
                   }}
                 >
@@ -341,18 +345,6 @@ const CreateUser = ({ handleCreateAccount }) => {
           </Card>
         </Grid>
       </Grid>
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
     </Container>
   );
 };

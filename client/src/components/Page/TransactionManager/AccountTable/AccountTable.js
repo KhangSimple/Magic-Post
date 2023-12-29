@@ -36,6 +36,8 @@ import styles from './AccountTable.module.scss';
 import * as React from 'react';
 import classNames from 'classnames/bind';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const cx = classNames.bind(styles);
 // ----------------------------------------------------------------------
@@ -150,7 +152,7 @@ export default function AccountManagementTable() {
     <DashboardLayout navConfig={navConfig}>
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4">ĐIỂM GIAO DỊCH THÁI NGUYÊN</Typography>
+          <Typography variant="h4">ĐIỂM GIAO DỊCH {localStorage.getItem('name').toUpperCase()}</Typography>
           <Button
             variant="contained"
             color="inherit"
@@ -223,6 +225,18 @@ export default function AccountManagementTable() {
           </DialogContent>
         </Dialog>
       </Container>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </DashboardLayout>
   );
 }

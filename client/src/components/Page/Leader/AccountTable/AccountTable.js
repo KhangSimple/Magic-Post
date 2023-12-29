@@ -52,10 +52,10 @@ export default function AccountManagementTable() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const [open, setOpen] = React.useState(false);
-  
-  const handleCreateAccount = ()=>{
+
+  const handleCreateAccount = () => {
     handleClose();
-  }
+  };
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -118,10 +118,14 @@ export default function AccountManagementTable() {
   return (
     <DashboardLayout navConfig={navConfig}>
       <Container>
-        <Stack direction='row' alignItems='center' justifyContent='space-between' mb={5}>
-          <Typography variant='h4'>ĐIỂM GIAO DỊCH THÁI NGUYÊN</Typography>
-          <Button variant='contained' color='inherit' startIcon={<Iconify icon='eva:plus-fill' />}
-                  onClick={() => setOpen(true)}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+          <Typography variant="h4">ĐIỂM GIAO DỊCH {localStorage.getItem('name').toUpperCase()}</Typography>
+          <Button
+            variant="contained"
+            color="inherit"
+            startIcon={<Iconify icon="eva:plus-fill" />}
+            onClick={() => setOpen(true)}
+          >
             Tạo tài khoản
           </Button>
         </Stack>
@@ -173,7 +177,7 @@ export default function AccountManagementTable() {
 
           <TablePagination
             page={page}
-            component='div'
+            component="div"
             count={users.length}
             rowsPerPage={rowsPerPage}
             onPageChange={handleChangePage}
@@ -181,16 +185,13 @@ export default function AccountManagementTable() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Card>
-        <Dialog className={cx(styles.dialog)} open={open} onClose={handleClose} fullWidth maxWidth='lg'>
-          <DialogTitle className={cx(styles.title)}>
-            Tạo tài khoản cho nhân viên
-          </DialogTitle>
-          <DialogContent >
-            <CreateUser handleCreateAccount={handleCreateAccount} ></CreateUser>
+        <Dialog className={cx(styles.dialog)} open={open} onClose={handleClose} fullWidth maxWidth="lg">
+          <DialogTitle className={cx(styles.title)}>Tạo tài khoản cho nhân viên</DialogTitle>
+          <DialogContent>
+            <CreateUser handleCreateAccount={handleCreateAccount}></CreateUser>
           </DialogContent>
         </Dialog>
       </Container>
     </DashboardLayout>
-
   );
 }

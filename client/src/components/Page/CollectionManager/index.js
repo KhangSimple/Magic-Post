@@ -13,9 +13,21 @@ import AppWidgetSummary from './Statistics/components/WidgetSummary';
 // import AppTrafficBySite from '../app-traffic-by-site';
 // import AppCurrentSubject from '../app-current-subject';
 import AppConversionRates from './Statistics/components/ConversionRates';
+import Stack from '@mui/material/Stack';
+import DatePickerRange from './components/DatePickerRange';
 import axios, { all } from 'axios';
 import { useEffect, useState } from 'react';
 const Statistics = () => {
+  const [startDate, setStartDate] = useState(
+    (() => {
+      const now = new Date();
+      const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+      return oneWeekAgo.toISOString().substring(0, 10);
+    })(),
+  );
+
+  const [endDate, setEndDate] = useState(new Date().toISOString().substring(0, 10));
+
   const [decodedData, setDecodedData] = useState({});
   const [sendedParcelCount, setSendedParcelCount] = useState(0);
   const [arrivalParcelCount, setArrivalParcelCount] = useState(0);
@@ -50,8 +62,8 @@ const Statistics = () => {
           token: localStorage.getItem('token'),
         },
         params: {
-          startDate: '2023-11-29',
-          endDate: '2023-12-29',
+          startDate: startDate,
+          endDate: endDate,
         },
       })
       .then(function (response) {
@@ -65,7 +77,7 @@ const Statistics = () => {
       .catch(function (error) {
         console.log(error);
       });
-  }, []);
+  }, [startDate, endDate]);
 
   useEffect(() => {
     console.log('Use Effect main index');
@@ -75,8 +87,8 @@ const Statistics = () => {
           token: localStorage.getItem('token'),
         },
         params: {
-          startDate: '2023-11-29',
-          endDate: '2023-12-29',
+          startDate: startDate,
+          endDate: endDate,
         },
       })
       .then(function (response) {
@@ -85,7 +97,7 @@ const Statistics = () => {
       .catch(function (error) {
         console.log(error);
       });
-  }, []);
+  }, [startDate, endDate]);
 
   return (
     <DashboardLayout navConfig={navConfig}>
@@ -93,6 +105,14 @@ const Statistics = () => {
         <Typography variant="h4" sx={{ mb: 5 }}>
           THỐNG KÊ ĐIỂM TẬP KẾT {localStorage.getItem('name').toUpperCase()}
         </Typography>
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
+          <DatePickerRange
+            startDate={startDate}
+            setStartDate={setStartDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
+          ></DatePickerRange>
+        </Stack>
 
         <Grid container spacing={3}>
           <Grid xs={12} sm={6} md={3}>
